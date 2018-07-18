@@ -10,7 +10,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
@@ -22,7 +21,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -65,11 +64,7 @@
       <TableView BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
-         </BorderPane.margin>
-         <columns>
-            <TableColumn prefWidth="75.0" text="Column X" />
-            <TableColumn prefWidth="75.0" text="Column X" />
-         </columns></TableView>
+         </BorderPane.margin></TableView>
    </center>
    <left>
       <HBox BorderPane.alignment="CENTER">
@@ -85,8 +80,8 @@
                      <children>
                         <ToolBar rotate="-90.0">
                           <items>
-                              <ToggleButton mnemonicParsing="false" selected="true" text="Filters" />
-                              <ToggleButton mnemonicParsing="false" selected="true" text="Timetables" />
+                              <ToggleButton fx:id="filtersToggle" mnemonicParsing="false" prefWidth="100.0" selected="true" text="Filters" />
+                              <ToggleButton fx:id="timetablesToggle" mnemonicParsing="false" prefWidth="100.0" selected="true" text="Timetables" />
                           </items>
                         </ToolBar>
                      </children>
@@ -94,18 +89,26 @@
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox prefWidth="250.0" spacing="15.0">
+            <VBox fx:id="sideMenuVBox" spacing="5.0">
                <children>
-                  <VBox spacing="4.0" VBox.vgrow="ALWAYS">
+                  <GridPane fx:id="timetablesPane" prefWidth="250.0" vgap="5.0" VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
                         <Label text="Timetables:" underline="true" />
-                        <ListView VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets right="4.0" />
-                           </VBox.margin></ListView>
+                        <ListView GridPane.rowIndex="1" />
                      </children>
-                  </VBox>
-                  <GridPane minHeight="-Infinity" minWidth="-Infinity" vgap="5.0">
+                     <VBox.margin>
+                        <Insets right="4.0" />
+                     </VBox.margin>
+                  </GridPane>
+                  <Separator fx:id="sideMenuVBoxSeparator" prefWidth="200.0" />
+                  <GridPane fx:id="filtersPane" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" vgap="5.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="127.0" minWidth="10.0" prefWidth="103.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="143.0" />
@@ -125,7 +128,7 @@
                         <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Curriculum" GridPane.rowIndex="3" />
                         <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Button mnemonicParsing="false" prefWidth="80.0" text="Reset" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                        <Button mnemonicParsing="false" prefWidth="80.0" text="Reset" textFill="#c90000" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
                         <Button mnemonicParsing="false" prefWidth="80.0" text="Filter" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
                      </children>
                      <VBox.margin>

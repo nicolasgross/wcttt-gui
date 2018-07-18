@@ -37,7 +37,7 @@ public class Main extends Application {
 		primaryStage.setTitle("WIAI Course Timetabling Tool");
 		primaryStage.setScene(scene);
 		primaryStage.setMinWidth(800);
-		primaryStage.setMinHeight(400);
+		primaryStage.setMinHeight(500);
 		primaryStage.show();
 	}
 }
