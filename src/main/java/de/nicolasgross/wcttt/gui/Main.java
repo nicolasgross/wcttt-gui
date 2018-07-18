@@ -32,7 +32,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/main.fxml"));
 
-		Scene scene = new Scene(root, 800, 600);
+		Scene scene = new Scene(root, 1000, 600);
 
 		primaryStage.setTitle("WIAI Course Timetabling Tool");
 		primaryStage.setScene(scene);

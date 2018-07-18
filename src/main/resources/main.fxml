@@ -2,7 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -11,8 +14,11 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -54,21 +60,8 @@
         </menus>
       </MenuBar>
    </top>
-   <bottom>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Program state info" />
-         </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-         </padding>
-      </HBox>
-   </bottom>
    <center>
-      <TableView minHeight="0.0" minWidth="0.0" BorderPane.alignment="CENTER">
+      <TableView BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin></TableView>
@@ -87,17 +80,70 @@
                      <children>
                         <ToolBar rotate="-90.0">
                           <items>
-                              <ToggleButton mnemonicParsing="false" text="Filters" />
-                              <ToggleButton mnemonicParsing="false" text="Timetables" />
+                              <ToggleButton mnemonicParsing="false" selected="true" text="Filters" />
+                              <ToggleButton mnemonicParsing="false" selected="true" text="Timetables" />
                           </items>
                         </ToolBar>
                      </children>
                   </Group>
-                  <Separator rotate="180.0" />
                </children>
             </VBox>
-            <VBox />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <VBox prefWidth="250.0" spacing="15.0">
+               <children>
+                  <VBox spacing="4.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Timetables:" underline="true" />
+                        <ListView VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <GridPane minHeight="-Infinity" minWidth="-Infinity" vgap="5.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="127.0" minWidth="10.0" prefWidth="103.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="143.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Filters:" underline="true" />
+                        <Label text="Teacher" GridPane.rowIndex="1" />
+                        <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Chair" GridPane.rowIndex="2" />
+                        <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Curriculum" GridPane.rowIndex="3" />
+                        <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Button mnemonicParsing="false" prefWidth="80.0" text="Reset" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                        <Button mnemonicParsing="false" prefWidth="80.0" text="Filter" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="8.0" right="4.0" />
+                     </VBox.margin>
+                  </GridPane>
+               </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding></VBox>
          </children>
       </HBox>
    </left>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <Separator prefWidth="200.0" />
+            <HBox>
+               <children>
+                  <Label text="Program state info" />
+               </children>
+               <padding>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
 </BorderPane>
