@@ -42,15 +42,18 @@
          <children>
             <Label text="Program state info" />
          </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
          <padding>
-            <Insets bottom="2.0" left="5.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </padding>
       </HBox>
    </bottom>
    <center>
       <TableView minHeight="0.0" minWidth="0.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="2.0" />
+            <Insets />
          </BorderPane.margin></TableView>
    </center>
    <left>
@@ -59,7 +62,10 @@
             <VBox>
                <children>
                   <Region VBox.vgrow="ALWAYS" />
-                  <Separator />
+                  <Separator>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Separator>
                   <Group nodeOrientation="LEFT_TO_RIGHT">
                      <children>
                         <ToolBar rotate="-90.0">
@@ -70,7 +76,7 @@
                         </ToolBar>
                      </children>
                   </Group>
-                  <Separator />
+                  <Separator rotate="180.0" />
                </children>
             </VBox>
             <VBox />
