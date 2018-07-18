@@ -6,10 +6,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class MainController {
 
+	@FXML
+	private HBox sideMenuHBox;
+	@FXML
+	private Separator sideMenuHBoxSeparator;
 	@FXML
 	private VBox sideMenuVBox;
 	@FXML
@@ -23,13 +28,19 @@ public class MainController {
 	@FXML
 	private ToggleButton filtersToggle;
 
-	private void adjustSideMenuSeparator() {
+	private void adjustSideMenuSeparators() {
 		if(!sideMenuVBox.getChildren().contains(sideMenuVBoxSeparator) &&
 				sideMenuVBox.getChildren().contains(timetablesPane) &&
 				sideMenuVBox.getChildren().contains(filtersPane)) {
 			sideMenuVBox.getChildren().add(1, sideMenuVBoxSeparator);
 		} else {
 			sideMenuVBox.getChildren().remove(sideMenuVBoxSeparator);
+		}
+
+		if (sideMenuVBox.getChildren().isEmpty()) {
+			sideMenuHBox.getChildren().remove(sideMenuHBoxSeparator);
+		} else if(!sideMenuHBox.getChildren().contains(sideMenuHBoxSeparator)) {
+			sideMenuHBox.getChildren().add(1, sideMenuHBoxSeparator);
 		}
 	}
 
@@ -43,7 +54,7 @@ public class MainController {
 				} else {
 					sideMenuVBox.getChildren().remove(timetablesPane);
 				}
-				adjustSideMenuSeparator();
+				adjustSideMenuSeparators();
 			}
 		});
 
@@ -55,7 +66,7 @@ public class MainController {
 				} else {
 					sideMenuVBox.getChildren().remove(filtersPane);
 				}
-				adjustSideMenuSeparator();
+				adjustSideMenuSeparators();
 			}
 		});
 	}
