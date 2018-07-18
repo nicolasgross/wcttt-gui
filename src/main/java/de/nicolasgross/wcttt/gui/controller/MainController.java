@@ -3,7 +3,9 @@ package de.nicolasgross.wcttt.gui.controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -27,6 +29,8 @@ public class MainController {
 	private ToggleButton timetablesToggle;
 	@FXML
 	private ToggleButton filtersToggle;
+	@FXML
+	private TableView tableView;
 
 	private void adjustSideMenuSeparators() {
 		if(!sideMenuVBox.getChildren().contains(sideMenuVBoxSeparator) &&
@@ -46,6 +50,8 @@ public class MainController {
 
 	@FXML
 	protected void initialize() {
+		tableView.setPlaceholder(new Label("No timetable selected"));
+
 		timetablesToggle.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {

@@ -61,7 +61,7 @@
       </MenuBar>
    </top>
    <center>
-      <TableView BorderPane.alignment="CENTER">
+      <TableView fx:id="tableView" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin></TableView>
