@@ -1,11 +1,8 @@
 package de.nicolasgross.wcttt.gui.controller;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -13,10 +10,17 @@ import javafx.scene.layout.VBox;
 
 public class MainController {
 
+	// Sub-controllers
+	@FXML
+	private MainTableController tableController;
+	@FXML
+	private MainTimetablesController timetablesController;
+	@FXML
+	private MainFiltersController filtersController;
+
+	// Side menu
 	@FXML
 	private HBox sideMenuHBox;
-	@FXML
-	private Separator sideMenuHBoxSeparator;
 	@FXML
 	private VBox sideMenuVBox;
 	@FXML
@@ -30,20 +34,19 @@ public class MainController {
 	@FXML
 	private ToggleButton filtersToggle;
 
+	// State info at bottom
+	@FXML
+	private Label stateInfo;
+
+
+
 	private void adjustSideMenuSeparators() {
-		// Adjust VBox separator
 		if(!sideMenuVBox.getChildren().contains(sideMenuVBoxSeparator) &&
 				sideMenuVBox.getChildren().contains(timetablesPane) &&
 				sideMenuVBox.getChildren().contains(filtersPane)) {
 			sideMenuVBox.getChildren().add(1, sideMenuVBoxSeparator);
 		} else {
 			sideMenuVBox.getChildren().remove(sideMenuVBoxSeparator);
-		}
-		// Adjust HBox separator
-		if (sideMenuVBox.getChildren().isEmpty()) {
-			sideMenuHBox.getChildren().remove(sideMenuHBoxSeparator);
-		} else if(!sideMenuHBox.getChildren().contains(sideMenuHBoxSeparator)) {
-			sideMenuHBox.getChildren().add(1, sideMenuHBoxSeparator);
 		}
 	}
 

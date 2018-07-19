@@ -2,10 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -13,11 +10,7 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainController">
@@ -62,81 +55,42 @@
    <left>
       <HBox fx:id="sideMenuHBox" BorderPane.alignment="CENTER">
          <children>
-            <VBox>
+            <VBox HBox.hgrow="ALWAYS">
                <children>
-                  <Region VBox.vgrow="ALWAYS" />
-                  <Separator>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin></Separator>
-                  <Group nodeOrientation="LEFT_TO_RIGHT">
-                     <children>
-                        <ToolBar rotate="-90.0">
-                          <items>
-                              <ToggleButton fx:id="filtersToggle" mnemonicParsing="false" prefWidth="100.0" selected="true" text="Filters" />
-                              <ToggleButton fx:id="timetablesToggle" mnemonicParsing="false" prefWidth="100.0" selected="true" text="Timetables" />
-                          </items>
-                        </ToolBar>
-                     </children>
-                  </Group>
+                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefWidth="41.0" VBox.vgrow="ALWAYS" />
+                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefWidth="41.0">
+                     <items>
+                        <Group>
+                           <children>
+                              <ToggleButton fx:id="timetablesToggle" mnemonicParsing="false" prefWidth="100.0" rotate="90.0" selected="true" text="Timetables" />
+                           </children>
+                        </Group>
+                        <Group>
+                           <children>
+                              <ToggleButton fx:id="filtersToggle" mnemonicParsing="false" prefWidth="100.0" rotate="90.0" selected="true" text="Filters" />
+                           </children>
+                        </Group>
+                     </items>
+                  </ToolBar>
                </children>
             </VBox>
-            <Separator fx:id="sideMenuHBoxSeparator" orientation="VERTICAL" HBox.hgrow="NEVER" />
             <VBox fx:id="sideMenuVBox" spacing="5.0">
                <children>
-                  <GridPane fx:id="timetablesPane" prefWidth="250.0" vgap="5.0" VBox.vgrow="ALWAYS">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Timetables:" underline="true" />
-                        <ListView GridPane.rowIndex="1" />
-                     </children>
-                     <VBox.margin>
-                        <Insets right="4.0" />
-                     </VBox.margin>
-                  </GridPane>
+                   <fx:include fx:id="timetablesPane" source="main-timetables.fxml" />
                   <Separator fx:id="sideMenuVBoxSeparator" />
-                  <GridPane fx:id="filtersPane" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" vgap="5.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="127.0" minWidth="10.0" prefWidth="103.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="143.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Filters:" underline="true" />
-                        <Label text="Teacher" GridPane.rowIndex="1" />
-                        <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Chair" GridPane.rowIndex="2" />
-                        <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Curriculum" GridPane.rowIndex="3" />
-                        <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Button mnemonicParsing="false" prefWidth="80.0" text="Reset" textFill="#c90000" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                        <Button mnemonicParsing="false" prefWidth="80.0" text="Filter" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="8.0" right="4.0" />
-                     </VBox.margin>
-                  </GridPane>
+                  <fx:include fx:id="filtersPane" source="main-filters.fxml" />
                </children>
                <padding>
                   <Insets top="5.0" />
-               </padding></VBox>
+               </padding>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></VBox>
          </children>
       </HBox>
    </left>
    <center>
-       <fx:include fx:id="tableView" source="main-table.fxml"/>
+       <fx:include fx:id="tableView" source="main-table.fxml" />
    </center>
    <bottom>
       <VBox BorderPane.alignment="CENTER">
@@ -144,7 +98,7 @@
             <Separator />
             <HBox>
                <children>
-                  <Label text="Program state info" />
+                  <Label fx:id="stateInfo" text="Program state info" />
                </children>
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
