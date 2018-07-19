@@ -1,93 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-                  <MenuItem mnemonicParsing="false" text="Open" />
-              <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save as" />
-                  <MenuItem mnemonicParsing="false" text="Close database" />
-                  <MenuItem mnemonicParsing="false" text="Quit" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-                  <MenuItem mnemonicParsing="false" text="Semester" />
-                  <MenuItem mnemonicParsing="false" text="Courses" />
-                  <MenuItem mnemonicParsing="false" text="Rooms" />
-                  <MenuItem mnemonicParsing="false" text="Chairs" />
-                  <MenuItem mnemonicParsing="false" text="Curricula" />
-              <MenuItem mnemonicParsing="false" text="Generate timetable" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="View">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Course-course conflicts" />
-                  <MenuItem mnemonicParsing="false" text="Course-room conflicts" />
-                  <MenuItem mnemonicParsing="false" text="Teacher-timeslot conflicts" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Help" />
-                  <MenuItem mnemonicParsing="false" text="About" />
-               </items>
-            </Menu>
-        </menus>
-      </MenuBar>
+      <fx:include fx:id="menuBar" source="main-menubar.fxml" />
    </top>
    <left>
-      <HBox fx:id="sideMenuHBox" BorderPane.alignment="CENTER">
-         <children>
-            <VBox HBox.hgrow="ALWAYS">
-               <children>
-                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefWidth="41.0" VBox.vgrow="ALWAYS" />
-                  <ToolBar nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefWidth="41.0">
-                     <items>
-                        <Group>
-                           <children>
-                              <ToggleButton fx:id="timetablesToggle" mnemonicParsing="false" prefWidth="100.0" rotate="90.0" selected="true" text="Timetables" />
-                           </children>
-                        </Group>
-                        <Group>
-                           <children>
-                              <ToggleButton fx:id="filtersToggle" mnemonicParsing="false" prefWidth="100.0" rotate="90.0" selected="true" text="Filters" />
-                           </children>
-                        </Group>
-                     </items>
-                  </ToolBar>
-               </children>
-            </VBox>
-            <VBox fx:id="sideMenuVBox" spacing="5.0">
-               <children>
-                   <fx:include fx:id="timetablesPane" source="main-timetables.fxml" />
-                  <Separator fx:id="sideMenuVBoxSeparator" />
-                  <fx:include fx:id="filtersPane" source="main-filters.fxml" />
-               </children>
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin></VBox>
-         </children>
-      </HBox>
+       <fx:include fx:id="sideMenuHBox" source="main-sidemenu.fxml" />
    </left>
    <center>
        <fx:include fx:id="tableView" source="main-table.fxml" />
