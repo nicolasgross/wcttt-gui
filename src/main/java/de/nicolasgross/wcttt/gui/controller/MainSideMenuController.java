@@ -18,7 +18,7 @@ public class MainSideMenuController {
 	@FXML
 	private Separator sideMenuVBoxSeparator;
 	@FXML
-	private GridPane filtersPane;
+	private VBox filtersPane;
 	@FXML
 	private ToggleButton timetablesToggle;
 	@FXML

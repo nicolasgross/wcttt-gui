@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <HBox fx:id="sideMenuHBox" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainSideMenuController">
     <children>
@@ -27,10 +30,13 @@
                 </ToolBar>
             </children>
         </VBox>
-        <VBox fx:id="sideMenuVBox" spacing="5.0">
+        <VBox fx:id="sideMenuVBox">
             <children>
                 <fx:include fx:id="timetablesPane" source="main-timetables.fxml" />
-                <Separator fx:id="sideMenuVBoxSeparator" />
+                <Separator fx:id="sideMenuVBoxSeparator">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin></Separator>
                 <fx:include fx:id="filtersPane" source="main-filters.fxml" />
             </children>
             <padding>
