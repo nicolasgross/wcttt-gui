@@ -1,5 +1,7 @@
 package de.nicolasgross.wcttt.gui;
 
+import de.nicolasgross.wcttt.gui.controller.MainController;
+import de.nicolasgross.wcttt.gui.model.Model;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,22 +24,29 @@ public class Main extends Application {
 	 * </p>
 	 *
 	 * @param primaryStage the primary stage for this application, onto which
-	 *                     the application scene can be set. The primary stage will be embedded in
-	 *                     the browser if the application was launched as an applet.
-	 *                     Applications may create other stages, if needed, but they will not be
-	 *                     primary stages and will not be embedded in the browser.
+	 *                     the application scene can be set. The primary stage
+	 *                     will be embedded in the browser if the application
+	 *                     was launched as an applet. Applications may create
+	 *                     other stages, if needed, but they will not be primary
+	 *                     stages and will not be embedded in the browser.
 	 * @throws Exception if something goes wrong
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(
+				"/fxml/main.fxml"));
+		Parent root = loader.load();
+
+		MainController controller = loader.getController();
+		Model model = new Model();
+		controller.setModel(model);
 
 		Scene scene = new Scene(root, 1000, 600);
-
 		primaryStage.setTitle("WIAI Course Timetabling Tool");
 		primaryStage.setScene(scene);
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(500);
 		primaryStage.show();
 	}
+
 }
