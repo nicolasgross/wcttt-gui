@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+
+<MenuBar fx:id="menuBar" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainMenuBarController">
+    <menus>
+        <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
+            <items>
+                <MenuItem fx:id="menuFileOpen" mnemonicParsing="false" text="Open" />
+                <MenuItem fx:id="menuFileSave" mnemonicParsing="false" text="Save" />
+                <MenuItem fx:id="menuFileSaveAs" mnemonicParsing="false" text="Save as" />
+                <MenuItem fx:id="menuFileCloseDb" mnemonicParsing="false" text="Close database" />
+                <MenuItem fx:id="menuFileQuit" mnemonicParsing="false" text="Quit" />
+            </items>
+        </Menu>
+        <Menu fx:id="menuEdit" mnemonicParsing="false" text="Edit">
+            <items>
+                <MenuItem fx:id="menuEditSemester" mnemonicParsing="false" text="Semester" />
+                <MenuItem fx:id="menuEditCourses" mnemonicParsing="false" text="Courses" />
+                <MenuItem fx:id="menuEditRooms" mnemonicParsing="false" text="Rooms" />
+                <MenuItem fx:id="menuEditChairs" mnemonicParsing="false" text="Chairs" />
+                <MenuItem fx:id="menuEditCurricula" mnemonicParsing="false" text="Curricula" />
+                <MenuItem fx:id="menuEditGenerate" mnemonicParsing="false" text="Generate timetable" />
+            </items>
+        </Menu>
+        <Menu fx:id="menuView" mnemonicParsing="false" text="View">
+            <items>
+                <MenuItem fx:id="menuViewCourseCourse" mnemonicParsing="false" text="Course-course conflicts" />
+                <MenuItem fx:id="menuViewCourseRoom" mnemonicParsing="false" text="Course-room conflicts" />
+                <MenuItem fx:id="menuViewTeacherTimeslot" mnemonicParsing="false" text="Teacher-timeslot conflicts" />
+            </items>
+        </Menu>
+        <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
+            <items>
+                <MenuItem fx:id="menuHelpHelp" mnemonicParsing="false" text="Help" />
+                <MenuItem fx:id="menuHelpAbout" mnemonicParsing="false" text="About" />
+            </items>
+        </Menu>
+    </menus>
+</MenuBar>
