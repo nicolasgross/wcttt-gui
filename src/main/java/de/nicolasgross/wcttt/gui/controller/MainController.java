@@ -29,10 +29,9 @@ public class MainController {
 	private ToggleButton timetablesToggle;
 	@FXML
 	private ToggleButton filtersToggle;
-	@FXML
-	private TableView tableView;
 
 	private void adjustSideMenuSeparators() {
+		// Adjust VBox separator
 		if(!sideMenuVBox.getChildren().contains(sideMenuVBoxSeparator) &&
 				sideMenuVBox.getChildren().contains(timetablesPane) &&
 				sideMenuVBox.getChildren().contains(filtersPane)) {
@@ -40,7 +39,7 @@ public class MainController {
 		} else {
 			sideMenuVBox.getChildren().remove(sideMenuVBoxSeparator);
 		}
-
+		// Adjust HBox separator
 		if (sideMenuVBox.getChildren().isEmpty()) {
 			sideMenuHBox.getChildren().remove(sideMenuHBoxSeparator);
 		} else if(!sideMenuHBox.getChildren().contains(sideMenuHBoxSeparator)) {
@@ -50,30 +49,22 @@ public class MainController {
 
 	@FXML
 	protected void initialize() {
-		tableView.setPlaceholder(new Label("No timetable selected"));
-
-		timetablesToggle.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (timetablesToggle.isSelected()) {
-					sideMenuVBox.getChildren().add(0, timetablesPane);
-				} else {
-					sideMenuVBox.getChildren().remove(timetablesPane);
-				}
-				adjustSideMenuSeparators();
+		timetablesToggle.setOnAction(event -> {
+			if (timetablesToggle.isSelected()) {
+				sideMenuVBox.getChildren().add(0, timetablesPane);
+			} else {
+				sideMenuVBox.getChildren().remove(timetablesPane);
 			}
+			adjustSideMenuSeparators();
 		});
 
-		filtersToggle.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (filtersToggle.isSelected()) {
-					sideMenuVBox.getChildren().add(filtersPane);
-				} else {
-					sideMenuVBox.getChildren().remove(filtersPane);
-				}
-				adjustSideMenuSeparators();
+		filtersToggle.setOnAction(event -> {
+			if (filtersToggle.isSelected()) {
+				sideMenuVBox.getChildren().add(filtersPane);
+			} else {
+				sideMenuVBox.getChildren().remove(filtersPane);
 			}
+			adjustSideMenuSeparators();
 		});
 	}
 }
