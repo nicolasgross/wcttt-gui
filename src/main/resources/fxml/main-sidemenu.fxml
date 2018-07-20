@@ -9,25 +9,25 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="sideMenu" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainSideMenuController">
+<HBox fx:id="sideMenu" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainSideMenuController">
     <children>
         <VBox HBox.hgrow="ALWAYS">
             <children>
                 <ToolBar nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefWidth="41.0" VBox.vgrow="ALWAYS" />
-                <ToolBar nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefWidth="41.0">
-                    <items>
-                        <Group>
-                            <children>
-                                <ToggleButton fx:id="timetablesToggle" mnemonicParsing="false" prefWidth="100.0" rotate="90.0" selected="true" text="Timetables" />
-                            </children>
-                        </Group>
-                        <Group>
-                            <children>
-                                <ToggleButton fx:id="filtersToggle" mnemonicParsing="false" prefWidth="100.0" rotate="90.0" selected="true" text="Filters" />
-                            </children>
-                        </Group>
-                    </items>
-                </ToolBar>
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" orientation="VERTICAL" prefHeight="218.0" prefWidth="41.0">
+               <items>
+                  <Group>
+                     <children>
+                        <ToggleButton fx:id="timetablesToggle" mnemonicParsing="false" prefWidth="100.0" rotate="90.0" selected="true" text="Timetables" />
+                     </children>
+                  </Group>
+                  <Group layoutX="10.0" layoutY="25.0">
+                     <children>
+                        <ToggleButton fx:id="filtersToggle" mnemonicParsing="false" prefWidth="100.0" rotate="90.0" selected="true" text="Filters" />
+                     </children>
+                  </Group>
+               </items>
+            </ToolBar>
             </children>
         </VBox>
         <VBox fx:id="sideMenuVBox">

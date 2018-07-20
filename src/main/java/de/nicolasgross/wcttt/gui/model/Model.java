@@ -156,6 +156,7 @@ public class Model implements Semester {
 
 	}
 
+	@Override
 	public void addTeacherToChair(Teacher teacher, Chair chair) throws WctttModelException {
 		semester.addTeacherToChair(teacher, chair);
 	}

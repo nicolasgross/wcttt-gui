@@ -47,6 +47,7 @@ public class Main extends Application {
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(500);
 		primaryStage.show();
+		root.requestFocus();
 	}
 
 }
