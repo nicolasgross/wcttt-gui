@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="sideMenuHBox" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainSideMenuController">
+<HBox fx:id="sideMenu" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainSideMenuController">
     <children>
         <VBox HBox.hgrow="ALWAYS">
             <children>
@@ -32,12 +32,12 @@
         </VBox>
         <VBox fx:id="sideMenuVBox">
             <children>
-                <fx:include fx:id="timetablesPane" source="main-timetables.fxml" />
+                <fx:include fx:id="timetables" source="main-timetables.fxml" />
                 <Separator fx:id="sideMenuVBoxSeparator">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin></Separator>
-                <fx:include fx:id="filtersPane" source="main-filters.fxml" />
+                <fx:include fx:id="filters" source="main-filters.fxml" />
             </children>
             <padding>
                 <Insets top="5.0" />

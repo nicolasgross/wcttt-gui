@@ -2,14 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="filtersBox" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainFiltersController">
+<VBox fx:id="filters" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainFiltersController">
    <children>
       <GridPane prefWidth="250.0" vgap="5.0">
           <rowConstraints>
@@ -21,11 +21,11 @@
           <children>
               <Label text="Filters:" underline="true" />
               <Label text="Teacher" GridPane.rowIndex="1" />
-              <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
               <Label text="Chair" GridPane.rowIndex="2" />
-              <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
               <Label text="Curriculum" GridPane.rowIndex="3" />
-              <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="teacherSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="curriculumSelection" layoutX="105.0" layoutY="31.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="chairSelection" layoutX="15.0" layoutY="10.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
           </children>
          <columnConstraints>
             <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
@@ -41,8 +41,8 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
          <children>
-              <Button mnemonicParsing="false" prefWidth="80.0" text="Reset" textFill="#c90000" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-              <Button mnemonicParsing="false" prefWidth="80.0" text="Filter" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+              <Button fx:id="resetButton" mnemonicParsing="false" prefWidth="80.0" text="Reset" textFill="#c90000" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+              <Button fx:id="filterButton" mnemonicParsing="false" prefWidth="80.0" text="Filter" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
          </children>
          <VBox.margin>
             <Insets bottom="15.0" top="15.0" />

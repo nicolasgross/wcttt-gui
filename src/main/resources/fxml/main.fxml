@@ -12,10 +12,10 @@
       <fx:include fx:id="menuBar" source="main-menubar.fxml" />
    </top>
    <left>
-       <fx:include fx:id="sideMenuHBox" source="main-sidemenu.fxml" />
+       <fx:include fx:id="sideMenu" source="main-sidemenu.fxml" />
    </left>
    <center>
-       <fx:include fx:id="tableView" source="main-table.fxml" />
+       <fx:include fx:id="table" source="main-table.fxml" />
    </center>
    <bottom>
       <VBox BorderPane.alignment="CENTER">

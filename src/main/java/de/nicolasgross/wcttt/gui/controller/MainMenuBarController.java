@@ -5,7 +5,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
-public class MainMenuBarController {
+public class MainMenuBarController extends Controller {
 
 	@FXML
 	private MenuBar menuBar;

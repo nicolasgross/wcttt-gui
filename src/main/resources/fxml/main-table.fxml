@@ -3,4 +3,4 @@
 <?import javafx.scene.control.TableView?>
 
 
-<TableView fx:id="tableView" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainTableController"/>
+<TableView fx:id="table" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainTableController"/>

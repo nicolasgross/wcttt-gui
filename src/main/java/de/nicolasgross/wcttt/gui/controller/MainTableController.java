@@ -4,13 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 
-public class MainTableController {
+public class MainTableController extends Controller {
 
 	@FXML
-	private TableView tableView;
+	private TableView table;
 
 	@FXML
 	protected void initialize() {
-		tableView.setPlaceholder(new Label("No timetable selected"));
+		table.setPlaceholder(new Label("No timetable selected"));
 	}
 }
