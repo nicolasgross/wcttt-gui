@@ -9,6 +9,7 @@ public class MainTableController extends Controller {
 	@FXML
 	private TableView table;
 
+
 	@FXML
 	protected void initialize() {
 		table.setPlaceholder(new Label("No timetable selected"));
