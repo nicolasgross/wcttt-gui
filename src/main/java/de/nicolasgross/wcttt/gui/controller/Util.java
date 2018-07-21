@@ -1,10 +1,12 @@
 package de.nicolasgross.wcttt.gui.controller;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
@@ -42,6 +44,35 @@ public class Util {
 		expContent.add(textArea, 0, 1);
 		alert.getDialogPane().setExpandableContent(expContent);
 		alert.showAndWait();
+	}
+
+	/**
+	 * Opens a dialog for confirmation.
+	 *
+	 * @param title
+	 *            for the confirmation dialog box.
+	 * @param header
+	 *            for the confirmation dialog box.
+	 * @param question
+	 *            for the confirmation dialog box.
+	 * @return boolean {@code true} if confirmed or {@code false} if it is
+	 *         canceled.
+	 *
+	 */
+	public static boolean confirmationAlert(String title, String header, String question) {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(question);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+
+		ButtonType buttonTypeOk = new ButtonType("Ok");
+		ButtonType buttonTypeCancel = new ButtonType("Cancel");
+
+		alert.getButtonTypes().setAll(buttonTypeOk, buttonTypeCancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		return result.map(button -> button == buttonTypeOk).orElse(false);
 	}
 
 	/**

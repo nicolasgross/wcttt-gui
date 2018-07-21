@@ -66,7 +66,14 @@ public class MainMenuBarController extends Controller {
 	@FXML
 	protected void initialize() {
 		menuFileOpen.setOnAction(event -> {
-			// TODO check unchanged
+			if (!getModel().isUnchanged()) {
+				if (!Util.confirmationAlert("Warning!", "There are unsaved " +
+						"changes", "Loading a new semester will result in the" +
+						" loss of all unsaved changes.")) {
+					return;
+				}
+			}
+
 			Optional<File> file = Util.choosePathAlert(getScene().getWindow());
 			if (file.isPresent()) {
 				try {
