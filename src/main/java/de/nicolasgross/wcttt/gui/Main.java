@@ -36,12 +36,12 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(
 				"/fxml/main.fxml"));
 		Parent root = loader.load();
+		Scene scene = new Scene(root, 1000, 600);
 
 		MainController controller = loader.getController();
 		ModelImpl model = new ModelImpl();
-		controller.setModel(model);
+		controller.setup(scene, model);
 
-		Scene scene = new Scene(root, 1000, 600);
 		primaryStage.setTitle("WIAI Course Timetabling Tool");
 		primaryStage.setScene(scene);
 		primaryStage.setMinWidth(800);

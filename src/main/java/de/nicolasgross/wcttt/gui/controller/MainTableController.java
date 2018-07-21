@@ -1,10 +1,13 @@
 package de.nicolasgross.wcttt.gui.controller;
 
+import de.nicolasgross.wcttt.gui.model.Model;
+import de.nicolasgross.wcttt.lib.model.Semester;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 
-public class MainTableController extends Controller {
+public class MainTableController extends SubscriptionController {
 
 	@FXML
 	private TableView table;
@@ -14,4 +17,23 @@ public class MainTableController extends Controller {
 	protected void initialize() {
 		table.setPlaceholder(new Label("No timetable selected"));
 	}
+
+	@Override
+	public void setup(Scene scene, Model model) {
+		super.setup(scene, model);
+		model.subscribe(this);
+		updateGui();
+	}
+
+	@Override
+	public void onNext(Semester item) {
+		updateGui();
+		getSubscription().request(1);
+	}
+
+	public void updateGui() {
+		// TODO update table, clear?
+
+	}
+
 }

@@ -2,6 +2,7 @@ package de.nicolasgross.wcttt.gui.controller;
 
 import de.nicolasgross.wcttt.gui.model.Model;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
@@ -29,10 +30,10 @@ public class MainSideMenuController extends Controller {
 
 
 	@Override
-	public void setModel(Model model) {
-		super.setModel(model);
-		timetablesController.setModel(model);
-		filtersController.setModel(model);
+	public void setup(Scene scene, Model model) {
+		super.setup(scene, model);
+		timetablesController.setup(scene, model);
+		filtersController.setup(scene, model);
 	}
 
 	private void adjustSideMenuSeparators() {

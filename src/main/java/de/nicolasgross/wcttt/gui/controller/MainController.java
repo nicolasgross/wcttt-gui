@@ -2,6 +2,7 @@ package de.nicolasgross.wcttt.gui.controller;
 
 import de.nicolasgross.wcttt.gui.model.Model;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
 public class MainController extends Controller {
@@ -17,11 +18,11 @@ public class MainController extends Controller {
 
 
 	@Override
-	public void setModel(Model model) {
-		super.setModel(model);
-		menuBarController.setModel(model);
-		sideMenuController.setModel(model);
-		tableController.setModel(model);
+	public void setup(Scene scene, Model model) {
+		super.setup(scene, model);
+		menuBarController.setup(scene, model);
+		sideMenuController.setup(scene, model);
+		tableController.setup(scene, model);
 	}
 
 }

@@ -6,8 +6,9 @@ import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.concurrent.Flow;
 
-public interface Model extends Semester {
+public interface Model extends Semester, Flow.Publisher<Semester> {
 
 	Optional<Path> getXmlPath();
 

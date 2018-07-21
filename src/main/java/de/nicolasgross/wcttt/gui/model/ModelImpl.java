@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.Optional;
+import java.util.concurrent.Flow;
+import java.util.concurrent.SubmissionPublisher;
 
 public class ModelImpl implements Model {
 
@@ -15,6 +17,7 @@ public class ModelImpl implements Model {
 	private boolean unchanged;
 	private Semester semester;
 	private ObservableList<Teacher> teachers;
+	private SubmissionPublisher<Semester> newSemesterNotifier;
 
 
 	private final ListChangeListener<? super Teacher> teacherChangeListener =
@@ -25,9 +28,16 @@ public class ModelImpl implements Model {
 				}
 			};
 
-	private void mapTeachersList() {
+	private void initListenToTeacherChanges() {
 		for (Chair chairToListen : semester.getChairs()) {
 			chairToListen.getTeachers().addListener(teacherChangeListener);
+		}
+	}
+
+	private void createTeacherList() {
+		teachers.clear();
+		for (Chair chair : semester.getChairs()) {
+			teachers.addAll(chair.getTeachers());
 		}
 	}
 
@@ -36,7 +46,7 @@ public class ModelImpl implements Model {
 		xmlPath = null;
 		semester = new SemesterImpl();
 		teachers = FXCollections.observableList(new LinkedList<>());
-		mapTeachersList();
+		newSemesterNotifier = new SubmissionPublisher<>();
 	}
 
 	@Override
@@ -55,7 +65,14 @@ public class ModelImpl implements Model {
 		this.semester = semester;
 		unchanged = true;
 		teachers.clear();
-		mapTeachersList();
+		initListenToTeacherChanges();
+		createTeacherList();
+		newSemesterNotifier.submit(semester);
+	}
+
+	@Override
+	public void subscribe(Flow.Subscriber<? super Semester> subscriber) {
+		newSemesterNotifier.subscribe(subscriber);
 	}
 
 	@Override
@@ -141,10 +158,7 @@ public class ModelImpl implements Model {
 		semester.addChair(chair);
 		chair.getTeachers().addListener(teacherChangeListener);
 		if (!chair.getTeachers().isEmpty()) {
-			teachers.clear();
-			for (Chair newChair : semester.getChairs()) {
-				teachers.addAll(newChair.getTeachers());
-			}
+			createTeacherList();
 		}
 		unchanged = false;
 	}
