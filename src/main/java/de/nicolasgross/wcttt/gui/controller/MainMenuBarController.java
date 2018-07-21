@@ -3,6 +3,7 @@ package de.nicolasgross.wcttt.gui.controller;
 import de.nicolasgross.wcttt.lib.binder.WctttBinder;
 import de.nicolasgross.wcttt.lib.binder.WctttBinderException;
 import de.nicolasgross.wcttt.lib.model.Semester;
+import de.nicolasgross.wcttt.lib.model.SemesterImpl;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -62,22 +63,27 @@ public class MainMenuBarController extends Controller {
 	@FXML
 	private MenuItem menuHelpAbout;
 
+	private WctttBinder binder;
+
 
 	@FXML
 	protected void initialize() {
-		menuFileOpen.setOnAction(event -> {
-			if (!getModel().isUnchanged()) {
-				if (!Util.confirmationAlert("Warning!", "There are unsaved " +
-						"changes", "Loading a new semester will result in the" +
-						" loss of all unsaved changes.")) {
-					return;
-				}
+		menuFileNew.setOnAction(event -> {
+			if (lossOfUnsavedUnconfirmed()) {
+				return;
 			}
+			Semester semester = new SemesterImpl();
+			getModel().setSemester(null, semester);
+		});
 
+		menuFileOpen.setOnAction(event -> {
+			if (lossOfUnsavedUnconfirmed()) {
+				return;
+			}
 			Optional<File> file = Util.choosePathAlert(getScene().getWindow());
 			if (file.isPresent()) {
 				try {
-					WctttBinder binder = new WctttBinder(file.get());
+					binder = new WctttBinder(file.get());
 					Semester semester = binder.parse();
 					getModel().setSemester(file.get().toPath(), semester);
 				} catch (WctttBinderException e) {
@@ -85,6 +91,16 @@ public class MainMenuBarController extends Controller {
 				}
 			}
 		});
+	}
+
+	private boolean lossOfUnsavedUnconfirmed() {
+		if (!getModel().isUnchanged()) {
+			return (!Util.confirmationAlert("Warning!", "There are unsaved " +
+					"changes", "Loading a new semester will result in the" +
+					" loss of all unsaved changes."));
+		} else {
+			return false;
+		}
 	}
 
 }
