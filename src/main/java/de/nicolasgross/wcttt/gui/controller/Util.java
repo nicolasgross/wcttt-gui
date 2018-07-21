@@ -98,10 +98,20 @@ public class Util {
 	 *
 	 * @return Optional of a nullable.
 	 */
-	public static Optional<File> choosePathAlert(Window owner) {
+	public static Optional<File> chooseFileToOpenDialog(Window owner) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().addAll(
-				new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+				new FileChooser.ExtensionFilter("XML files", "*.xml"),
+				new FileChooser.ExtensionFilter("All files", "*"));
 		return Optional.ofNullable(fileChooser.showOpenDialog(owner));
 	}
+
+	public static Optional<File> chooseFileToSaveDialog(Window owner) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().addAll(
+				new FileChooser.ExtensionFilter("XML files", "*.xml"),
+				new FileChooser.ExtensionFilter("All files", "*"));
+		return Optional.ofNullable(fileChooser.showSaveDialog(owner));
+	}
+
 }

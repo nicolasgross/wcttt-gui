@@ -1,12 +1,14 @@
 package de.nicolasgross.wcttt.gui.controller;
 
+import de.nicolasgross.wcttt.gui.model.Model;
 import de.nicolasgross.wcttt.lib.binder.WctttBinder;
 import de.nicolasgross.wcttt.lib.binder.WctttBinderException;
 import de.nicolasgross.wcttt.lib.model.Semester;
 import de.nicolasgross.wcttt.lib.model.SemesterImpl;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 
 import java.io.File;
@@ -15,72 +17,61 @@ import java.util.Optional;
 public class MainMenuBarController extends Controller {
 
 	@FXML
-	private MenuBar menuBar;
+	private MenuItem fileNew;
+	@FXML
+	private MenuItem fileOpen;
+	@FXML
+	private MenuItem fileSave;
+	@FXML
+	private MenuItem fileSaveAs;
+	@FXML
+	private MenuItem fileQuit;
 
 	@FXML
-	private Menu menuFile;
+	private MenuItem editSemester;
 	@FXML
-	private MenuItem menuFileNew;
+	private MenuItem editCourses;
 	@FXML
-	private MenuItem menuFileOpen;
+	private MenuItem editRooms;
 	@FXML
-	private MenuItem menuFileSave;
+	private MenuItem editChairs;
 	@FXML
-	private MenuItem menuFileSaveAs;
+	private MenuItem editCurricula;
 	@FXML
-	private MenuItem menuFileCloseDb;
-	@FXML
-	private MenuItem menuFileQuit;
+	private MenuItem editGenerate;
 
 	@FXML
-	private Menu menuEdit;
+	private MenuItem viewCourseCourse;
 	@FXML
-	private MenuItem menuEditSemester;
+	private MenuItem vewCourseRoom;
 	@FXML
-	private MenuItem menuEditCourses;
-	@FXML
-	private MenuItem menuEditRooms;
-	@FXML
-	private MenuItem menuEditChairs;
-	@FXML
-	private MenuItem menuEditCurricula;
-	@FXML
-	private MenuItem menuEditGenerate;
+	private MenuItem viewTeacherTimeslot;
 
 	@FXML
-	private Menu menuView;
+	private MenuItem helpHelp;
 	@FXML
-	private MenuItem menuViewCourseCourse;
-	@FXML
-	private MenuItem menuViewCourseRoom;
-	@FXML
-	private MenuItem menuViewTeacherTimeslot;
-
-	@FXML
-	private Menu menuHelp;
-	@FXML
-	private MenuItem menuHelpHelp;
-	@FXML
-	private MenuItem menuHelpAbout;
+	private MenuItem helpAbout;
 
 	private WctttBinder binder;
 
 
 	@FXML
 	protected void initialize() {
-		menuFileNew.setOnAction(event -> {
-			if (lossOfUnsavedUnconfirmed()) {
+		fileNew.setOnAction(event -> {
+			if (!lossOfUnsavedConfirmed()) {
 				return;
 			}
 			Semester semester = new SemesterImpl();
 			getModel().setSemester(null, semester);
+			binder = null;
 		});
 
-		menuFileOpen.setOnAction(event -> {
-			if (lossOfUnsavedUnconfirmed()) {
+		fileOpen.setOnAction(event -> {
+			if (!lossOfUnsavedConfirmed()) {
 				return;
 			}
-			Optional<File> file = Util.choosePathAlert(getScene().getWindow());
+			Optional<File> file = Util.chooseFileToOpenDialog(
+					getScene().getWindow());
 			if (file.isPresent()) {
 				try {
 					binder = new WctttBinder(file.get());
@@ -91,15 +82,58 @@ public class MainMenuBarController extends Controller {
 				}
 			}
 		});
+
+		EventHandler<ActionEvent> fileSaveAsAction = event -> {
+			Optional<File> file = Util.chooseFileToSaveDialog(
+					getScene().getWindow());
+			if (file.isPresent()) {
+				try {
+					binder = new WctttBinder(file.get());
+					binder.write(getModel().getSemester());
+					getModel().setXmlPath(file.get().toPath());
+					getModel().setChanged(false);
+				} catch (WctttBinderException e) {
+					Util.exceptionAlert(e);
+				}
+			}
+		};
+
+		fileSave.setOnAction(event -> {
+			if (getModel().getXmlPath().isPresent()) {
+				assert binder != null;
+				assert binder.getXmlFile().toPath().equals(
+						getModel().getXmlPath().get());
+				try {
+					binder.write(getModel().getSemester());
+					getModel().setChanged(true);
+				} catch (WctttBinderException e) {
+					Util.exceptionAlert(e);
+				}
+			} else {
+				fileSaveAsAction.handle(event);
+			}
+		});
+
+		fileSaveAs.setOnAction(fileSaveAsAction);
+
+		fileQuit.setOnAction(event -> {
+
+		});
 	}
 
-	private boolean lossOfUnsavedUnconfirmed() {
-		if (!getModel().isUnchanged()) {
-			return (!Util.confirmationAlert("Warning!", "There are unsaved " +
+	@Override
+	public void setup(Scene scene, Model model) {
+		super.setup(scene, model);
+		fileSave.disableProperty().bind(getModel().isChanged().not());
+	}
+
+	private boolean lossOfUnsavedConfirmed() {
+		if (getModel().isChanged().getValue()) {
+			return Util.confirmationAlert("Warning!", "There are unsaved " +
 					"changes", "Loading a new semester will result in the" +
-					" loss of all unsaved changes."));
+					" loss of all unsaved changes.");
 		} else {
-			return false;
+			return true;
 		}
 	}
 

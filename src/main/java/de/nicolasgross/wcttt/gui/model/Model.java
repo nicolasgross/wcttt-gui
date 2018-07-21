@@ -2,6 +2,8 @@ package de.nicolasgross.wcttt.gui.model;
 
 import de.nicolasgross.wcttt.lib.model.Semester;
 import de.nicolasgross.wcttt.lib.model.Teacher;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
@@ -12,10 +14,18 @@ public interface Model extends Semester, Flow.Publisher<Semester> {
 
 	Optional<Path> getXmlPath();
 
-	boolean isUnchanged();
+	void setXmlPath(Path xmlPath);
+
+	BooleanProperty isChanged();
+
+	void setChanged(boolean changed);
+
+	Semester getSemester();
 
 	void setSemester(Path xmlPath, Semester semester);
 
-	public ObservableList<Teacher> getTeachers();
+	ObservableList<Teacher> getTeachers();
+
+	StringProperty getTitle();
 
 }

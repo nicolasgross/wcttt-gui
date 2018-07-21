@@ -1,6 +1,10 @@
 package de.nicolasgross.wcttt.gui.model;
 
 import de.nicolasgross.wcttt.lib.model.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -13,11 +17,14 @@ import java.util.concurrent.SubmissionPublisher;
 
 public class ModelImpl implements Model {
 
+	public static final String WCTTT = "WIAI Course Timetabling Tool";
+
 	private Path xmlPath;
-	private boolean unchanged;
+	private BooleanProperty changed;
 	private Semester semester;
 	private ObservableList<Teacher> teachers;
 	private SubmissionPublisher<Semester> newSemesterNotifier;
+	private StringProperty title;
 
 
 	private final ListChangeListener<? super Teacher> teacherChangeListener =
@@ -41,12 +48,22 @@ public class ModelImpl implements Model {
 		}
 	}
 
+	private void updateTitle() {
+		if (xmlPath == null) {
+			title.setValue(WCTTT + " - " + semester.getName());
+		} else {
+			title.setValue(WCTTT + " - " + semester.getName() + " - " +
+					xmlPath.toString());
+		}
+	}
+
 	public ModelImpl() {
-		unchanged = true;
+		changed = new SimpleBooleanProperty(false);
 		xmlPath = null;
 		semester = new SemesterImpl();
 		teachers = FXCollections.observableList(new LinkedList<>());
 		newSemesterNotifier = new SubmissionPublisher<>();
+		title = new SimpleStringProperty(WCTTT + " - " + semester.getName());
 	}
 
 	@Override
@@ -55,19 +72,42 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public boolean isUnchanged() {
-		return unchanged;
+	public void setXmlPath(Path xmlPath) {
+		this.xmlPath = xmlPath;
+		updateTitle();
+	}
+
+	@Override
+	public BooleanProperty isChanged() {
+		return changed;
+	}
+
+	public void setChanged(boolean changed) {
+		this.changed.setValue(changed);
+	}
+
+	@Override
+	public Semester getSemester() {
+		return semester;
 	}
 
 	@Override
 	public void setSemester(Path xmlPath, Semester semester) {
-		this.xmlPath = xmlPath;
 		this.semester = semester;
-		unchanged = true;
+		setXmlPath(xmlPath);
+		changed.setValue(false);
 		teachers.clear();
 		initListenToTeacherChanges();
 		createTeacherList();
 		newSemesterNotifier.submit(semester);
+	}
+
+	public StringProperty getTitle() {
+		return title;
+	}
+
+	public StringProperty titleProperty() {
+		return title;
 	}
 
 	@Override
@@ -83,6 +123,7 @@ public class ModelImpl implements Model {
 	@Override
 	public void setName(String name) {
 		semester.setName(name);
+		updateTitle();
 	}
 
 	@Override
@@ -160,7 +201,7 @@ public class ModelImpl implements Model {
 		if (!chair.getTeachers().isEmpty()) {
 			createTeacherList();
 		}
-		unchanged = false;
+		changed.setValue(true);
 	}
 
 	@Override

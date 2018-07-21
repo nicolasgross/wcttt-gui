@@ -1,6 +1,7 @@
 package de.nicolasgross.wcttt.gui;
 
 import de.nicolasgross.wcttt.gui.controller.MainController;
+import de.nicolasgross.wcttt.gui.model.Model;
 import de.nicolasgross.wcttt.gui.model.ModelImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -39,10 +40,10 @@ public class Main extends Application {
 		Scene scene = new Scene(root, 1000, 600);
 
 		MainController controller = loader.getController();
-		ModelImpl model = new ModelImpl();
+		Model model = new ModelImpl();
 		controller.setup(scene, model);
 
-		primaryStage.setTitle("WIAI Course Timetabling Tool");
+		primaryStage.titleProperty().bind(model.getTitle());
 		primaryStage.setScene(scene);
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(500);
