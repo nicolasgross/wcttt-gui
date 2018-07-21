@@ -1,7 +1,7 @@
 package de.nicolasgross.wcttt.gui;
 
 import de.nicolasgross.wcttt.gui.controller.MainController;
-import de.nicolasgross.wcttt.gui.model.Model;
+import de.nicolasgross.wcttt.gui.model.ModelImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,7 +38,7 @@ public class Main extends Application {
 		Parent root = loader.load();
 
 		MainController controller = loader.getController();
-		Model model = new Model();
+		ModelImpl model = new ModelImpl();
 		controller.setModel(model);
 
 		Scene scene = new Scene(root, 1000, 600);
