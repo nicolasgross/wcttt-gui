@@ -17,53 +17,20 @@ import java.util.concurrent.SubmissionPublisher;
 
 public class ModelImpl implements Model {
 
-	public static final String WCTTT = "WIAI Course Timetabling Tool";
+	private static final String WCTTT = "WIAI Course Timetabling Tool";
 
 	private Path xmlPath;
-	private BooleanProperty changed;
+	private BooleanProperty changed = new SimpleBooleanProperty(false);
 	private Semester semester;
-	private ObservableList<Teacher> teachers;
-	private SubmissionPublisher<Semester> newSemesterNotifier;
-	private StringProperty title;
+	private ObservableList<Teacher> teachers =
+			FXCollections.observableList(new LinkedList<>());
+	private SubmissionPublisher<Semester> newSemesterNotifier =
+			new SubmissionPublisher<>();
+	private StringProperty title = new SimpleStringProperty("");
 
-
-	private final ListChangeListener<? super Teacher> teacherChangeListener =
-			c -> {
-				teachers.clear();
-				for (Chair chair : semester.getChairs()) {
-					teachers.addAll(chair.getTeachers());
-				}
-			};
-
-	private void initListenToTeacherChanges() {
-		for (Chair chairToListen : semester.getChairs()) {
-			chairToListen.getTeachers().addListener(teacherChangeListener);
-		}
-	}
-
-	private void createTeacherList() {
-		teachers.clear();
-		for (Chair chair : semester.getChairs()) {
-			teachers.addAll(chair.getTeachers());
-		}
-	}
-
-	private void updateTitle() {
-		if (xmlPath == null) {
-			title.setValue(WCTTT + " - " + semester.getName());
-		} else {
-			title.setValue(WCTTT + " - " + semester.getName() + " - " +
-					xmlPath.toString());
-		}
-	}
 
 	public ModelImpl() {
-		changed = new SimpleBooleanProperty(false);
-		xmlPath = null;
-		semester = new SemesterImpl();
-		teachers = FXCollections.observableList(new LinkedList<>());
-		newSemesterNotifier = new SubmissionPublisher<>();
-		title = new SimpleStringProperty(WCTTT + " - " + semester.getName());
+		setSemester(null, new SemesterImpl());
 	}
 
 	@Override
@@ -89,6 +56,27 @@ public class ModelImpl implements Model {
 	@Override
 	public Semester getSemester() {
 		return semester;
+	}
+
+	private final ListChangeListener<? super Teacher> teacherChangeListener =
+			c -> {
+				teachers.clear();
+				for (Chair chair : semester.getChairs()) {
+					teachers.addAll(chair.getTeachers());
+				}
+			};
+
+	private void initListenToTeacherChanges() {
+		for (Chair chairToListen : semester.getChairs()) {
+			chairToListen.getTeachers().addListener(teacherChangeListener);
+		}
+	}
+
+	private void createTeacherList() {
+		teachers.clear();
+		for (Chair chair : semester.getChairs()) {
+			teachers.addAll(chair.getTeachers());
+		}
 	}
 
 	@Override
@@ -120,6 +108,15 @@ public class ModelImpl implements Model {
 		return semester.getName();
 	}
 
+	private void updateTitle() {
+		if (xmlPath == null) {
+			title.setValue(WCTTT + " - " + semester);
+		} else {
+			title.setValue(WCTTT + " - " + semester + " - " +
+					xmlPath.toString());
+		}
+	}
+
 	@Override
 	public void setName(String name) {
 		semester.setName(name);
@@ -128,42 +125,42 @@ public class ModelImpl implements Model {
 
 	@Override
 	public int getDaysPerWeek() {
-		return 0;
+		return semester.getDaysPerWeek();
 	}
 
 	@Override
 	public void setDaysPerWeek(int daysPerWeek) throws WctttModelException {
-
+		// TODO
 	}
 
 	@Override
 	public int getTimeSlotsPerDay() {
-		return 0;
+		return semester.getTimeSlotsPerDay();
 	}
 
 	@Override
 	public void setTimeSlotsPerDay(int timeSlotsPerDay) throws WctttModelException {
-
+		// TODO
 	}
 
 	@Override
 	public int getMaxDailyLecturesPerCur() {
-		return 0;
+		return semester.getMaxDailyLecturesPerCur();
 	}
 
 	@Override
 	public void setMaxDailyLecturesPerCur(int maxDailyLecturesPerCur) throws WctttModelException {
-
+		// TODO
 	}
 
 	@Override
 	public ConstraintWeightings getConstrWeightings() {
-		return null;
+		return semester.getConstrWeightings();
 	}
 
 	@Override
 	public void setConstrWeightings(ConstraintWeightings constrWeightings) {
-
+		// TODO
 	}
 
 	@Override
@@ -173,12 +170,12 @@ public class ModelImpl implements Model {
 
 	@Override
 	public ObservableList<Room> getRooms() {
-		return null;
+		return semester.getRooms();
 	}
 
 	@Override
 	public ObservableList<Course> getCourses() {
-		return null;
+		return semester.getCourses();
 	}
 
 	@Override
@@ -188,7 +185,7 @@ public class ModelImpl implements Model {
 
 	@Override
 	public ObservableList<Timetable> getTimetables() {
-		return null;
+		return semester.getTimetables();
 	}
 
 	public ObservableList<Teacher> getTeachers() {
@@ -206,7 +203,11 @@ public class ModelImpl implements Model {
 
 	@Override
 	public boolean removeChair(Chair chair) throws WctttModelException {
-		return false;
+		boolean existed = false;
+		if ((existed = semester.removeChair(chair))) {
+			changed.setValue(true);
+		}
+		return existed;
 	}
 
 	@Override

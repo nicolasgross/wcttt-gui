@@ -4,7 +4,7 @@ import de.nicolasgross.wcttt.lib.model.Semester;
 
 import java.util.concurrent.Flow;
 
-public abstract class SubscriptionController extends Controller
+public abstract class SubscriberController extends Controller
 		implements Flow.Subscriber<Semester> {
 
 	private Flow.Subscription subscription;

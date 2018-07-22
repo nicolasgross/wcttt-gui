@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-public class MainTimetablesController extends SubscriptionController {
+public class MainTimetablesController extends SubscriberController {
 
 	@FXML
 	private ListView<Timetable> timetableList;

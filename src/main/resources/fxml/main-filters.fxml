@@ -17,23 +17,26 @@
               <RowConstraints />
               <RowConstraints />
               <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
           </rowConstraints>
           <children>
               <Label text="Filters:" underline="true" />
               <Label text="Teacher" GridPane.rowIndex="1" />
               <Label text="Chair" GridPane.rowIndex="2" />
               <Label text="Curriculum" GridPane.rowIndex="3" />
-            <ComboBox fx:id="teacherSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox fx:id="curriculumSelection" layoutX="105.0" layoutY="31.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ComboBox fx:id="chairSelection" layoutX="15.0" layoutY="10.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+              <Label text="Course" GridPane.rowIndex="4" />
+              <ComboBox fx:id="teacherSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+              <ComboBox fx:id="chairSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+              <ComboBox fx:id="curriculumSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+              <ComboBox fx:id="courseSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
           </children>
-         <columnConstraints>
-            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
-            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
-         </columnConstraints>
-         <padding>
-            <Insets left="5.0" right="5.0" />
-         </padding>
+          <columnConstraints>
+              <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+              <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
+          </columnConstraints>
+          <padding>
+              <Insets left="5.0" right="5.0" />
+          </padding>
       </GridPane>
       <GridPane>
         <columnConstraints>

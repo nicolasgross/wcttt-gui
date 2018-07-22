@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
-public class MainTableController extends SubscriptionController {
+public class MainTableController extends SubscriberController {
 
 	@FXML
 	private TableView table;
