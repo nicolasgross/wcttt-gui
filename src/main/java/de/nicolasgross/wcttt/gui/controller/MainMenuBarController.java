@@ -88,8 +88,9 @@ public class MainMenuBarController extends Controller {
 					getScene().getWindow());
 			if (file.isPresent()) {
 				try {
-					binder = new WctttBinder(file.get());
-					binder.write(getModel().getSemester());
+					WctttBinder newBinder = new WctttBinder(file.get());
+					newBinder.write(getModel().getSemester());
+					this.binder = newBinder;
 					getModel().setXmlPath(file.get().toPath());
 					getModel().setChanged(false);
 				} catch (WctttBinderException e) {
@@ -117,7 +118,7 @@ public class MainMenuBarController extends Controller {
 		fileSaveAs.setOnAction(fileSaveAsAction);
 
 		fileQuit.setOnAction(event -> {
-
+			// TODO
 		});
 	}
 
