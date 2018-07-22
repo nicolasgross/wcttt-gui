@@ -1,32 +1,24 @@
 package de.nicolasgross.wcttt.gui.controller;
 
 import de.nicolasgross.wcttt.gui.model.Model;
-import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public abstract class Controller  {
 
-	private Scene scene;
+	private Stage stage;
 	private Model model;
 
 
-	Scene getScene() {
-		return scene;
-	}
-
-	void setScene(Scene scene) {
-		this.scene = scene;
+	Stage getStage() {
+		return stage;
 	}
 
 	Model getModel() {
 		return model;
 	}
 
-	void setModel(Model model) {
-		this.model = model;
-	}
-
-	public void setup(Scene scene, Model model) {
-		this.scene = scene;
+	public void setup(Stage stage, Model model) {
+		this.stage = stage;
 		this.model = model;
 	}
 

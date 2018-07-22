@@ -2,11 +2,11 @@ package de.nicolasgross.wcttt.gui.controller;
 
 import de.nicolasgross.wcttt.gui.model.Model;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class MainSideMenuController extends Controller {
 
@@ -30,10 +30,10 @@ public class MainSideMenuController extends Controller {
 
 
 	@Override
-	public void setup(Scene scene, Model model) {
-		super.setup(scene, model);
-		timetablesController.setup(scene, model);
-		filtersController.setup(scene, model);
+	public void setup(Stage stage, Model model) {
+		super.setup(stage, model);
+		timetablesController.setup(stage, model);
+		filtersController.setup(stage, model);
 	}
 
 	private void adjustSideMenuSeparators() {

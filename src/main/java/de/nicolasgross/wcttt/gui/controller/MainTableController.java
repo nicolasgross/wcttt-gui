@@ -3,9 +3,9 @@ package de.nicolasgross.wcttt.gui.controller;
 import de.nicolasgross.wcttt.gui.model.Model;
 import de.nicolasgross.wcttt.lib.model.Semester;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 
 public class MainTableController extends SubscriptionController {
 
@@ -19,8 +19,8 @@ public class MainTableController extends SubscriptionController {
 	}
 
 	@Override
-	public void setup(Scene scene, Model model) {
-		super.setup(scene, model);
+	public void setup(Stage stage, Model model) {
+		super.setup(stage, model);
 		model.subscribe(this);
 		updateGui();
 	}

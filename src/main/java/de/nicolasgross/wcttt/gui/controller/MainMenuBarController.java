@@ -8,8 +8,9 @@ import de.nicolasgross.wcttt.lib.model.SemesterImpl;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.util.Optional;
@@ -57,6 +58,10 @@ public class MainMenuBarController extends Controller {
 
 	@FXML
 	protected void initialize() {
+		initFileMenu();
+	}
+
+	private void initFileMenu() {
 		fileNew.setOnAction(event -> {
 			if (!lossOfUnsavedConfirmed()) {
 				return;
@@ -71,7 +76,7 @@ public class MainMenuBarController extends Controller {
 				return;
 			}
 			Optional<File> file = Util.chooseFileToOpenDialog(
-					getScene().getWindow());
+					getStage().getScene().getWindow());
 			if (file.isPresent()) {
 				try {
 					binder = new WctttBinder(file.get());
@@ -85,7 +90,7 @@ public class MainMenuBarController extends Controller {
 
 		EventHandler<ActionEvent> fileSaveAsAction = event -> {
 			Optional<File> file = Util.chooseFileToSaveDialog(
-					getScene().getWindow());
+					getStage().getScene().getWindow());
 			if (file.isPresent()) {
 				try {
 					WctttBinder newBinder = new WctttBinder(file.get());
@@ -118,13 +123,15 @@ public class MainMenuBarController extends Controller {
 		fileSaveAs.setOnAction(fileSaveAsAction);
 
 		fileQuit.setOnAction(event -> {
-			// TODO
+			getStage().getOnCloseRequest().handle(
+					new WindowEvent(getStage().getScene().getWindow(),
+							WindowEvent.WINDOW_CLOSE_REQUEST));
 		});
 	}
 
 	@Override
-	public void setup(Scene scene, Model model) {
-		super.setup(scene, model);
+	public void setup(Stage stage, Model model) {
+		super.setup(stage, model);
 		fileSave.disableProperty().bind(getModel().isChanged().not());
 	}
 

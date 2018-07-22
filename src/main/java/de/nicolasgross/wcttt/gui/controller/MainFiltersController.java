@@ -6,9 +6,9 @@ import de.nicolasgross.wcttt.lib.model.Curriculum;
 import de.nicolasgross.wcttt.lib.model.Semester;
 import de.nicolasgross.wcttt.lib.model.Teacher;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.stage.Stage;
 
 public class MainFiltersController extends SubscriptionController {
 
@@ -40,8 +40,8 @@ public class MainFiltersController extends SubscriptionController {
 	}
 
 	@Override
-	public void setup(Scene scene, Model model) {
-		super.setup(scene, model);
+	public void setup(Stage stage, Model model) {
+		super.setup(stage, model);
 		model.subscribe(this);
 		updateGui();
 	}

@@ -38,13 +38,13 @@ public class Main extends Application {
 				"/fxml/main.fxml"));
 		Parent root = loader.load();
 		Scene scene = new Scene(root, 1000, 600);
+		primaryStage.setScene(scene);
 
 		MainController controller = loader.getController();
 		Model model = new ModelImpl();
-		controller.setup(scene, model);
+		controller.setup(primaryStage, model);
 
 		primaryStage.titleProperty().bind(model.getTitle());
-		primaryStage.setScene(scene);
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(500);
 		primaryStage.show();
