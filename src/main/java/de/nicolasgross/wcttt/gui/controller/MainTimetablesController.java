@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class MainTimetablesController extends SubscriberController {
@@ -23,6 +24,14 @@ public class MainTimetablesController extends SubscriberController {
 	protected void initialize() {
 		timetableSelectionTable.setPlaceholder(new Label("No timetables " +
 				"generated for this semester"));
+		timetableSelectionTable.getSortOrder().add(penaltyColumn);
+
+		timetableColumn.setReorderable(false);
+		timetableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+		penaltyColumn.setReorderable(false);
+		penaltyColumn.setCellValueFactory(new PropertyValueFactory<>(
+						"softConstraintPenalty"));
 	}
 
 	@Override
@@ -40,6 +49,7 @@ public class MainTimetablesController extends SubscriberController {
 
 	private void updateGui() {
 		timetableSelectionTable.setItems(getModel().getTimetables());
+		timetableSelectionTable.getSortOrder().add(penaltyColumn);
 	}
 
 }

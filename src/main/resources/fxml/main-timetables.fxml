@@ -21,8 +21,8 @@
         <Label text="Timetables:" underline="true" />
       <TableView fx:id="timetableSelectionTable" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
         <columns>
-          <TableColumn fx:id="timetableColumn" editable="false" prefWidth="230.0" resizable="false" sortable="false" text="Timetable" />
-            <TableColumn fx:id="penaltyColumn" editable="false" prefWidth="70.0" resizable="false" sortable="false" text="Penalty" />
+          <TableColumn fx:id="timetableColumn" editable="false" prefWidth="220.0" resizable="false" sortable="false" text="Timetable" />
+            <TableColumn fx:id="penaltyColumn" editable="false" prefWidth="78.0" resizable="false" text="Penalty" />
         </columns>
       </TableView>
     </children>
