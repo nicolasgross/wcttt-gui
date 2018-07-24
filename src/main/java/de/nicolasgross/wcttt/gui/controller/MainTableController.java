@@ -115,16 +115,18 @@ public class MainTableController extends SubscriberController {
 	}
 
 	void setTimetable(Timetable timetable) {
-		if (timetable == null) {
-			for (TableView<TimetablePeriod> tableView : timetableDays) {
-				tableView.setItems(FXCollections.observableArrayList());
+		Platform.runLater(() -> {
+			if (timetable == null) {
+				for (TableView<TimetablePeriod> tableView : timetableDays) {
+					tableView.setItems(FXCollections.observableArrayList());
+				}
+			} else {
+				for (int i = 0; i < getModel().getDaysPerWeek(); i++) {
+					timetableDays.get(i).setItems(timetable.getDays().get(i).
+							getPeriods());
+				}
 			}
-		} else {
-			for (int i = 0; i < getModel().getDaysPerWeek(); i++) {
-				timetableDays.get(i).setItems(timetable.getDays().get(i).
-						getPeriods());
-			}
-		}
+		});
 	}
 
 }
