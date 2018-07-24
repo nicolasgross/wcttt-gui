@@ -9,15 +9,15 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="filters" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainFiltersController">
+<VBox fx:id="filters" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainFiltersController">
    <children>
-      <GridPane prefWidth="250.0" vgap="5.0">
+      <GridPane vgap="5.0">
           <rowConstraints>
               <RowConstraints />
               <RowConstraints />
               <RowConstraints />
               <RowConstraints />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints />
           </rowConstraints>
           <children>
               <Label text="Filters:" underline="true" />
@@ -25,10 +25,10 @@
               <Label text="Chair" GridPane.rowIndex="2" />
               <Label text="Curriculum" GridPane.rowIndex="3" />
               <Label text="Course" GridPane.rowIndex="4" />
-              <ComboBox fx:id="teacherSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-              <ComboBox fx:id="chairSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-              <ComboBox fx:id="curriculumSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-              <ComboBox fx:id="courseSelection" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+              <ComboBox fx:id="teacherSelection" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+              <ComboBox fx:id="chairSelection" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+              <ComboBox fx:id="curriculumSelection" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+              <ComboBox fx:id="courseSelection" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
           </children>
           <columnConstraints>
               <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />

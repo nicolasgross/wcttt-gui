@@ -2,23 +2,29 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane fx:id="timetables" prefWidth="250.0" vgap="5.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainTimetablesController">
+<GridPane fx:id="timetables" prefWidth="300.0" vgap="5.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainTimetablesController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
     <rowConstraints>
         <RowConstraints />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints />
     </rowConstraints>
     <children>
         <Label text="Timetables:" underline="true" />
-        <ListView fx:id="timetableList" GridPane.rowIndex="1" />
+      <TableView fx:id="timetableSelectionTable" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+        <columns>
+          <TableColumn fx:id="timetableColumn" editable="false" prefWidth="230.0" resizable="false" sortable="false" text="Timetable" />
+            <TableColumn fx:id="penaltyColumn" editable="false" prefWidth="70.0" resizable="false" sortable="false" text="Penalty" />
+        </columns>
+      </TableView>
     </children>
 	<VBox.margin>
         <Insets bottom="5.0" left="5.0" right="5.0" />

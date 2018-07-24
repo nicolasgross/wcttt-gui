@@ -5,14 +5,25 @@ import de.nicolasgross.wcttt.lib.model.Semester;
 import de.nicolasgross.wcttt.lib.model.Timetable;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 public class MainTimetablesController extends SubscriberController {
 
 	@FXML
-	private ListView<Timetable> timetableList;
+	private TableView<Timetable> timetableSelectionTable;
+	@FXML
+	private TableColumn<Timetable, String> timetableColumn;
+	@FXML
+	private TableColumn<Timetable, Double> penaltyColumn;
 
+	@FXML
+	protected void initialize() {
+		timetableSelectionTable.setPlaceholder(new Label("No timetables " +
+				"generated for this semester"));
+	}
 
 	@Override
 	public void setup(Stage stage, Model model) {
@@ -28,7 +39,7 @@ public class MainTimetablesController extends SubscriberController {
 	}
 
 	private void updateGui() {
-		timetableList.setItems(getModel().getTimetables());
+		timetableSelectionTable.setItems(getModel().getTimetables());
 	}
 
 }
