@@ -25,7 +25,7 @@ public class ModelImpl implements Model {
 	private ObservableList<Teacher> teachers =
 			FXCollections.observableList(new LinkedList<>());
 	private SubmissionPublisher<Semester> newSemesterNotifier =
-			new SubmissionPublisher<>();
+			new SubmissionPublisher<>(); // TODO close
 	private StringProperty title = new SimpleStringProperty("");
 
 

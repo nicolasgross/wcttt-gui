@@ -17,7 +17,7 @@ public abstract class SubscriberController extends Controller
 	@Override
 	public void onSubscribe(Flow.Subscription subscription) {
 		this.subscription = subscription;
-		subscription.request(1);
+		this.subscription.request(1);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package de.nicolasgross.wcttt.gui.controller;
 
 import de.nicolasgross.wcttt.gui.model.Model;
 import de.nicolasgross.wcttt.lib.model.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -48,11 +49,11 @@ public class MainFiltersController extends SubscriberController {
 
 	@Override
 	public void onNext(Semester item) {
-		updateGui();
+		Platform.runLater(this::updateGui);
 		getSubscription().request(1);
 	}
 
-	public void updateGui() {
+	private void updateGui() {
 		teacherSelection.setItems(getModel().getTeachers());
 		chairSelection.setItems(getModel().getChairs());
 		courseSelection.setItems(getModel().getCourses());

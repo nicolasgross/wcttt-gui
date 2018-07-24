@@ -3,6 +3,7 @@ package de.nicolasgross.wcttt.gui.controller;
 import de.nicolasgross.wcttt.gui.model.Model;
 import de.nicolasgross.wcttt.lib.model.Semester;
 import de.nicolasgross.wcttt.lib.model.Timetable;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
@@ -22,11 +23,11 @@ public class MainTimetablesController extends SubscriberController {
 
 	@Override
 	public void onNext(Semester item) {
-		updateGui();
+		Platform.runLater(this::updateGui);
 		getSubscription().request(1);
 	}
 
-	public void updateGui() {
+	private void updateGui() {
 		timetableList.setItems(getModel().getTimetables());
 	}
 

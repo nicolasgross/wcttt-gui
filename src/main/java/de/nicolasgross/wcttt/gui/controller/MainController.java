@@ -12,7 +12,7 @@ public class MainController extends Controller {
 	@FXML
 	private MainSideMenuController sideMenuController;
 	@FXML
-	private MainTableController tableController;
+	private MainTableController timetableTableController;
 	@FXML
 	private Label stateInfo;
 
@@ -23,7 +23,7 @@ public class MainController extends Controller {
 		setCloseConfirmation();
 		menuBarController.setup(stage, model);
 		sideMenuController.setup(stage, model);
-		tableController.setup(stage, model);
+		timetableTableController.setup(stage, model);
 	}
 
 	private void setCloseConfirmation() {

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
 
 
-<TableView fx:id="table" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainTableController"/>
+<ScrollPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.MainTableController">
+   <content>
+      <VBox fx:id="timetableDaysVBox" fillWidth="false" />
+   </content>
+</ScrollPane>
