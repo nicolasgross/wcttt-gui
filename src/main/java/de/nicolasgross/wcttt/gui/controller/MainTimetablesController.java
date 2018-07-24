@@ -25,6 +25,11 @@ public class MainTimetablesController extends SubscriberController {
 		timetableSelectionTable.setPlaceholder(new Label("No timetables " +
 				"generated for this semester"));
 		timetableSelectionTable.getSortOrder().add(penaltyColumn);
+		timetableSelectionTable.getSelectionModel().selectedItemProperty().
+				addListener((observable, oldValue, newValue) -> {
+			getMainController().getTimetableTableController().
+					setTimetable(newValue);
+		});
 
 		timetableColumn.setReorderable(false);
 		timetableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -35,8 +40,8 @@ public class MainTimetablesController extends SubscriberController {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model) {
-		super.setup(stage, model);
+	public void setup(Stage stage, Model model, MainController mainController) {
+		super.setup(stage, model, mainController);
 		model.subscribe(this);
 		updateGui();
 	}

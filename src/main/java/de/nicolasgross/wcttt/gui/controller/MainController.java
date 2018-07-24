@@ -18,12 +18,24 @@ public class MainController extends Controller {
 
 
 	@Override
-	public void setup(Stage stage, Model model) {
-		super.setup(stage, model);
+	public void setup(Stage stage, Model model, MainController mainController) {
+		super.setup(stage, model, mainController);
 		setCloseConfirmation();
-		menuBarController.setup(stage, model);
-		sideMenuController.setup(stage, model);
-		timetableTableController.setup(stage, model);
+		menuBarController.setup(stage, model, this);
+		sideMenuController.setup(stage, model, this);
+		timetableTableController.setup(stage, model, this);
+	}
+
+	MainMenuBarController getMenuBarController() {
+		return menuBarController;
+	}
+
+	MainSideMenuController getSideMenuController() {
+		return sideMenuController;
+	}
+
+	MainTableController getTimetableTableController() {
+		return timetableTableController;
 	}
 
 	private void setCloseConfirmation() {

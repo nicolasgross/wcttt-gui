@@ -29,23 +29,6 @@ public class MainSideMenuController extends Controller {
 	private ToggleButton filtersToggle;
 
 
-	@Override
-	public void setup(Stage stage, Model model) {
-		super.setup(stage, model);
-		timetablesController.setup(stage, model);
-		filtersController.setup(stage, model);
-	}
-
-	private void adjustSideMenuSeparators() {
-		if(!sideMenuVBox.getChildren().contains(sideMenuVBoxSeparator) &&
-				sideMenuVBox.getChildren().contains(timetables) &&
-				sideMenuVBox.getChildren().contains(filters)) {
-			sideMenuVBox.getChildren().add(1, sideMenuVBoxSeparator);
-		} else {
-			sideMenuVBox.getChildren().remove(sideMenuVBoxSeparator);
-		}
-	}
-
 	@FXML
 	protected void initialize() {
 		timetablesToggle.setOnAction(event -> {
@@ -65,6 +48,31 @@ public class MainSideMenuController extends Controller {
 			}
 			adjustSideMenuSeparators();
 		});
+	}
+
+	@Override
+	public void setup(Stage stage, Model model, MainController mainController) {
+		super.setup(stage, model, mainController);
+		timetablesController.setup(stage, model, mainController);
+		filtersController.setup(stage, model, mainController);
+	}
+
+	MainTimetablesController getTimetablesController() {
+		return timetablesController;
+	}
+
+	MainFiltersController getFiltersController() {
+		return filtersController;
+	}
+
+	private void adjustSideMenuSeparators() {
+		if(!sideMenuVBox.getChildren().contains(sideMenuVBoxSeparator) &&
+				sideMenuVBox.getChildren().contains(timetables) &&
+				sideMenuVBox.getChildren().contains(filters)) {
+			sideMenuVBox.getChildren().add(1, sideMenuVBoxSeparator);
+		} else {
+			sideMenuVBox.getChildren().remove(sideMenuVBoxSeparator);
+		}
 	}
 
 }

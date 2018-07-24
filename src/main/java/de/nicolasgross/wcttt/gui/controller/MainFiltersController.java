@@ -41,8 +41,8 @@ public class MainFiltersController extends SubscriberController {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model) {
-		super.setup(stage, model);
+	public void setup(Stage stage, Model model, MainController mainController) {
+		super.setup(stage, model, mainController);
 		model.subscribe(this);
 		updateGui();
 	}

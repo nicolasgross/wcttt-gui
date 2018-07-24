@@ -130,8 +130,8 @@ public class MainMenuBarController extends Controller {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model) {
-		super.setup(stage, model);
+	public void setup(Stage stage, Model model, MainController mainController) {
+		super.setup(stage, model, mainController);
 		fileSave.disableProperty().bind(getModel().isChanged().not());
 	}
 
