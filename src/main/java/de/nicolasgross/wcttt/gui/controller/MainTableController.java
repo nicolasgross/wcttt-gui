@@ -1,5 +1,6 @@
 package de.nicolasgross.wcttt.gui.controller;
 
+import de.nicolasgross.wcttt.gui.WctttGuiFatalException;
 import de.nicolasgross.wcttt.gui.model.Model;
 import de.nicolasgross.wcttt.lib.model.*;
 import javafx.application.Platform;
@@ -29,6 +30,11 @@ public class MainTableController extends SubscriberController {
 	private VBox timetableDaysVBox;
 
 	private List<TableView<TimetablePeriod>> timetableDays = new ArrayList<>();
+	private Timetable selectedTimetable = null;
+	private Teacher teacherFilter = null;
+	private Chair chairFilter = null;
+	private Course courseFilter = null;
+	private Curriculum curriculumFilter = null;
 
 
 	@Override
@@ -114,19 +120,83 @@ public class MainTableController extends SubscriberController {
 		}
 	}
 
+	private boolean filtersActive() {
+		return teacherFilter != null || chairFilter != null ||
+				courseFilter != null || curriculumFilter != null;
+	}
+
+	private boolean filtersUnchanged(Teacher teacher, Chair chair,
+	                                 Course course, Curriculum curriculum) {
+		return teacher == teacherFilter && chair == chairFilter &&
+				course == courseFilter && curriculum == curriculumFilter;
+	}
+
+	private void updateSelectedFilters(Teacher teacher, Chair chair,
+	                                   Course course, Curriculum curriculum) {
+		teacherFilter = teacher;
+		chairFilter = chair;
+		courseFilter = course;
+		curriculumFilter = curriculum;
+	}
+
 	void setTimetable(Timetable timetable) {
+		selectedTimetable = timetable;
 		Platform.runLater(() -> {
-			if (timetable == null) {
-				for (TableView<TimetablePeriod> tableView : timetableDays) {
-					tableView.setItems(FXCollections.observableArrayList());
-				}
+			if (filtersActive()) {
+				filter(teacherFilter, chairFilter, courseFilter,
+						curriculumFilter);
 			} else {
-				for (int i = 0; i < getModel().getDaysPerWeek(); i++) {
-					timetableDays.get(i).setItems(timetable.getDays().get(i).
-							getPeriods());
-				}
+				setTableData(timetable);
 			}
 		});
 	}
 
+	private void setTableData(Timetable timetable) {
+		if (timetable == null) {
+			for (TableView<TimetablePeriod> tableView : timetableDays) {
+				tableView.setItems(FXCollections.observableArrayList());
+			}
+		} else {
+			for (int i = 0; i < getModel().getDaysPerWeek(); i++) {
+				timetableDays.get(i).setItems(
+						timetable.getDays().get(i).getPeriods());
+			}
+		}
+	}
+
+	void filter(Teacher teacher, Chair chair, Course course,
+	            Curriculum curriculum) {
+		if (filtersUnchanged(teacher, chair, course, curriculum)) {
+			return;
+		}
+		updateSelectedFilters(teacher, chair, course, curriculum);
+		if (selectedTimetable == null) {
+			return;
+		} else if (teacher == null && chair == null && course == null &&
+				curriculum == null) {
+			setTableData(selectedTimetable);
+			return;
+		}
+
+		Timetable filteredTimetable = initFilteredTimetable();
+		// TODO add what is in filter
+		setTableData(filteredTimetable);
+	}
+
+	private Timetable initFilteredTimetable() {
+		Timetable filteredTimetable = new Timetable("filteredTimetable");
+		for (int i = 0; i < selectedTimetable.getDays().size(); i++) {
+			try {
+				TimetableDay day = new TimetableDay(i + 1);
+				for (int j = 0; j < selectedTimetable.getDays().get(0).getPeriods().size(); j++) {
+					day.addPeriod(new TimetablePeriod(day.getDay(), j + 1));
+				}
+				filteredTimetable.addDay(day);
+			} catch (WctttModelException e) {
+				throw new WctttGuiFatalException(
+						"Implementation error in day/time slot numbering", e);
+			}
+		}
+		return filteredTimetable;
+	}
 }

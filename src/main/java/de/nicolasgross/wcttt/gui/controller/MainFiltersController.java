@@ -23,19 +23,21 @@ public class MainFiltersController extends SubscriberController {
 	@FXML
 	private Button filterButton;
 
-
 	@FXML
 	protected void initialize() {
 		resetButton.setOnAction(event -> {
-			// TODO
 			teacherSelection.getSelectionModel().clearSelection();
 			chairSelection.getSelectionModel().clearSelection();
 			courseSelection.getSelectionModel().clearSelection();
 			curriculumSelection.getSelectionModel().clearSelection();
+			getMainController().getTimetableTableController().filter(
+					null, null, null, null);
 		});
 
 		filterButton.setOnAction(event -> {
-			// TODO
+			getMainController().getTimetableTableController().filter(
+					teacherSelection.getValue(), chairSelection.getValue(),
+					courseSelection.getValue(), curriculumSelection.getValue());
 		});
 
 	}
@@ -59,5 +61,4 @@ public class MainFiltersController extends SubscriberController {
 		courseSelection.setItems(getModel().getCourses());
 		curriculumSelection.setItems(getModel().getCurricula());
 	}
-
 }
