@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class MainTableController extends SubscriberController {
 
@@ -178,25 +180,68 @@ public class MainTableController extends SubscriberController {
 			return;
 		}
 
-		Timetable filteredTimetable = initFilteredTimetable();
-		// TODO add what is in filter
-		setTableData(filteredTimetable);
+		setTableData(createFilteredTimetable());
 	}
 
-	private Timetable initFilteredTimetable() {
+	private Timetable createFilteredTimetable() {
 		Timetable filteredTimetable = new Timetable("filteredTimetable");
-		for (int i = 0; i < selectedTimetable.getDays().size(); i++) {
+		for (TimetableDay originalDay : selectedTimetable.getDays()) {
 			try {
-				TimetableDay day = new TimetableDay(i + 1);
-				for (int j = 0; j < selectedTimetable.getDays().get(0).getPeriods().size(); j++) {
-					day.addPeriod(new TimetablePeriod(day.getDay(), j + 1));
+				TimetableDay filteredDay = new TimetableDay(originalDay.getDay());
+				for (TimetablePeriod originalPeriod : originalDay.getPeriods()) {
+					TimetablePeriod filteredPeriod = new TimetablePeriod(
+							originalPeriod.getDay(), originalPeriod.getTimeSlot());
+					addFilteredAssignments(originalPeriod, filteredPeriod);
+					filteredDay.addPeriod(filteredPeriod);
 				}
-				filteredTimetable.addDay(day);
+				filteredTimetable.addDay(filteredDay);
 			} catch (WctttModelException e) {
 				throw new WctttGuiFatalException(
 						"Implementation error in day/time slot numbering", e);
 			}
 		}
 		return filteredTimetable;
+	}
+
+	private void addFilteredAssignments(TimetablePeriod original,
+	                                    TimetablePeriod filtered) {
+		Predicate<TimetableAssignment> teacherCheck = t -> {
+			if (teacherFilter != null) {
+				return t.getSession().getTeacher().equals(teacherFilter);
+			} else {
+				return true;
+			}
+		};
+		Predicate<TimetableAssignment> chairCheck = t -> {
+			if (chairFilter != null) {
+				return t.getSession().getCourse().getChair().equals(chairFilter);
+			} else {
+				return true;
+			}
+		};
+		Predicate<TimetableAssignment> courseCheck = t -> {
+			if (courseFilter != null) {
+				return t.getSession().getCourse().equals(courseFilter);
+			} else {
+				return true;
+			}
+		};
+		Predicate<TimetableAssignment> curriculumCheck = t -> {
+			if (curriculumFilter != null) {
+				for (Course course : curriculumFilter.getCourses()) {
+					if (t.getSession().getCourse().equals(course)) {
+						return true;
+					}
+				}
+				return false;
+			} else {
+				return true;
+			}
+		};
+		Predicate<TimetableAssignment> combinedFilter = teacherCheck.and(
+				chairCheck.and(courseCheck.and(curriculumCheck)));
+
+		filtered.getAssignments().setAll(original.getAssignments().stream().
+				filter(combinedFilter).collect(Collectors.toList()));
 	}
 }
