@@ -51,4 +51,6 @@ public class Main extends Application {
 		root.requestFocus();
 	}
 
+	// TODO check conflicting pre assignments before generating timetable
+
 }

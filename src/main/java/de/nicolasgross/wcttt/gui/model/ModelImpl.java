@@ -169,8 +169,13 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public ObservableList<Room> getRooms() {
-		return semester.getRooms();
+	public ObservableList<InternalRoom> getInternalRooms() {
+		return semester.getInternalRooms();
+	}
+
+	@Override
+	public ObservableList<ExternalRoom> getExternalRooms() {
+		return semester.getExternalRooms();
 	}
 
 	@Override
@@ -231,12 +236,22 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public void addRoom(Room room) throws WctttModelException {
+	public void addInternalRoom(InternalRoom room) throws WctttModelException {
 
 	}
 
 	@Override
-	public boolean removeRoom(Room room) {
+	public void addExternalRoom(ExternalRoom room) throws WctttModelException {
+
+	}
+
+	@Override
+	public boolean removeInternalRoom(InternalRoom room) {
+		return false;
+	}
+
+	@Override
+	public boolean removeExternalRoom(ExternalRoom room) {
 		return false;
 	}
 

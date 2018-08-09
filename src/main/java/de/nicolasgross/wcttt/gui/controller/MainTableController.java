@@ -48,7 +48,8 @@ public class MainTableController extends SubscriberController {
 		createTableViews();
 		timetableDaysVBox.getChildren().setAll(timetableDays);
 		createPeriodColumns();
-		createRoomColumns();
+		createRoomColumns(getModel().getInternalRooms());
+		createRoomColumns(getModel().getExternalRooms());
 	}
 
 	private void createTableViews() {
@@ -75,6 +76,7 @@ public class MainTableController extends SubscriberController {
 	private void createPeriodColumns() {
 		for (int i = 0; i < getModel().getDaysPerWeek(); i++) {
 			TableView<TimetablePeriod> tableView = timetableDays.get(i);
+			@SuppressWarnings("unchecked")
 			TableColumn<TimetablePeriod, String> periodColumn =
 					(TableColumn<TimetablePeriod, String>) tableView.
 							getColumns().get(0);
@@ -85,8 +87,8 @@ public class MainTableController extends SubscriberController {
 		}
 	}
 
-	private void createRoomColumns() {
-		for (Room room : getModel().getRooms()) {
+	private void createRoomColumns(List<? extends Room> rooms) {
+		for (Room room : rooms) {
 			for (TableView<TimetablePeriod> tableView : timetableDays) {
 				TableColumn<TimetablePeriod, String> tableColumn =
 						new TableColumn<>();
@@ -99,14 +101,10 @@ public class MainTableController extends SubscriberController {
 				tableColumn.setCellValueFactory(param -> {
 					for (TimetableAssignment assignment : param.getValue().
 							getAssignments()) {
-						if (assignment.getRoom().isPresent() &&
-								(assignment.getRoom().get().getId().equals(
-										param.getTableColumn().getId()))) {
+						if (assignment.getRoom().getId().equals(
+										param.getTableColumn().getId())) {
 							return new SimpleStringProperty(
 									assignment.getSession().toString());
-						} else if (!assignment.getRoom().isPresent() &&
-								assignment.getSession().isExternal()){
-							// TODO external
 						}
 					}
 					return new SimpleStringProperty("");
