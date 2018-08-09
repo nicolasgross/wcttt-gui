@@ -22,8 +22,8 @@ public class MainTableController extends SubscriberController {
 	private static final List<String> WEEK_DAY_NAMES = Arrays.asList("Monday",
 			"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
 	private static final List<String> TIME_SLOT_NAMES = Arrays.asList(
-			"  8:15 -   9:45", "10:15 - 11:45", "12:15 - 13:45", "14:15 - 15:45",
-			"16:15 - 17:45", "18:15 - 19:45", "20:15 - 21:45");
+			"  8:15 -   9:45", "10:15 - 11:45", "12:15 - 13:45",
+			"14:15 - 15:45", "16:15 - 17:45", "18:15 - 19:45", "20:15 - 21:45");
 
 	@FXML
 	private VBox timetableDaysVBox;
@@ -104,6 +104,8 @@ public class MainTableController extends SubscriberController {
 										param.getTableColumn().getId()))) {
 							return new SimpleStringProperty(
 									assignment.getSession().toString());
+						} else if (!assignment.getRoom().isPresent() &&
+								assignment.getSession().isExternal()){
 							// TODO external
 						}
 					}
