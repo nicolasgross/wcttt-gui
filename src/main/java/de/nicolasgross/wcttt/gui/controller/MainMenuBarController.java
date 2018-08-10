@@ -53,6 +53,8 @@ public class MainMenuBarController extends Controller {
 	@FXML
 	private MenuItem helpAbout;
 
+	private EditSemesterController editSemesterController;
+
 	private WctttBinder binder;
 
 
@@ -127,11 +129,17 @@ public class MainMenuBarController extends Controller {
 					new WindowEvent(getStage().getScene().getWindow(),
 							WindowEvent.WINDOW_CLOSE_REQUEST));
 		});
+
+		editSemester.setOnAction(event -> {
+			editSemesterController.show();
+		});
 	}
 
 	@Override
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
+		editSemesterController = new EditSemesterController(stage, model,
+				mainController);
 		fileSave.disableProperty().bind(getModel().isChanged().not());
 	}
 
