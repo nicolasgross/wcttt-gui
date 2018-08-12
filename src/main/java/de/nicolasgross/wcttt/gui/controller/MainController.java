@@ -45,7 +45,6 @@ public class MainController extends Controller {
 							"changes", "Closing the program will result in " +
 							"the loss of all unsaved changes.")) {
 				event.consume();
-				return;
 			} else {
 				getStage().close();
 			}

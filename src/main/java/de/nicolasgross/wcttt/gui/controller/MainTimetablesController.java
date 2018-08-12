@@ -22,6 +22,8 @@ public class MainTimetablesController extends SubscriberController {
 
 	@FXML
 	protected void initialize() {
+		// TODO rename, duplicate, delete (context menu)
+
 		timetableSelectionTable.setPlaceholder(new Label("No timetables " +
 				"generated for this semester"));
 		timetableSelectionTable.getSortOrder().add(penaltyColumn);

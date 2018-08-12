@@ -17,6 +17,8 @@ import java.util.Optional;
 
 public class MainMenuBarController extends Controller {
 
+	private static String EDIT_SEMESTER_FXML = "/fxml/edit-semester.fxml";
+
 	@FXML
 	private MenuItem fileNew;
 	@FXML
@@ -52,8 +54,6 @@ public class MainMenuBarController extends Controller {
 	private MenuItem helpHelp;
 	@FXML
 	private MenuItem helpAbout;
-
-	private EditSemesterController editSemesterController;
 
 	private WctttBinder binder;
 
@@ -131,15 +131,13 @@ public class MainMenuBarController extends Controller {
 		});
 
 		editSemester.setOnAction(event -> {
-			editSemesterController.show();
+			showFxmlWindow(EDIT_SEMESTER_FXML, "Edit semester data", 450, 250);
 		});
 	}
 
 	@Override
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
-		editSemesterController = new EditSemesterController(stage, model,
-				mainController);
 		fileSave.disableProperty().bind(getModel().isChanged().not());
 	}
 
@@ -152,5 +150,4 @@ public class MainMenuBarController extends Controller {
 			return true;
 		}
 	}
-
 }

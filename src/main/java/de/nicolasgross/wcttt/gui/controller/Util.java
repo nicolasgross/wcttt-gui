@@ -24,7 +24,7 @@ public class Util {
 	 * @param ex
 	 *            the exception, which information is shown in the alert.
 	 */
-	public static void exceptionAlert(Throwable ex) {
+	static void exceptionAlert(Throwable ex) {
 		Alert alert = errorAlert("Fatal Error!", "An unexpected error has occurred", ex.getMessage());
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
@@ -59,7 +59,7 @@ public class Util {
 	 *         canceled.
 	 *
 	 */
-	public static boolean confirmationAlert(String title, String header, String question) {
+	static boolean confirmationAlert(String title, String header, String question) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
@@ -82,7 +82,7 @@ public class Util {
 	 * @param message message of the alert.
 	 * @return the alert.
 	 */
-	public static Alert errorAlert(String title, String header, String message) {
+	static Alert errorAlert(String title, String header, String message) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
@@ -98,7 +98,7 @@ public class Util {
 	 *
 	 * @return Optional of a nullable.
 	 */
-	public static Optional<File> chooseFileToOpenDialog(Window owner) {
+	static Optional<File> chooseFileToOpenDialog(Window owner) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("XML files", "*.xml"),
@@ -106,12 +106,11 @@ public class Util {
 		return Optional.ofNullable(fileChooser.showOpenDialog(owner));
 	}
 
-	public static Optional<File> chooseFileToSaveDialog(Window owner) {
+	static Optional<File> chooseFileToSaveDialog(Window owner) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("XML files", "*.xml"),
 				new FileChooser.ExtensionFilter("All files", "*"));
 		return Optional.ofNullable(fileChooser.showSaveDialog(owner));
 	}
-
 }
