@@ -1,11 +1,9 @@
 package de.nicolasgross.wcttt.gui.controller;
 
-import de.nicolasgross.wcttt.lib.model.Semester;
-
 import java.util.concurrent.Flow;
 
-public abstract class SubscriberController extends Controller
-		implements Flow.Subscriber<Semester> {
+public abstract class SubscriberController<T> extends Controller
+		implements Flow.Subscriber<T> {
 
 	private Flow.Subscription subscription;
 

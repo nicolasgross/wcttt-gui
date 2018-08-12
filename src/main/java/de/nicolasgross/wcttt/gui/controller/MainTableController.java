@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class MainTableController extends SubscriberController {
+public class MainTableController extends SubscriberController<Semester> {
 
 	private static final List<String> WEEK_DAY_NAMES = Arrays.asList("Monday",
 			"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
@@ -42,8 +42,8 @@ public class MainTableController extends SubscriberController {
 	@Override
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
-		model.subscribe(this);
-		updateGui();
+		model.subscribeSemesterChanges(this);
+		Platform.runLater(this::updateGui);
 	}
 
 	@Override

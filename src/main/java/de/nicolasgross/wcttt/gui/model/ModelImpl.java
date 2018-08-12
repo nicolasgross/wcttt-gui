@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Flow;
 import java.util.concurrent.SubmissionPublisher;
@@ -24,7 +25,9 @@ public class ModelImpl implements Model {
 	private Semester semester;
 	private ObservableList<Teacher> teachers =
 			FXCollections.observableList(new LinkedList<>());
-	private SubmissionPublisher<Semester> newSemesterNotifier =
+	private SubmissionPublisher<Semester> semesterChangesNotifier =
+			new SubmissionPublisher<>(); // TODO close
+	private SubmissionPublisher<List<Timetable>> timetablesChangesNotifier =
 			new SubmissionPublisher<>(); // TODO close
 	private StringProperty title = new SimpleStringProperty("");
 
@@ -87,7 +90,8 @@ public class ModelImpl implements Model {
 		teachers.clear();
 		initListenToTeacherChanges();
 		createTeacherList();
-		newSemesterNotifier.submit(semester);
+		semesterChangesNotifier.submit(semester);
+		timetablesChangesNotifier.submit(semester.getTimetables());
 	}
 
 	public StringProperty getTitle() {
@@ -98,9 +102,14 @@ public class ModelImpl implements Model {
 		return title;
 	}
 
-	@Override
-	public void subscribe(Flow.Subscriber<? super Semester> subscriber) {
-		newSemesterNotifier.subscribe(subscriber);
+	public void subscribeSemesterChanges(
+			Flow.Subscriber<? super Semester> subscriber) {
+		semesterChangesNotifier.subscribe(subscriber);
+	}
+
+	public void subscribeTimetablesChanges(
+			Flow.Subscriber<? super List<Timetable>> subscriber) {
+		timetablesChangesNotifier.subscribe(subscriber);
 	}
 
 	@Override
@@ -139,7 +148,8 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public void setTimeSlotsPerDay(int timeSlotsPerDay) throws WctttModelException {
+	public void setTimeSlotsPerDay(int timeSlotsPerDay)
+			throws WctttModelException {
 		// TODO
 	}
 
@@ -149,7 +159,8 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public void setMaxDailyLecturesPerCur(int maxDailyLecturesPerCur) throws WctttModelException {
+	public void setMaxDailyLecturesPerCur(int maxDailyLecturesPerCur)
+			throws WctttModelException {
 		// TODO
 	}
 
@@ -216,22 +227,26 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public void updateChairId(Chair chair, String id) throws WctttModelException {
+	public void updateChairId(Chair chair, String id)
+			throws WctttModelException {
 
 	}
 
 	@Override
-	public void addTeacherToChair(Teacher teacher, Chair chair) throws WctttModelException {
+	public void addTeacherToChair(Teacher teacher, Chair chair)
+			throws WctttModelException {
 		semester.addTeacherToChair(teacher, chair);
 	}
 
 	@Override
-	public boolean removeTeacherFromChair(Teacher teacher, Chair chair) throws WctttModelException {
+	public boolean removeTeacherFromChair(Teacher teacher, Chair chair)
+			throws WctttModelException {
 		return false;
 	}
 
 	@Override
-	public void updateTeacherId(Teacher teacher, Chair chair, String id) throws WctttModelException {
+	public void updateTeacherId(Teacher teacher, Chair chair, String id)
+			throws WctttModelException {
 
 	}
 
@@ -271,37 +286,44 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public void updateCourseId(Course course, String id) throws WctttModelException {
+	public void updateCourseId(Course course, String id)
+			throws WctttModelException {
 
 	}
 
 	@Override
-	public void addCourseLecture(Session lecture, Course course) throws WctttModelException {
+	public void addCourseLecture(Session lecture, Course course)
+			throws WctttModelException {
 
 	}
 
 	@Override
-	public boolean removeCourseLecture(Session lecture, Course course) throws WctttModelException {
+	public boolean removeCourseLecture(Session lecture, Course course)
+			throws WctttModelException {
 		return false;
 	}
 
 	@Override
-	public void addCoursePractical(Session practical, Course course) throws WctttModelException {
+	public void addCoursePractical(Session practical, Course course)
+			throws WctttModelException {
 
 	}
 
 	@Override
-	public boolean removeCoursePractical(Session practical, Course course) throws WctttModelException {
+	public boolean removeCoursePractical(Session practical, Course course)
+			throws WctttModelException {
 		return false;
 	}
 
 	@Override
-	public void updateCourseSessionId(Session session, Course course, String id) throws WctttModelException {
+	public void updateCourseSessionId(Session session, Course course, String id)
+			throws WctttModelException {
 
 	}
 
 	@Override
-	public void addCurriculum(Curriculum curriculum) throws WctttModelException {
+	public void addCurriculum(Curriculum curriculum)
+			throws WctttModelException {
 
 	}
 
@@ -311,7 +333,8 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public void updateCurriculumId(Curriculum curriculum, String id) throws WctttModelException {
+	public void updateCurriculumId(Curriculum curriculum, String id)
+			throws WctttModelException {
 
 	}
 
@@ -322,12 +345,25 @@ public class ModelImpl implements Model {
 
 	@Override
 	public boolean removeTimetable(Timetable timetable) {
-		return false;
+		boolean existed = semester.removeTimetable(timetable);
+		if (existed) {
+			setChanged(true);
+			// No manual notification required because of ObservableList
+		}
+		return existed;
 	}
 
 	@Override
 	public void removeAllTimetables() {
 
+	}
+
+	@Override
+	public void updateTimetableName(Timetable timetable, String name)
+			throws WctttModelException {
+		semester.updateTimetableName(timetable, name);
+		setChanged(true);
+		timetablesChangesNotifier.submit(semester.getTimetables());
 	}
 
 }

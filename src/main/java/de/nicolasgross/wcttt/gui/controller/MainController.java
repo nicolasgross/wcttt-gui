@@ -41,9 +41,10 @@ public class MainController extends Controller {
 	private void setCloseConfirmation() {
 		getStage().setOnCloseRequest(event -> {
 			if (getModel().isChanged().getValue() &&
-					!Util.confirmationAlert("Warning!", "There are unsaved " +
-							"changes", "Closing the program will result in " +
-							"the loss of all unsaved changes.")) {
+					!Util.confirmationAlert("There are unsaved changes",
+							"Closing the program will result in the loss of " +
+									"all unsaved changes. Do you want to " +
+									"proceed?")) {
 				event.consume();
 			} else {
 				getStage().close();

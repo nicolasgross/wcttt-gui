@@ -2,15 +2,17 @@ package de.nicolasgross.wcttt.gui.model;
 
 import de.nicolasgross.wcttt.lib.model.Semester;
 import de.nicolasgross.wcttt.lib.model.Teacher;
+import de.nicolasgross.wcttt.lib.model.Timetable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Flow;
 
-public interface Model extends Semester, Flow.Publisher<Semester> {
+public interface Model extends Semester {
 
 	Optional<Path> getXmlPath();
 
@@ -28,4 +30,8 @@ public interface Model extends Semester, Flow.Publisher<Semester> {
 
 	StringProperty getTitle();
 
+	void subscribeSemesterChanges(Flow.Subscriber<? super Semester> subscriber);
+
+	void subscribeTimetablesChanges(
+				Flow.Subscriber<? super List<Timetable>> subscriber);
 }

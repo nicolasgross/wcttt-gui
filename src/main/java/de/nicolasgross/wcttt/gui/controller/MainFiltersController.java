@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
-public class MainFiltersController extends SubscriberController {
+public class MainFiltersController extends SubscriberController<Semester> {
 
 	@FXML
 	private ComboBox<Teacher> teacherSelection;
@@ -45,8 +45,8 @@ public class MainFiltersController extends SubscriberController {
 	@Override
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
-		model.subscribe(this);
-		updateGui();
+		model.subscribeSemesterChanges(this);
+		Platform.runLater(this::updateGui);
 	}
 
 	@Override

@@ -1,9 +1,6 @@
 package de.nicolasgross.wcttt.gui.controller;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -25,7 +22,10 @@ public class Util {
 	 *            the exception, which information is shown in the alert.
 	 */
 	static void exceptionAlert(Throwable ex) {
-		Alert alert = errorAlert("Fatal Error!", "An unexpected error has occurred", ex.getMessage());
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setHeaderText("An unexpected error has occurred");
+		alert.setContentText(ex.getMessage());
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		ex.printStackTrace(pw);
@@ -49,8 +49,6 @@ public class Util {
 	/**
 	 * Opens a dialog for confirmation.
 	 *
-	 * @param title
-	 *            for the confirmation dialog box.
 	 * @param header
 	 *            for the confirmation dialog box.
 	 * @param question
@@ -59,36 +57,32 @@ public class Util {
 	 *         canceled.
 	 *
 	 */
-	static boolean confirmationAlert(String title, String header, String question) {
-		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-		alert.setTitle(title);
+	static boolean confirmationAlert(String header, String question) {
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle("Warning");
 		alert.setHeaderText(header);
 		alert.setContentText(question);
 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
-		ButtonType buttonTypeOk = new ButtonType("Ok");
-		ButtonType buttonTypeCancel = new ButtonType("Cancel");
-
-		alert.getButtonTypes().setAll(buttonTypeOk, buttonTypeCancel);
+		alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
 
 		Optional<ButtonType> result = alert.showAndWait();
-		return result.map(button -> button == buttonTypeOk).orElse(false);
+		return result.map(button -> button == ButtonType.YES).orElse(false);
 	}
 
 	/**
 	 * Returns an error alert.
-	 * @param title title of the alert.
 	 * @param header header of the alert.
 	 * @param message message of the alert.
 	 * @return the alert.
 	 */
-	static Alert errorAlert(String title, String header, String message) {
+	static void errorAlert(String header, String message) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
-		alert.setTitle(title);
+		alert.setTitle("Error");
 		alert.setHeaderText(header);
 		alert.setContentText(message);
-
-		return alert;
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.showAndWait();
 	}
 
 	/**
@@ -112,5 +106,15 @@ public class Util {
 				new FileChooser.ExtensionFilter("XML files", "*.xml"),
 				new FileChooser.ExtensionFilter("All files", "*"));
 		return Optional.ofNullable(fileChooser.showSaveDialog(owner));
+	}
+
+	static Optional<String> textInputDialog(Window owner, String initial,
+	                                        String title, String header,
+	                                        String contentText) {
+		TextInputDialog dialog = new TextInputDialog(initial);
+		dialog.setTitle(title);
+		dialog.setHeaderText(header);
+		dialog.setContentText(contentText);
+		return dialog.showAndWait();
 	}
 }

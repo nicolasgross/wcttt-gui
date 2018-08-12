@@ -81,8 +81,9 @@ public class MainMenuBarController extends Controller {
 					getStage().getScene().getWindow());
 			if (file.isPresent()) {
 				try {
-					binder = new WctttBinder(file.get());
+					WctttBinder binder = new WctttBinder(file.get());
 					Semester semester = binder.parse();
+					this.binder = binder;
 					getModel().setSemester(file.get().toPath(), semester);
 				} catch (WctttBinderException e) {
 					Util.exceptionAlert(e);
@@ -113,7 +114,7 @@ public class MainMenuBarController extends Controller {
 						getModel().getXmlPath().get());
 				try {
 					binder.write(getModel().getSemester());
-					getModel().setChanged(true);
+					getModel().setChanged(false);
 				} catch (WctttBinderException e) {
 					Util.exceptionAlert(e);
 				}
@@ -143,9 +144,9 @@ public class MainMenuBarController extends Controller {
 
 	private boolean lossOfUnsavedConfirmed() {
 		if (getModel().isChanged().getValue()) {
-			return Util.confirmationAlert("Warning!", "There are unsaved " +
-					"changes", "Loading a new semester will result in the" +
-					" loss of all unsaved changes.");
+			return Util.confirmationAlert("There are unsaved changes",
+					"Loading a new semester will result in the loss of all " +
+							"unsaved changes. Do you want to proceed?");
 		} else {
 			return true;
 		}
