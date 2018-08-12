@@ -98,10 +98,6 @@ public class ModelImpl implements Model {
 		return title;
 	}
 
-	public StringProperty titleProperty() {
-		return title;
-	}
-
 	public void subscribeSemesterChanges(
 			Flow.Subscriber<? super Semester> subscriber) {
 		semesterChangesNotifier.subscribe(subscriber);
@@ -129,6 +125,7 @@ public class ModelImpl implements Model {
 	@Override
 	public void setName(String name) {
 		semester.setName(name);
+		setChanged(true);
 		updateTitle();
 	}
 
@@ -139,7 +136,9 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void setDaysPerWeek(int daysPerWeek) throws WctttModelException {
-		// TODO
+		semester.setDaysPerWeek(daysPerWeek);
+		setChanged(true);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
@@ -150,7 +149,9 @@ public class ModelImpl implements Model {
 	@Override
 	public void setTimeSlotsPerDay(int timeSlotsPerDay)
 			throws WctttModelException {
-		// TODO
+		semester.setTimeSlotsPerDay(timeSlotsPerDay);
+		setChanged(true);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
@@ -161,7 +162,9 @@ public class ModelImpl implements Model {
 	@Override
 	public void setMaxDailyLecturesPerCur(int maxDailyLecturesPerCur)
 			throws WctttModelException {
-		// TODO
+		semester.setMaxDailyLecturesPerCur(maxDailyLecturesPerCur);
+		setChanged(true);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
@@ -171,7 +174,9 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void setConstrWeightings(ConstraintWeightings constrWeightings) {
-		// TODO
+		semester.setConstrWeightings(constrWeightings);
+		setChanged(true);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override

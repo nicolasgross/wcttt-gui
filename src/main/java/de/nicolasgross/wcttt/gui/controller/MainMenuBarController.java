@@ -61,6 +61,9 @@ public class MainMenuBarController extends Controller {
 	@FXML
 	protected void initialize() {
 		initFileMenu();
+		initEditMenu();
+		initViewMenu();
+		initHelpMenu();
 	}
 
 	private void initFileMenu() {
@@ -130,10 +133,22 @@ public class MainMenuBarController extends Controller {
 					new WindowEvent(getStage().getScene().getWindow(),
 							WindowEvent.WINDOW_CLOSE_REQUEST));
 		});
+	}
 
+	private void initEditMenu() {
 		editSemester.setOnAction(event -> {
 			showFxmlWindow(EDIT_SEMESTER_FXML, "Edit semester data", 450, 250);
 		});
+
+		// TODO
+	}
+
+	private void initViewMenu() {
+		// TODO
+	}
+
+	private void initHelpMenu() {
+		// TODO
 	}
 
 	@Override
