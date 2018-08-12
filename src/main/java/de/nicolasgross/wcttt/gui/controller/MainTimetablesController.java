@@ -48,7 +48,7 @@ public class MainTimetablesController
 					try {
 						getModel().updateTimetableName(row.getItem(), s);
 					} catch (WctttModelException e) {
-						Util.errorAlert("Timetable name is already taken",
+						Util.errorAlert("Timetable could not be renamed",
 								e.getMessage());
 					}
 				});
