@@ -2,6 +2,7 @@ package de.nicolasgross.wcttt.gui.controller;
 
 import de.nicolasgross.wcttt.gui.WctttGuiException;
 import de.nicolasgross.wcttt.gui.model.Model;
+import de.nicolasgross.wcttt.lib.model.ConstraintWeightings;
 import de.nicolasgross.wcttt.lib.model.ValidationHelper;
 import de.nicolasgross.wcttt.lib.model.WctttModelException;
 import javafx.collections.FXCollections;
@@ -81,7 +82,11 @@ public class EditSemesterController extends Controller {
 			} catch (WctttGuiException | WctttModelException e) {
 				excList.add(e);
 			}
-			setSoftConstraintWeightings();
+			try {
+				setSoftConstraintWeightings();
+			} catch (WctttGuiException | WctttModelException e) {
+				excList.add(e);
+			}
 
 			if (!excList.isEmpty()) {
 				StringBuilder errors = new StringBuilder();
@@ -178,8 +183,27 @@ public class EditSemesterController extends Controller {
 		}
 	}
 
-	private void setSoftConstraintWeightings() {
-//		ConstraintWeightings weightings = new ConstraintWeightings(s1Field.getText(), )
-		// TODO
+	private void setSoftConstraintWeightings() throws WctttGuiException,
+			WctttModelException {
+		TextField weightingFields[] = {s1Field, s2Field, s3Field, s4Field,
+				s5Field, s6Field, s7Field, s8Field};
+		double weightingValues[] = new double[8];
+		for (int i = 0; i < 8; i++) {
+			try {
+				weightingValues[i] = Double.parseDouble(
+						weightingFields[i].getText());
+			} catch (NumberFormatException e) {
+				throw new WctttGuiException("The constraint weightings must " +
+						"be a floating point number >= " +
+						ValidationHelper.CONSTRAINT_WEIGHTING_MIN);
+			}
+		}
+		ConstraintWeightings weightings = new ConstraintWeightings(
+				weightingValues[0], weightingValues[1], weightingValues[2],
+				weightingValues[3], weightingValues[4], weightingValues[5],
+				weightingValues[6], weightingValues[7]);
+		if (!getModel().getConstrWeightings().equals(weightings)) {
+			getModel().setConstrWeightings(weightings);
+		}
 	}
 }
