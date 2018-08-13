@@ -55,6 +55,7 @@ public class MainController extends Controller {
 				event.consume();
 			} else {
 				getStage().close();
+				getModel().close();
 			}
 		});
 	}

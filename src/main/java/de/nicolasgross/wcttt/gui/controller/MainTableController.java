@@ -127,12 +127,6 @@ public class MainTableController extends SubscriberController<Semester> {
 				courseFilter != null || curriculumFilter != null;
 	}
 
-	private boolean filtersUnchanged(Teacher teacher, Chair chair,
-	                                 Course course, Curriculum curriculum) {
-		return teacher == teacherFilter && chair == chairFilter &&
-				course == courseFilter && curriculum == curriculumFilter;
-	}
-
 	private void updateSelectedFilters(Teacher teacher, Chair chair,
 	                                   Course course, Curriculum curriculum) {
 		teacherFilter = teacher;
@@ -143,44 +137,39 @@ public class MainTableController extends SubscriberController<Semester> {
 
 	void setTimetable(Timetable timetable) {
 		selectedTimetable = timetable;
+		if (filtersActive() && selectedTimetable != null) {
+			filter(teacherFilter, chairFilter, courseFilter,
+					curriculumFilter);
+		} else {
+			setTableData(timetable);
+		}
+	}
+
+	private void setTableData(Timetable timetable) {
 		Platform.runLater(() -> {
-			if (filtersActive()) {
-				filter(teacherFilter, chairFilter, courseFilter,
-						curriculumFilter);
+			if (timetable == null) {
+				for (TableView<TimetablePeriod> tableView : timetableDays) {
+					tableView.setItems(FXCollections.observableArrayList());
+				}
 			} else {
-				setTableData(timetable);
+				for (int i = 0; i < getModel().getDaysPerWeek(); i++) {
+					timetableDays.get(i).setItems(
+							timetable.getDays().get(i).getPeriods());
+				}
 			}
 		});
 	}
 
-	private void setTableData(Timetable timetable) {
-		if (timetable == null) {
-			for (TableView<TimetablePeriod> tableView : timetableDays) {
-				tableView.setItems(FXCollections.observableArrayList());
-			}
-		} else {
-			for (int i = 0; i < getModel().getDaysPerWeek(); i++) {
-				timetableDays.get(i).setItems(
-						timetable.getDays().get(i).getPeriods());
-			}
-		}
-	}
-
 	void filter(Teacher teacher, Chair chair, Course course,
 	            Curriculum curriculum) {
-		if (filtersUnchanged(teacher, chair, course, curriculum)) {
-			return;
-		}
 		updateSelectedFilters(teacher, chair, course, curriculum);
-		if (selectedTimetable == null) {
-			return;
-		} else if (teacher == null && chair == null && course == null &&
-				curriculum == null) {
-			setTableData(selectedTimetable);
-			return;
+		if (selectedTimetable != null) {
+			if (!filtersActive()){
+				setTableData(selectedTimetable);
+			} else {
+				setTableData(createFilteredTimetable());
+			}
 		}
-
-		setTableData(createFilteredTimetable());
 	}
 
 	private Timetable createFilteredTimetable() {

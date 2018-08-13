@@ -36,4 +36,6 @@ public interface Model extends Semester {
 
 	void subscribeTimetablesChanges(
 				Flow.Subscriber<? super List<Timetable>> subscriber);
+
+	void close();
 }

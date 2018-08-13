@@ -28,9 +28,9 @@ public class ModelImpl implements Model {
 	private ObservableList<Teacher> teachers =
 			FXCollections.observableList(new LinkedList<>());
 	private SubmissionPublisher<Semester> semesterChangesNotifier =
-			new SubmissionPublisher<>(); // TODO close
+			new SubmissionPublisher<>();
 	private SubmissionPublisher<List<Timetable>> timetablesChangesNotifier =
-			new SubmissionPublisher<>(); // TODO close
+			new SubmissionPublisher<>();
 	private StringProperty title = new SimpleStringProperty();
 	private StringProperty lastAction = new SimpleStringProperty();
 	private StringProperty unsavedChanges = new SimpleStringProperty();
@@ -106,11 +106,15 @@ public class ModelImpl implements Model {
 		createTeacherList();
 		semesterChangesNotifier.submit(semester);
 		timetablesChangesNotifier.submit(semester.getTimetables());
-		lastAction.setValue("Semester " + semester.getName() + " loaded");
+		setLastAction("Semester " + semester.getName() + " loaded");
 	}
 
 	public StringProperty getTitleProperty() {
 		return title;
+	}
+
+	private void setLastAction(String info) {
+		lastAction.setValue(info);
 	}
 
 	public StringProperty getStateTextProperty() {
@@ -127,12 +131,19 @@ public class ModelImpl implements Model {
 		timetablesChangesNotifier.subscribe(subscriber);
 	}
 
+	public void close() {
+		semesterChangesNotifier.close();
+		timetablesChangesNotifier.close();
+	}
+
 	@Override
 	public String getName() {
 		return semester.getName();
 	}
 
 	private void updateTitle() {
+		// todo add more state info
+		// todo use more properties
 		if (xmlPath == null) {
 			title.setValue(WCTTT + " - " + semester);
 		} else {
