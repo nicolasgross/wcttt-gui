@@ -262,6 +262,8 @@ public class ModelImpl implements Model {
 			createTeacherList();
 		}
 		setChanged(true);
+		setLastAction(CHAIRS_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
@@ -269,6 +271,8 @@ public class ModelImpl implements Model {
 		boolean existed = false;
 		if ((existed = semester.removeChair(chair))) {
 			setChanged(true);
+			setLastAction(CHAIRS_UPDATED);
+			semesterChangesNotifier.submit(semester);
 		}
 		return existed;
 	}
@@ -276,120 +280,187 @@ public class ModelImpl implements Model {
 	@Override
 	public void updateChairId(Chair chair, String id)
 			throws WctttModelException {
-
+		semester.updateChairId(chair, id);
 	}
 
 	@Override
 	public void addTeacherToChair(Teacher teacher, Chair chair)
 			throws WctttModelException {
 		semester.addTeacherToChair(teacher, chair);
+		setChanged(true);
+		setLastAction(CHAIRS_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
 	public boolean removeTeacherFromChair(Teacher teacher, Chair chair)
 			throws WctttModelException {
-		return false;
+		boolean existed = false;
+		if ((existed = semester.removeTeacherFromChair(teacher, chair))) {
+			setChanged(true);
+			setLastAction(CHAIRS_UPDATED);
+			semesterChangesNotifier.submit(semester);
+		}
+		return existed;
 	}
 
 	@Override
 	public void updateTeacherId(Teacher teacher, Chair chair, String id)
 			throws WctttModelException {
-
+		semester.updateTeacherId(teacher, chair, id);
 	}
 
 	@Override
 	public void addInternalRoom(InternalRoom room) throws WctttModelException {
-
+		semester.addInternalRoom(room);
+		setChanged(true);
+		setLastAction(ROOMS_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
 	public void addExternalRoom(ExternalRoom room) throws WctttModelException {
-
+		semester.addExternalRoom(room);
+		setChanged(true);
+		setLastAction(ROOMS_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
-	public boolean removeInternalRoom(InternalRoom room) {
-		return false;
+	public boolean removeInternalRoom(InternalRoom room)
+			throws WctttModelException {
+		boolean existed = false;
+		if ((existed = semester.removeInternalRoom(room))) {
+			setChanged(true);
+			setLastAction(ROOMS_UPDATED);
+			semesterChangesNotifier.submit(semester);
+		}
+		return existed;
 	}
 
 	@Override
-	public boolean removeExternalRoom(ExternalRoom room) {
-		return false;
+	public boolean removeExternalRoom(ExternalRoom room)
+			throws WctttModelException {
+		boolean existed = false;
+		if ((existed = semester.removeExternalRoom(room))) {
+			setChanged(true);
+			setLastAction(ROOMS_UPDATED);
+			semesterChangesNotifier.submit(semester);
+		}
+		return existed;
 	}
 
 	@Override
 	public void updateRoomId(Room room, String id) throws WctttModelException {
-
+		semester.updateRoomId(room, id);
 	}
 
 	@Override
 	public void addCourse(Course course) throws WctttModelException {
-
+		semester.addCourse(course);
+		setChanged(true);
+		setLastAction(COURSES_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
 	public boolean removeCourse(Course course) throws WctttModelException {
-		return false;
+		boolean existed = false;
+		if ((existed = semester.removeCourse(course))) {
+			setChanged(true);
+			setLastAction(COURSES_UPDATED);
+			semesterChangesNotifier.submit(semester);
+		}
+		return existed;
 	}
 
 	@Override
 	public void updateCourseId(Course course, String id)
 			throws WctttModelException {
-
+		semester.updateCourseId(course, id);
 	}
 
 	@Override
 	public void addCourseLecture(Session lecture, Course course)
 			throws WctttModelException {
-
+		semester.addCourseLecture(lecture, course);
+		setChanged(true);
+		setLastAction(COURSES_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
 	public boolean removeCourseLecture(Session lecture, Course course)
 			throws WctttModelException {
-		return false;
+		boolean existed = false;
+		if ((existed = semester.removeCourseLecture(lecture, course))) {
+			setChanged(true);
+			setLastAction(COURSES_UPDATED);
+			semesterChangesNotifier.submit(semester);
+		}
+		return existed;
 	}
 
 	@Override
 	public void addCoursePractical(Session practical, Course course)
 			throws WctttModelException {
-
+		semester.addCoursePractical(practical, course);
+		setChanged(true);
+		setLastAction(COURSES_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
 	public boolean removeCoursePractical(Session practical, Course course)
 			throws WctttModelException {
-		return false;
+		boolean existed = false;
+		if ((existed = semester.removeCoursePractical(practical, course))) {
+			setChanged(true);
+			setLastAction(COURSES_UPDATED);
+			semesterChangesNotifier.submit(semester);
+		}
+		return existed;
 	}
 
 	@Override
 	public void updateCourseSessionId(Session session, Course course, String id)
 			throws WctttModelException {
-
+		semester.updateCourseSessionId(session, course, id);
 	}
 
 	@Override
 	public void addCurriculum(Curriculum curriculum)
 			throws WctttModelException {
-
+		semester.addCurriculum(curriculum);
+		setChanged(true);
+		setLastAction(CURRICULA_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
-	public boolean removeCurriculum(Curriculum curriculum) {
-		return false;
+	public boolean removeCurriculum(Curriculum curriculum)
+			throws WctttModelException {
+		boolean existed = false;
+		if ((existed = semester.removeCurriculum(curriculum))) {
+			setChanged(true);
+			setLastAction(CURRICULA_UPDATED);
+			semesterChangesNotifier.submit(semester);
+		}
+		return existed;
 	}
 
 	@Override
 	public void updateCurriculumId(Curriculum curriculum, String id)
 			throws WctttModelException {
-
+		semester.updateCurriculumId(curriculum, id);
 	}
 
 	@Override
-	public void addTimetable(Timetable timetable) {
-		// TODO
+	public void addTimetable(Timetable timetable) throws WctttModelException {
+		semester.addTimetable(timetable);
+		setChanged(true);
 		setLastAction(TIMETABLES_UPDATED);
-
+		timetablesChangesNotifier.submit(semester.getTimetables());
 	}
 
 	@Override
@@ -398,6 +469,7 @@ public class ModelImpl implements Model {
 		if (existed) {
 			setChanged(true);
 			setLastAction(TIMETABLES_UPDATED);
+			timetablesChangesNotifier.submit(semester.getTimetables());
 		}
 		return existed;
 	}
