@@ -18,6 +18,10 @@ import java.util.Optional;
 public class MainMenuBarController extends Controller {
 
 	private static String EDIT_SEMESTER_FXML = "/fxml/edit-semester.fxml";
+	private static String EDIT_COURSES_FXML = "/fxml/edit-courses.fxml";
+	private static String EDIT_ROOMS_FXML = "/fxml/edit-rooms.fxml";
+	private static String EDIT_CHAIRS_FXML = "/fxml/edit-chairs.fxml";
+	private static String EDIT_CURRICULA_FXML = "/fxml/edit-curricula.fxml";
 
 	@FXML
 	private MenuItem fileNew;
@@ -137,7 +141,13 @@ public class MainMenuBarController extends Controller {
 
 	private void initEditMenu() {
 		editSemester.setOnAction(event -> {
-			showFxmlWindow(EDIT_SEMESTER_FXML, "Edit semester data", 450, 250);
+			showFxmlWindow(EDIT_SEMESTER_FXML, "Edit semester data", 450, 535);
+		});
+
+		// TODO
+
+		editRooms.setOnAction(event -> {
+			showFxmlWindow(EDIT_ROOMS_FXML, "Edit rooms", 700, 450);
 		});
 
 		// TODO
