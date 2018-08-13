@@ -69,12 +69,12 @@ public class EditSemesterController extends Controller {
 			setName();
 			try {
 				setDaysPerWeek();
-			} catch (WctttModelException | WctttGuiException e) {
+			} catch (WctttModelException e) {
 				excList.add(e);
 			}
 			try {
 				setTimeSlots();
-			} catch (WctttGuiException | WctttModelException e) {
+			} catch (WctttModelException e) {
 				excList.add(e);
 			}
 			try {
@@ -138,30 +138,20 @@ public class EditSemesterController extends Controller {
 				getS8()));
 	}
 
-	private void checkTimetablesEmpty(String name) throws WctttGuiException {
-		if (!getModel().getTimetables().isEmpty()) {
-			throw new WctttGuiException("Timetable list must be empty before " +
-					"editing the " + name);
-		}
-	}
-
 	private void setName() {
 		if (!getModel().getName().equals(nameField.getText())) {
 			getModel().setName(nameField.getText());
 		}
 	}
 
-	private void setDaysPerWeek() throws WctttGuiException,
-			WctttModelException {
+	private void setDaysPerWeek() throws WctttModelException {
 		if (getModel().getDaysPerWeek() != daysPerWeekBox.getValue()) {
-			checkTimetablesEmpty("number of days per week");
 			getModel().setDaysPerWeek(daysPerWeekBox.getValue());
 		}
 	}
 
-	private void setTimeSlots() throws WctttGuiException, WctttModelException {
+	private void setTimeSlots() throws WctttModelException {
 		if (getModel().getTimeSlotsPerDay() != timeSlotsBox.getValue()) {
-			checkTimetablesEmpty("number of time slots per day");
 			getModel().setTimeSlotsPerDay(timeSlotsBox.getValue());
 		}
 	}
@@ -177,8 +167,6 @@ public class EditSemesterController extends Controller {
 					ValidationHelper.MIN_DAILY_LECTURES_PER_CUR_MIN);
 		}
 		if (getModel().getMaxDailyLecturesPerCur() != newMaxLectures) {
-			checkTimetablesEmpty("maximum number of daily lectures per " +
-					"curriculum");
 			getModel().setMaxDailyLecturesPerCur(newMaxLectures);
 		}
 	}

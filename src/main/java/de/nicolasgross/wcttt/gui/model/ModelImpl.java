@@ -21,6 +21,13 @@ import java.util.concurrent.SubmissionPublisher;
 public class ModelImpl implements Model {
 
 	private static final String WCTTT = "WIAI Course Timetabling Tool";
+	private static final String SEMESTER_LOADED = "Semester loaded successfully";
+	private static final String SEMESTER_UPDATED = "Semester data were updated";
+	private static final String COURSES_UPDATED = "";
+	private static final String ROOMS_UPDATED = "";
+	private static final String CHAIRS_UPDATED = "";
+	private static final String CURRICULA_UPDATED = "";
+	private static final String TIMETABLES_UPDATED = "Timetable data were updated";
 
 	private Path xmlPath;
 	private BooleanProperty changed;
@@ -32,6 +39,7 @@ public class ModelImpl implements Model {
 	private SubmissionPublisher<List<Timetable>> timetablesChangesNotifier =
 			new SubmissionPublisher<>();
 	private StringProperty title = new SimpleStringProperty();
+
 	private StringProperty lastAction = new SimpleStringProperty();
 	private StringProperty unsavedChanges = new SimpleStringProperty();
 	private StringProperty stateText = new SimpleStringProperty();
@@ -106,7 +114,7 @@ public class ModelImpl implements Model {
 		createTeacherList();
 		semesterChangesNotifier.submit(semester);
 		timetablesChangesNotifier.submit(semester.getTimetables());
-		setLastAction("Semester " + semester.getName() + " loaded");
+		setLastAction(SEMESTER_LOADED);
 	}
 
 	public StringProperty getTitleProperty() {
@@ -142,8 +150,6 @@ public class ModelImpl implements Model {
 	}
 
 	private void updateTitle() {
-		// todo add more state info
-		// todo use more properties
 		if (xmlPath == null) {
 			title.setValue(WCTTT + " - " + semester);
 		} else {
@@ -156,6 +162,7 @@ public class ModelImpl implements Model {
 	public void setName(String name) {
 		semester.setName(name);
 		setChanged(true);
+		setLastAction(SEMESTER_UPDATED);
 		updateTitle();
 	}
 
@@ -168,6 +175,7 @@ public class ModelImpl implements Model {
 	public void setDaysPerWeek(int daysPerWeek) throws WctttModelException {
 		semester.setDaysPerWeek(daysPerWeek);
 		setChanged(true);
+		setLastAction(SEMESTER_UPDATED);
 		semesterChangesNotifier.submit(semester);
 	}
 
@@ -181,6 +189,7 @@ public class ModelImpl implements Model {
 			throws WctttModelException {
 		semester.setTimeSlotsPerDay(timeSlotsPerDay);
 		setChanged(true);
+		setLastAction(SEMESTER_UPDATED);
 		semesterChangesNotifier.submit(semester);
 	}
 
@@ -194,6 +203,7 @@ public class ModelImpl implements Model {
 			throws WctttModelException {
 		semester.setMaxDailyLecturesPerCur(maxDailyLecturesPerCur);
 		setChanged(true);
+		setLastAction(SEMESTER_UPDATED);
 		semesterChangesNotifier.submit(semester);
 	}
 
@@ -206,7 +216,9 @@ public class ModelImpl implements Model {
 	public void setConstrWeightings(ConstraintWeightings constrWeightings) {
 		semester.setConstrWeightings(constrWeightings);
 		setChanged(true);
+		setLastAction(SEMESTER_UPDATED);
 		semesterChangesNotifier.submit(semester);
+		timetablesChangesNotifier.submit(semester.getTimetables());
 	}
 
 	@Override
@@ -375,6 +387,7 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void addTimetable(Timetable timetable) {
+		setLastAction(TIMETABLES_UPDATED);
 
 	}
 
@@ -383,13 +396,14 @@ public class ModelImpl implements Model {
 		boolean existed = semester.removeTimetable(timetable);
 		if (existed) {
 			setChanged(true);
-			// No manual notification required because of ObservableList
+			setLastAction(TIMETABLES_UPDATED);
 		}
 		return existed;
 	}
 
 	@Override
 	public void removeAllTimetables() {
+		setLastAction(TIMETABLES_UPDATED);
 
 	}
 
@@ -398,6 +412,7 @@ public class ModelImpl implements Model {
 			throws WctttModelException {
 		semester.updateTimetableName(timetable, name);
 		setChanged(true);
+		setLastAction(TIMETABLES_UPDATED);
 		timetablesChangesNotifier.submit(semester.getTimetables());
 	}
 
