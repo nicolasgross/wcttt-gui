@@ -1,6 +1,7 @@
 package de.nicolasgross.wcttt.gui.controller;
 
 import de.nicolasgross.wcttt.gui.model.Model;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -24,6 +25,8 @@ public class MainController extends Controller {
 		menuBarController.setup(stage, model, this);
 		sideMenuController.setup(stage, model, this);
 		timetableTableController.setup(stage, model, this);
+		getModel().getStateTextProperty().addListener(
+				(observable, oldValue, newValue) -> updateStateInfo(newValue));
 	}
 
 	MainMenuBarController getMenuBarController() {
@@ -36,6 +39,10 @@ public class MainController extends Controller {
 
 	MainTableController getTimetableTableController() {
 		return timetableTableController;
+	}
+
+	private void updateStateInfo(String newValue) {
+		Platform.runLater(() -> stateInfo.setText(newValue));
 	}
 
 	private void setCloseConfirmation() {

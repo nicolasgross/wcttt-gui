@@ -1,6 +1,8 @@
 package de.nicolasgross.wcttt.gui.model;
 
 import de.nicolasgross.wcttt.lib.model.*;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,7 +23,7 @@ public class ModelImpl implements Model {
 	private static final String WCTTT = "WIAI Course Timetabling Tool";
 
 	private Path xmlPath;
-	private BooleanProperty changed = new SimpleBooleanProperty(false);
+	private BooleanProperty changed;
 	private Semester semester;
 	private ObservableList<Teacher> teachers =
 			FXCollections.observableList(new LinkedList<>());
@@ -29,10 +31,22 @@ public class ModelImpl implements Model {
 			new SubmissionPublisher<>(); // TODO close
 	private SubmissionPublisher<List<Timetable>> timetablesChangesNotifier =
 			new SubmissionPublisher<>(); // TODO close
-	private StringProperty title = new SimpleStringProperty("");
-
+	private StringProperty title = new SimpleStringProperty();
+	private StringProperty lastAction = new SimpleStringProperty();
+	private StringProperty unsavedChanges = new SimpleStringProperty();
+	private StringProperty stateText = new SimpleStringProperty();
 
 	public ModelImpl() {
+		Platform.runLater(() -> stateText.bind(
+				Bindings.concat(lastAction, " - ", unsavedChanges)));
+		changed = new SimpleBooleanProperty(true); // to trigger change listener
+		changed.addListener((observable, oldValue, newValue) -> {
+			if (newValue) {
+				unsavedChanges.setValue("Unsaved changes");
+			} else {
+				unsavedChanges.setValue("No unsaved changes");
+			}
+		});
 		setSemester(null, new SemesterImpl());
 	}
 
@@ -86,16 +100,21 @@ public class ModelImpl implements Model {
 	public void setSemester(Path xmlPath, Semester semester) {
 		this.semester = semester;
 		setXmlPath(xmlPath);
-		changed.setValue(false);
+		setChanged(false);
 		teachers.clear();
 		initListenToTeacherChanges();
 		createTeacherList();
 		semesterChangesNotifier.submit(semester);
 		timetablesChangesNotifier.submit(semester.getTimetables());
+		lastAction.setValue("Semester " + semester.getName() + " loaded");
 	}
 
-	public StringProperty getTitle() {
+	public StringProperty getTitleProperty() {
 		return title;
+	}
+
+	public StringProperty getStateTextProperty() {
+		return stateText;
 	}
 
 	public void subscribeSemesterChanges(
@@ -219,14 +238,14 @@ public class ModelImpl implements Model {
 		if (!chair.getTeachers().isEmpty()) {
 			createTeacherList();
 		}
-		changed.setValue(true);
+		setChanged(true);
 	}
 
 	@Override
 	public boolean removeChair(Chair chair) throws WctttModelException {
 		boolean existed = false;
 		if ((existed = semester.removeChair(chair))) {
-			changed.setValue(true);
+			setChanged(true);
 		}
 		return existed;
 	}

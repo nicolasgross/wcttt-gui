@@ -28,7 +28,9 @@ public interface Model extends Semester {
 
 	ObservableList<Teacher> getTeachers();
 
-	StringProperty getTitle();
+	StringProperty getTitleProperty();
+
+	StringProperty getStateTextProperty();
 
 	void subscribeSemesterChanges(Flow.Subscriber<? super Semester> subscriber);
 

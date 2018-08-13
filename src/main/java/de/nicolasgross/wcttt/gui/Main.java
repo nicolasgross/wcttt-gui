@@ -44,7 +44,7 @@ public class Main extends Application {
 		Model model = new ModelImpl();
 		controller.setup(primaryStage, model, controller);
 
-		primaryStage.titleProperty().bind(model.getTitle());
+		primaryStage.titleProperty().bind(model.getTitleProperty());
 		primaryStage.setMinWidth(800);
 		primaryStage.setMinHeight(500);
 		primaryStage.show();
