@@ -387,6 +387,7 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void addTimetable(Timetable timetable) {
+		// TODO
 		setLastAction(TIMETABLES_UPDATED);
 
 	}
@@ -402,12 +403,6 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public void removeAllTimetables() {
-		setLastAction(TIMETABLES_UPDATED);
-
-	}
-
-	@Override
 	public void updateTimetableName(Timetable timetable, String name)
 			throws WctttModelException {
 		semester.updateTimetableName(timetable, name);
@@ -415,5 +410,4 @@ public class ModelImpl implements Model {
 		setLastAction(TIMETABLES_UPDATED);
 		timetablesChangesNotifier.submit(semester.getTimetables());
 	}
-
 }
