@@ -39,7 +39,14 @@ public class EditRoomsController extends Controller {
 	protected void initialize() {
 		addRoomButton.setOnAction(event -> {
 			try {
-				getModel().getSemester().addInternalRoom(new InternalRoom());
+				InternalRoom newRoom = new InternalRoom();
+				getModel().getSemester().addInternalRoom(newRoom);
+				Platform.runLater(() -> {
+					roomListView.getSelectionModel().select(newRoom);
+					roomListView.getFocusModel().focus(roomListView.
+							getSelectionModel().getSelectedIndex());
+					roomListView.requestFocus();
+				});
 			} catch (WctttModelException e) {
 				e.printStackTrace();
 				// TODO
