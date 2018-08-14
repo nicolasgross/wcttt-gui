@@ -311,6 +311,16 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
+	public void updateChairData(Chair chair, String name, String abbreviation,
+	                            List<Teacher> teachers)
+			throws WctttModelException {
+		semester.updateChairData(chair, name, abbreviation, teachers);
+		setChanged(true);
+		setLastAction(CHAIRS_UPDATED);
+		semesterChangesNotifier.submit(semester);
+	}
+
+	@Override
 	public void addTeacherToChair(Teacher teacher, Chair chair)
 			throws WctttModelException {
 		semester.addTeacherToChair(teacher, chair);
@@ -335,6 +345,18 @@ public class ModelImpl implements Model {
 	public void updateTeacherId(Teacher teacher, Chair chair, String id)
 			throws WctttModelException {
 		semester.updateTeacherId(teacher, chair, id);
+	}
+
+	@Override
+	public void updateTeacherData(Teacher teacher, String name,
+	                              List<Period> unfavorablePeriods,
+	                              List<Period> unavailablePeriods)
+			throws WctttModelException {
+		semester.updateTeacherData(teacher, name, unfavorablePeriods,
+				unavailablePeriods);
+		setChanged(true);
+		setLastAction(COURSES_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
@@ -398,7 +420,8 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public void updateExternalRoomData(ExternalRoom room, String name) {
+	public void updateExternalRoomData(ExternalRoom room, String name)
+			throws WctttModelException {
 		semester.updateExternalRoomData(room, name);
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
@@ -428,6 +451,19 @@ public class ModelImpl implements Model {
 	public void updateCourseId(Course course, String id)
 			throws WctttModelException {
 		semester.updateCourseId(course, id);
+	}
+
+	@Override
+	public void updateCourseData(Course course, String name, String abbreviation,
+	                             Chair chair, CourseLevel courseLevel,
+	                             int minNumberOfDays, List<Session> lectures,
+	                             List<Session> practicals)
+			throws WctttModelException {
+		semester.updateCourseData(course, name, abbreviation, chair, courseLevel,
+				minNumberOfDays, lectures, practicals);
+		setChanged(true);
+		setLastAction(COURSES_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
@@ -479,6 +515,31 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
+	public void updateInternalSessionData(InternalSession session, String name,
+	                                      Teacher teacher, boolean doubleSession,
+	                                      Period preAssignment, int students,
+	                                      RoomFeatures roomRequirements)
+			throws WctttModelException {
+		semester.updateInternalSessionData(session, name, teacher, doubleSession,
+				preAssignment, students, roomRequirements);
+		setChanged(true);
+		setLastAction(COURSES_UPDATED);
+		semesterChangesNotifier.submit(semester);
+	}
+
+	@Override
+	public void updateExternalSessionData(ExternalSession session, String name,
+	                                      Teacher teacher, boolean doubleSession,
+	                                      Period preAssignment, ExternalRoom room)
+			throws WctttModelException {
+		semester.updateExternalSessionData(session, name, teacher, doubleSession,
+				preAssignment, room);
+		setChanged(true);
+		setLastAction(COURSES_UPDATED);
+		semesterChangesNotifier.submit(semester);
+	}
+
+	@Override
 	public void addCurriculum(Curriculum curriculum)
 			throws WctttModelException {
 		semester.addCurriculum(curriculum);
@@ -503,6 +564,17 @@ public class ModelImpl implements Model {
 	public void updateCurriculumId(Curriculum curriculum, String id)
 			throws WctttModelException {
 		semester.updateCurriculumId(curriculum, id);
+	}
+
+
+	@Override
+	public void updateCurriculumData(Curriculum curriculum, String name,
+	                                 List<Course> courses)
+			throws WctttModelException {
+		semester.updateCurriculumData(curriculum, name, courses);
+		setChanged(true);
+		setLastAction(CURRICULA_UPDATED);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override

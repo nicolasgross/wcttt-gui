@@ -200,8 +200,13 @@ public class EditRoomsController extends SubscriberController<Semester> {
 							e.getMessage());
 				}
 			} else {
-				getModel().updateExternalRoomData((ExternalRoom) selected,
-						nameField.getText());
+				try {
+					getModel().updateExternalRoomData((ExternalRoom) selected,
+							nameField.getText());
+				} catch (WctttModelException e) {
+					throw new WctttGuiFatalException("Implementation error, " +
+							"session was not added to the semester", e);
+				}
 			}
 		}
 	}
