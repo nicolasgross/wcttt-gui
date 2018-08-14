@@ -88,10 +88,10 @@ public class MainTimetablesController
 		timetableSelectionTable.setRowFactory(param -> {
 			TableRow<Timetable> row = new TableRow<>();
 			row.contextMenuProperty().bind(
-                    Bindings.when(row.emptyProperty())
-                    .then((ContextMenu) null)
-                    .otherwise(contextMenu)
-            );
+					Bindings.when(row.emptyProperty())
+							.then((ContextMenu) null)
+							.otherwise(contextMenu)
+			);
 			return row;
 		});
 

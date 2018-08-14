@@ -50,7 +50,7 @@
       </HBox>
    </left>
    <center>
-      <VBox spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="editBox" disable="true" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <GridPane hgap="30.0" vgap="5.0">
               <columnConstraints>
@@ -74,7 +74,7 @@
                   <ChoiceBox fx:id="holderChoiceBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <Accordion>
+            <Accordion fx:id="featuresAccordion">
               <panes>
                 <TitledPane animated="false" expanded="false" text="Features">
                      <content>

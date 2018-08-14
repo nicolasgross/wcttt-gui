@@ -23,10 +23,10 @@ public class ModelImpl implements Model {
 	private static final String WCTTT = "WIAI Course Timetabling Tool";
 	private static final String SEMESTER_LOADED = "Semester loaded successfully";
 	private static final String SEMESTER_UPDATED = "Semester data were updated";
-	private static final String COURSES_UPDATED = "";
-	private static final String ROOMS_UPDATED = "";
-	private static final String CHAIRS_UPDATED = "";
-	private static final String CURRICULA_UPDATED = "";
+	private static final String COURSES_UPDATED = "Course data were updated";
+	private static final String ROOMS_UPDATED = "Room data were updated";
+	private static final String CHAIRS_UPDATED = "Chair data were updated";
+	private static final String CURRICULA_UPDATED = "Curriculum data were updated";
 	private static final String TIMETABLES_UPDATED = "Timetable data were updated";
 
 	private Path xmlPath;
@@ -43,6 +43,13 @@ public class ModelImpl implements Model {
 	private StringProperty lastAction = new SimpleStringProperty();
 	private StringProperty unsavedChanges = new SimpleStringProperty();
 	private StringProperty stateText = new SimpleStringProperty();
+
+	private int nextChairId = 0;
+	private int nextTeacherId = 0;
+	private int nextRoomId = 0;
+	private int nextCourseId = 0;
+	private int nextSessionId = 0;
+	private int nextCurriculumId = 0;
 
 	public ModelImpl() {
 		Platform.runLater(() -> stateText.bind(
@@ -74,6 +81,7 @@ public class ModelImpl implements Model {
 		return changed;
 	}
 
+	@Override
 	public void setChanged(boolean changed) {
 		this.changed.setValue(changed);
 	}
@@ -117,6 +125,7 @@ public class ModelImpl implements Model {
 		setLastAction(SEMESTER_LOADED);
 	}
 
+	@Override
 	public StringProperty getTitleProperty() {
 		return title;
 	}
@@ -125,20 +134,24 @@ public class ModelImpl implements Model {
 		lastAction.setValue(info);
 	}
 
+	@Override
 	public StringProperty getStateTextProperty() {
 		return stateText;
 	}
 
+	@Override
 	public void subscribeSemesterChanges(
 			Flow.Subscriber<? super Semester> subscriber) {
 		semesterChangesNotifier.subscribe(subscriber);
 	}
 
+	@Override
 	public void subscribeTimetablesChanges(
 			Flow.Subscriber<? super List<Timetable>> subscriber) {
 		timetablesChangesNotifier.subscribe(subscriber);
 	}
 
+	@Override
 	public void close() {
 		semesterChangesNotifier.close();
 		timetablesChangesNotifier.close();
@@ -251,10 +264,24 @@ public class ModelImpl implements Model {
 		return semester.getTimetables();
 	}
 
+	@Override
 	public ObservableList<Teacher> getTeachers() {
 		return teachers;
 	}
 
+	private void setNextRoomId(Room room) {
+		while (true) {
+			try {
+				semester.updateRoomId(room, "room" + nextRoomId);
+				nextRoomId++;
+				return;
+			} catch (WctttModelException e) {
+				nextRoomId++;
+			}
+		}
+	}
+
+	@Override
 	public void addChair(Chair chair) throws WctttModelException {
 		semester.addChair(chair);
 		chair.getTeachers().addListener(teacherChangeListener);
@@ -312,7 +339,9 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void addInternalRoom(InternalRoom room) throws WctttModelException {
+		room.setId("wcttt-gui-default-id"); // TODO everywhere
 		semester.addInternalRoom(room);
+		setNextRoomId(room);
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
 		semesterChangesNotifier.submit(semester);
@@ -320,7 +349,9 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void addExternalRoom(ExternalRoom room) throws WctttModelException {
+		room.setId("wcttt-gui-default-id");
 		semester.addExternalRoom(room);
+		setNextRoomId(room);
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
 		semesterChangesNotifier.submit(semester);
@@ -353,6 +384,24 @@ public class ModelImpl implements Model {
 	@Override
 	public void updateRoomId(Room room, String id) throws WctttModelException {
 		semester.updateRoomId(room, id);
+	}
+
+	@Override
+	public void updateInternalRoomData(InternalRoom room, String name,
+	                                   int capacity, Chair holder,
+	                                   RoomFeatures features)
+			throws WctttModelException {
+		room.setName(name);
+		room.setCapacity(capacity);
+		room.setHolder(holder);
+		room.setFeatures(features);
+		semesterChangesNotifier.submit(semester);
+	}
+
+	@Override
+	public void updateExternalRoomData(InternalRoom room, String name) {
+		room.setName(name);
+		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override

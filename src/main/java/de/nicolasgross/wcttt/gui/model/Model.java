@@ -1,8 +1,6 @@
 package de.nicolasgross.wcttt.gui.model;
 
-import de.nicolasgross.wcttt.lib.model.Semester;
-import de.nicolasgross.wcttt.lib.model.Teacher;
-import de.nicolasgross.wcttt.lib.model.Timetable;
+import de.nicolasgross.wcttt.lib.model.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -38,4 +36,12 @@ public interface Model extends Semester {
 				Flow.Subscriber<? super List<Timetable>> subscriber);
 
 	void close();
+
+
+	void updateInternalRoomData(InternalRoom room, String name, int capacity,
+	                            Chair holder, RoomFeatures features)
+			throws WctttModelException;
+
+	void updateExternalRoomData(InternalRoom room, String name);
+
 }
