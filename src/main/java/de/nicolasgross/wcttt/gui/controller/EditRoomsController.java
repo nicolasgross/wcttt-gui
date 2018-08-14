@@ -17,7 +17,8 @@ import java.util.List;
 
 public class EditRoomsController extends SubscriberController<Semester> {
 
-	private static final List<Integer> PROJECTOR_CHOICE = Arrays.asList(0, 1, 2);
+	private static final List<Integer> PROJECTORS_CHOICE =
+			Arrays.asList(0, 1, 2);
 
 	@FXML
 	private ListView<Room> roomListView;
@@ -46,6 +47,8 @@ public class EditRoomsController extends SubscriberController<Semester> {
 	@FXML
 	private Button applyButton;
 
+	private boolean fullReloadNecessary;
+
 	@FXML
 	protected void initialize() {
 		roomListView.getSelectionModel().setSelectionMode(
@@ -63,6 +66,7 @@ public class EditRoomsController extends SubscriberController<Semester> {
 			if (confirmed) {
 				for (Room room : new LinkedList<>(selection)) {
 					try {
+						fullReloadNecessary = true;
 						if (room instanceof InternalRoom) {
 							getModel().removeInternalRoom((InternalRoom) room);
 						} else {
@@ -82,7 +86,7 @@ public class EditRoomsController extends SubscriberController<Semester> {
 					if (newValue == null) {
 						editBox.disableProperty().setValue(true);
 						nameField.setText("");
-					} else if (oldValue == null) {
+					} else {
 						editBox.disableProperty().setValue(false);
 						nameField.setText(newValue.getName());
 					}
@@ -135,6 +139,7 @@ public class EditRoomsController extends SubscriberController<Semester> {
 
 		addRoomButton.setOnAction(event -> {
 			try {
+				fullReloadNecessary = true;
 				getModel().addInternalRoom(new InternalRoom());
 			} catch (WctttModelException e) {
 				throw new WctttGuiFatalException("Implementation error, " +
@@ -142,56 +147,100 @@ public class EditRoomsController extends SubscriberController<Semester> {
 			}
 		});
 
-		applyButton.setOnAction(event -> {
-			Room selected = roomListView.getSelectionModel().getSelectedItem();
+		applyButton.setOnAction(event -> applyButtonAction());
+	}
 
+	private void applyButtonAction() {
+		Room selected = roomListView.getSelectionModel().getSelectedItem();
+		RoomFeatures editedFeatures;
+		try {
+			editedFeatures = new RoomFeatures(
+					projectorsChoiceBox.getValue(), pcPoolCheckBox.isSelected(),
+					teacherPcCheckBox.isSelected(), docCamCheckBox.isSelected());
+		} catch (WctttModelException e) {
+			throw new WctttGuiFatalException("Implementation error, input of " +
+					"illegal room feature values was permitted", e);
+		}
+		assert selected != null;
+
+		if (internalCheckBox.selectedProperty().getValue()) {
+			try {
+				if (selected instanceof InternalRoom) {
+					InternalRoom selectedInternal = (InternalRoom) selected;
+					getModel().updateInternalRoomData(selectedInternal,
+							nameField.getText(), Integer.parseInt(capacityField.getText()),
+							holderChoiceBox.getValue(), editedFeatures);
+				} else {
+					ExternalRoom selectedExternal = (ExternalRoom) selected;
+					InternalRoom newRoom = new InternalRoom(selectedExternal.getId(),
+							nameField.getText(), Integer.parseInt(capacityField.getText()),
+							holderChoiceBox.getValue(), editedFeatures);
+					getModel().removeExternalRoom(selectedExternal);
+					fullReloadNecessary = true;
+					getModel().addInternalRoom(newRoom);
+				}
+			} catch (NumberFormatException e) {
+				Util.errorAlert("Problem with editing the room", "The room " +
+						"capacity must be an integer >= " +
+						ValidationHelper.ROOM_CAPACITY_MIN);
+			} catch (WctttModelException e) {
+				Util.errorAlert("Problem with editing the room", e.getMessage());
+			}
+		} else {
 			if (selected instanceof InternalRoom) {
+				InternalRoom selectedInternal = (InternalRoom) selected;
+				ExternalRoom newRoom = new ExternalRoom(
+						selectedInternal.getId(), nameField.getText());
 				try {
-					getModel().updateInternalRoomData((InternalRoom) selected, nameField.getText(),
-							((InternalRoom) selected).getCapacity(), ((InternalRoom) selected).getHolder().orElse(null), ((InternalRoom) selected).getFeatures());
+					getModel().removeInternalRoom(selectedInternal);
+					fullReloadNecessary = true;
+					getModel().addExternalRoom(newRoom);
 				} catch (WctttModelException e) {
-					e.printStackTrace();
+					Util.errorAlert("Problem with editing the room",
+							e.getMessage());
 				}
 			} else {
-
+				getModel().updateExternalRoomData((ExternalRoom) selected,
+						nameField.getText());
 			}
-		});
+		}
 	}
 
 	@Override
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
 		getModel().subscribeSemesterChanges(this);
-		mergeAndShowInternalAndExternalRooms();
+		fullReloadNecessary = true;
+		updateRoomList();
 
 		holderChoiceBox.getItems().add(null);
 		holderChoiceBox.getItems().addAll(getModel().getChairs());
 		projectorsChoiceBox.setItems(
-				FXCollections.observableList(PROJECTOR_CHOICE));
+				FXCollections.observableList(PROJECTORS_CHOICE));
 	}
 
-	private void mergeAndShowInternalAndExternalRooms() {
+	private void updateRoomList() {
 		@SuppressWarnings("unchecked")
 		List<Room> internalRooms = (List<Room>) (List<? extends Room>)
 				getModel().getInternalRooms();
 		@SuppressWarnings("unchecked")
 		List<Room> externalRooms = (List<Room>) (List<? extends Room>)
 				getModel().getExternalRooms();
-		if (internalRooms.size() + externalRooms.size() ==
-				roomListView.getItems().size()) {
-			Platform.runLater(() -> roomListView.refresh());
-		} else {
+		if (fullReloadNecessary) {
 			Platform.runLater(() -> {
 				roomListView.getItems().clear();
 				roomListView.getItems().addAll(internalRooms);
 				roomListView.getItems().addAll(externalRooms);
 			});
+			fullReloadNecessary = false;
+		} else {
+			Platform.runLater(() -> roomListView.refresh());
 		}
 	}
 
 	@Override
 	public void onNext(Semester item) {
-		mergeAndShowInternalAndExternalRooms();
+		updateRoomList();
 		getSubscription().request(1);
 	}
 }

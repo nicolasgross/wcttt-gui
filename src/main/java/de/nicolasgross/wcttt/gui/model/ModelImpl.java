@@ -44,12 +44,12 @@ public class ModelImpl implements Model {
 	private StringProperty unsavedChanges = new SimpleStringProperty();
 	private StringProperty stateText = new SimpleStringProperty();
 
-	private int nextChairId = 0;
-	private int nextTeacherId = 0;
-	private int nextRoomId = 0;
-	private int nextCourseId = 0;
-	private int nextSessionId = 0;
-	private int nextCurriculumId = 0;
+	private long nextChairId = 0;
+	private long nextTeacherId = 0;
+	private long nextRoomId = 0;
+	private long nextCourseId = 0;
+	private long nextSessionId = 0;
+	private long nextCurriculumId = 0;
 
 	public ModelImpl() {
 		Platform.runLater(() -> stateText.bind(
@@ -391,16 +391,17 @@ public class ModelImpl implements Model {
 	                                   int capacity, Chair holder,
 	                                   RoomFeatures features)
 			throws WctttModelException {
-		room.setName(name);
-		room.setCapacity(capacity);
-		room.setHolder(holder);
-		room.setFeatures(features);
+		semester.updateInternalRoomData(room, name, capacity, holder, features);
+		setChanged(true);
+		setLastAction(ROOMS_UPDATED);
 		semesterChangesNotifier.submit(semester);
 	}
 
 	@Override
-	public void updateExternalRoomData(InternalRoom room, String name) {
-		room.setName(name);
+	public void updateExternalRoomData(ExternalRoom room, String name) {
+		semester.updateExternalRoomData(room, name);
+		setChanged(true);
+		setLastAction(ROOMS_UPDATED);
 		semesterChangesNotifier.submit(semester);
 	}
 

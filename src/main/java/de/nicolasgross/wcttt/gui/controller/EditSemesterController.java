@@ -36,7 +36,6 @@ public class EditSemesterController extends Controller {
 	private ChoiceBox<Integer> timeSlotsBox;
 	@FXML
 	private TextField maxLecturesField;
-
 	@FXML
 	private TextField s1Field;
 	@FXML
@@ -53,16 +52,11 @@ public class EditSemesterController extends Controller {
 	private TextField s7Field;
 	@FXML
 	private TextField s8Field;
-
-	@FXML
-	private Button cancelButton;
 	@FXML
 	private Button applyButton;
 
 	@FXML
 	protected void initialize() {
-		cancelButton.setOnAction(event -> getStage().close());
-
 		applyButton.setOnAction(event -> {
 			List<Exception> excList = new ArrayList<>(4);
 

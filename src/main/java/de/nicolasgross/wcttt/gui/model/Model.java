@@ -36,12 +36,4 @@ public interface Model extends Semester {
 				Flow.Subscriber<? super List<Timetable>> subscriber);
 
 	void close();
-
-
-	void updateInternalRoomData(InternalRoom room, String name, int capacity,
-	                            Chair holder, RoomFeatures features)
-			throws WctttModelException;
-
-	void updateExternalRoomData(InternalRoom room, String name);
-
 }
