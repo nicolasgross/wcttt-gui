@@ -23,7 +23,7 @@ public class EditRoomsController extends SubscriberController<Semester> {
 	@FXML
 	private ListView<Room> roomListView;
 	@FXML
-	private VBox editBox;
+	private VBox editVBox;
 	@FXML
 	private Button addRoomButton;
 	@FXML
@@ -83,37 +83,7 @@ public class EditRoomsController extends SubscriberController<Semester> {
 
 		roomListView.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> {
-					if (newValue == null) {
-						editBox.disableProperty().setValue(true);
-						nameField.setText("");
-					} else {
-						editBox.disableProperty().setValue(false);
-						nameField.setText(newValue.getName());
-					}
-					if (newValue instanceof InternalRoom) {
-						InternalRoom selected = (InternalRoom) newValue;
-						internalCheckBox.selectedProperty().setValue(true);
-						capacityField.setText(String.valueOf(
-								selected.getCapacity()));
-						holderChoiceBox.setValue(
-								selected.getHolder().orElse(null));
-						projectorsChoiceBox.setValue(
-								selected.getFeatures().getProjectors());
-						pcPoolCheckBox.selectedProperty().setValue(
-								selected.getFeatures().isPcPool());
-						teacherPcCheckBox.selectedProperty().setValue(
-								selected.getFeatures().hasTeacherPc());
-						docCamCheckBox.selectedProperty().setValue(
-								selected.getFeatures().hasDocCam());
-					} else {
-						internalCheckBox.selectedProperty().setValue(false);
-						capacityField.setText("");
-						holderChoiceBox.setValue(null);
-						projectorsChoiceBox.setValue(0);
-						pcPoolCheckBox.selectedProperty().setValue(false);
-						teacherPcCheckBox.selectedProperty().setValue(false);
-						docCamCheckBox.selectedProperty().setValue(false);
-					}
+					updateEditVBox(newValue);
 				});
 
 		roomListView.setCellFactory(param -> {
@@ -150,6 +120,40 @@ public class EditRoomsController extends SubscriberController<Semester> {
 		applyButton.setOnAction(event -> applyButtonAction());
 	}
 
+	private void updateEditVBox(Room newValue) {
+		if (newValue == null) {
+			editVBox.disableProperty().setValue(true);
+			nameField.setText("");
+		} else {
+			editVBox.disableProperty().setValue(false);
+			nameField.setText(newValue.getName());
+		}
+		if (newValue instanceof InternalRoom) {
+			InternalRoom selected = (InternalRoom) newValue;
+			internalCheckBox.selectedProperty().setValue(true);
+			capacityField.setText(String.valueOf(
+					selected.getCapacity()));
+			holderChoiceBox.setValue(
+					selected.getHolder().orElse(null));
+			projectorsChoiceBox.setValue(
+					selected.getFeatures().getProjectors());
+			pcPoolCheckBox.selectedProperty().setValue(
+					selected.getFeatures().isPcPool());
+			teacherPcCheckBox.selectedProperty().setValue(
+					selected.getFeatures().hasTeacherPc());
+			docCamCheckBox.selectedProperty().setValue(
+					selected.getFeatures().hasDocCam());
+		} else {
+			internalCheckBox.selectedProperty().setValue(false);
+			capacityField.setText("");
+			holderChoiceBox.setValue(null);
+			projectorsChoiceBox.setValue(0);
+			pcPoolCheckBox.selectedProperty().setValue(false);
+			teacherPcCheckBox.selectedProperty().setValue(false);
+			docCamCheckBox.selectedProperty().setValue(false);
+		}
+	}
+
 	private void applyButtonAction() {
 		Room selected = roomListView.getSelectionModel().getSelectedItem();
 		RoomFeatures editedFeatures;
@@ -180,11 +184,11 @@ public class EditRoomsController extends SubscriberController<Semester> {
 					getModel().addInternalRoom(newRoom);
 				}
 			} catch (NumberFormatException e) {
-				Util.errorAlert("Problem with editing the room", "The room " +
+				Util.errorAlert("Problem with editing the rooms", "The room " +
 						"capacity must be an integer >= " +
 						ValidationHelper.ROOM_CAPACITY_MIN);
 			} catch (WctttModelException e) {
-				Util.errorAlert("Problem with editing the room", e.getMessage());
+				Util.errorAlert("Problem with editing the rooms", e.getMessage());
 			}
 		} else {
 			if (selected instanceof InternalRoom) {
@@ -196,7 +200,7 @@ public class EditRoomsController extends SubscriberController<Semester> {
 					fullReloadNecessary = true;
 					getModel().addExternalRoom(newRoom);
 				} catch (WctttModelException e) {
-					Util.errorAlert("Problem with editing the room",
+					Util.errorAlert("Problem with editing the rooms",
 							e.getMessage());
 				}
 			} else {

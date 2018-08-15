@@ -2,6 +2,7 @@ package de.nicolasgross.wcttt.gui.controller;
 
 import de.nicolasgross.wcttt.lib.model.ExternalRoom;
 import de.nicolasgross.wcttt.lib.model.Period;
+import de.nicolasgross.wcttt.lib.model.Session;
 import de.nicolasgross.wcttt.lib.model.Teacher;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -46,4 +47,7 @@ public class EditCoursesSessionController extends Controller {
 
 	}
 
+	public VBox getEditSessionVBox(Session selected) {
+		return editSessionVBox;
+	}
 }

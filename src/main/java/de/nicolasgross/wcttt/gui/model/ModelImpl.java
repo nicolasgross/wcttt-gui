@@ -269,6 +269,31 @@ public class ModelImpl implements Model {
 		return teachers;
 	}
 
+	private void setNextChairId(Chair chair) {
+		while (true) {
+			try {
+				semester.updateChairId(chair, "chair" + nextChairId);
+				nextChairId++;
+				return;
+			} catch (WctttModelException e) {
+				nextChairId++;
+			}
+		}
+	}
+
+	private void setNextTeacherId(Teacher teacher, Chair chair) {
+		while (true) {
+			try {
+				semester.updateTeacherId(teacher, chair,
+						"teacher" + nextTeacherId);
+				nextTeacherId++;
+				return;
+			} catch (WctttModelException e) {
+				nextTeacherId++;
+			}
+		}
+	}
+
 	private void setNextRoomId(Room room) {
 		while (true) {
 			try {
@@ -281,9 +306,49 @@ public class ModelImpl implements Model {
 		}
 	}
 
+	private void setNextCourseId(Course course) {
+		while (true) {
+			try {
+				semester.updateCourseId(course, "course" + nextCourseId);
+				nextCourseId++;
+				return;
+			} catch (WctttModelException e) {
+				nextCourseId++;
+			}
+		}
+	}
+
+	private void setNextSessionId(Session session, Course course) {
+		while (true) {
+			try {
+				semester.updateCourseSessionId(session, course,
+						"session" + nextSessionId);
+				nextSessionId++;
+				return;
+			} catch (WctttModelException e) {
+				nextSessionId++;
+			}
+		}
+	}
+
+	private void setNextCurriculumId(Curriculum curriculum) {
+		while (true) {
+			try {
+				semester.updateCurriculumId(curriculum,
+						"curriculum" + nextCurriculumId);
+				nextCurriculumId++;
+				return;
+			} catch (WctttModelException e) {
+				nextCurriculumId++;
+			}
+		}
+	}
+
 	@Override
 	public void addChair(Chair chair) throws WctttModelException {
+		chair.setId("wcttt-gui-default-id");
 		semester.addChair(chair);
+		setNextChairId(chair);
 		chair.getTeachers().addListener(teacherChangeListener);
 		if (!chair.getTeachers().isEmpty()) {
 			createTeacherList();
@@ -323,7 +388,9 @@ public class ModelImpl implements Model {
 	@Override
 	public void addTeacherToChair(Teacher teacher, Chair chair)
 			throws WctttModelException {
+		teacher.setId("wcttt-gui-default-id");
 		semester.addTeacherToChair(teacher, chair);
+		setNextTeacherId(teacher, chair);
 		setChanged(true);
 		setLastAction(CHAIRS_UPDATED);
 		semesterChangesNotifier.submit(semester);
@@ -361,7 +428,7 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void addInternalRoom(InternalRoom room) throws WctttModelException {
-		room.setId("wcttt-gui-default-id"); // TODO everywhere
+		room.setId("wcttt-gui-default-id");
 		semester.addInternalRoom(room);
 		setNextRoomId(room);
 		setChanged(true);
@@ -430,7 +497,12 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void addCourse(Course course) throws WctttModelException {
+		course.setId("wcttt-gui-default-id");
+		if (!getChairs().isEmpty() && course.getChair().equals(new Chair())) {
+			course.setChair(getChairs().get(0));
+		}
 		semester.addCourse(course);
+		setNextCourseId(course);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
 		semesterChangesNotifier.submit(semester);
@@ -456,11 +528,10 @@ public class ModelImpl implements Model {
 	@Override
 	public void updateCourseData(Course course, String name, String abbreviation,
 	                             Chair chair, CourseLevel courseLevel,
-	                             int minNumberOfDays, List<Session> lectures,
-	                             List<Session> practicals)
+	                             int minNumberOfDays)
 			throws WctttModelException {
 		semester.updateCourseData(course, name, abbreviation, chair, courseLevel,
-				minNumberOfDays, lectures, practicals);
+				minNumberOfDays);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
 		semesterChangesNotifier.submit(semester);
@@ -469,7 +540,9 @@ public class ModelImpl implements Model {
 	@Override
 	public void addCourseLecture(Session lecture, Course course)
 			throws WctttModelException {
+		lecture.setId("wcttt-gui-default-id");
 		semester.addCourseLecture(lecture, course);
+		setNextSessionId(lecture, course);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
 		semesterChangesNotifier.submit(semester);
@@ -490,7 +563,9 @@ public class ModelImpl implements Model {
 	@Override
 	public void addCoursePractical(Session practical, Course course)
 			throws WctttModelException {
+		practical.setId("wcttt-gui-default-id");
 		semester.addCoursePractical(practical, course);
+		setNextSessionId(practical, course);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
 		semesterChangesNotifier.submit(semester);
@@ -542,7 +617,9 @@ public class ModelImpl implements Model {
 	@Override
 	public void addCurriculum(Curriculum curriculum)
 			throws WctttModelException {
+		curriculum.setId("wcttt-gui-default-id");
 		semester.addCurriculum(curriculum);
+		setNextCurriculumId(curriculum);
 		setChanged(true);
 		setLastAction(CURRICULA_UPDATED);
 		semesterChangesNotifier.submit(semester);

@@ -50,7 +50,7 @@
       </HBox>
    </left>
    <center>
-      <VBox fx:id="editBox" disable="true" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="editVBox" disable="true" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <GridPane hgap="30.0" vgap="5.0">
               <columnConstraints>
