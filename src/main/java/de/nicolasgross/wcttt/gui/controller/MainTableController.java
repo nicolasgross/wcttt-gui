@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class MainTableController extends SubscriberController<Semester> {
+public class MainTableController extends SubscriberController<Boolean> {
 
 	@FXML
 	private VBox timetableDaysVBox;
@@ -40,7 +40,7 @@ public class MainTableController extends SubscriberController<Semester> {
 	}
 
 	@Override
-	public void onNext(Semester item) {
+	public void onNext(Boolean item) {
 		Platform.runLater(this::updateGui);
 		getSubscription().request(1);
 	}

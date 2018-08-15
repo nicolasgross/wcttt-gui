@@ -1,12 +1,12 @@
 package de.nicolasgross.wcttt.gui.model;
 
-import de.nicolasgross.wcttt.lib.model.*;
+import de.nicolasgross.wcttt.lib.model.Semester;
+import de.nicolasgross.wcttt.lib.model.Teacher;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Flow;
 
@@ -30,10 +30,10 @@ public interface Model extends Semester {
 
 	StringProperty getStateTextProperty();
 
-	void subscribeSemesterChanges(Flow.Subscriber<? super Semester> subscriber);
+	void subscribeSemesterChanges(Flow.Subscriber<? super Boolean> subscriber);
 
 	void subscribeTimetablesChanges(
-				Flow.Subscriber<? super List<Timetable>> subscriber);
+				Flow.Subscriber<? super Boolean> subscriber);
 
 	void close();
 }

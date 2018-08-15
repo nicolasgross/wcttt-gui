@@ -46,6 +46,9 @@ public class EditCoursesSessionController extends Controller {
 	@FXML
 	private Button applyButton;
 
+	private Session selected;
+	private boolean isLecture;
+
 	@FXML
 	protected void initialize() {
 		roomChoiceBox.disableProperty().bind(
@@ -59,13 +62,88 @@ public class EditCoursesSessionController extends Controller {
 	}
 
 	private void applyButtonAction() {
-		// TODO
+		RoomFeatures editedRequirements;
+		assert selected != null;
+		try {
+			editedRequirements = new RoomFeatures(
+					projectorsChoiceBox.getValue(), pcPoolCheckBox.isSelected(),
+					teacherPcCheckBox.isSelected(), docCamCheckBox.isSelected());
+		} catch (WctttModelException e) {
+			throw new WctttGuiFatalException("Implementation error, input of " +
+					"illegal room requirement values was permitted", e);
+		}
+
+		if (internalCheckBox.selectedProperty().getValue()) {
+			try {
+				if (selected instanceof InternalSession) {
+					InternalSession session = (InternalSession) selected;
+					getModel().updateInternalSessionData(session,
+							nameField.getText(), teacherChoiceBox.getValue(),
+							doubleSessionCheckBox.isSelected(),
+							preAssignmentChoiceBox.getValue(),
+							Integer.parseInt(studentsTextField.getText()),
+							editedRequirements);
+				} else {
+					ExternalSession session = (ExternalSession) selected;
+					InternalSession internalVariant = new InternalSession(
+							session.getId(), nameField.getText(),
+							teacherChoiceBox.getValue(), session.getCourse(),
+							doubleSessionCheckBox.isSelected(),
+							preAssignmentChoiceBox.getValue(),
+							Integer.parseInt(studentsTextField.getText()),
+							editedRequirements);
+					handleSessionTypeChange(session, internalVariant);
+				}
+			} catch (NumberFormatException e) {
+				Util.errorAlert("Problem with editing the session", "The " +
+						"number of students must be an integer >= " +
+						ValidationHelper.STUDENTS_MIN);
+			} catch (WctttModelException e) {
+				Util.errorAlert("Problem with editing the sessions",
+						e.getMessage());
+			}
+		} else {
+			try {
+				if (selected instanceof InternalSession) {
+					InternalSession session = (InternalSession) selected;
+					ExternalSession externalVariant = new ExternalSession(
+							session.getId(), nameField.getText(),
+							teacherChoiceBox.getValue(), session.getCourse(),
+							doubleSessionCheckBox.isSelected(),
+							preAssignmentChoiceBox.getValue(),
+							roomChoiceBox.getValue());
+					handleSessionTypeChange(session, externalVariant);
+				} else {
+					ExternalSession session = (ExternalSession) selected;
+					getModel().updateExternalSessionData(session,
+							nameField.getText(), teacherChoiceBox.getValue(),
+							doubleSessionCheckBox.isSelected(),
+							preAssignmentChoiceBox.getValue(),
+							roomChoiceBox.getValue());
+				}
+			} catch (WctttModelException e) {
+				Util.errorAlert("Problem with editing the sessions",
+						e.getMessage());
+			}
+		}
+	}
+
+	private void handleSessionTypeChange(Session oldSession, Session newSession)
+			throws WctttModelException {
+		if (isLecture) {
+			getModel().removeCourseLecture(oldSession);
+			getModel().addCourseLecture(newSession,
+					newSession.getCourse());
+		} else {
+			getModel().removeCoursePractical(oldSession);
+			getModel().addCoursePractical(newSession,
+					newSession.getCourse());
+		}
 	}
 
 	@Override
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
-
 		teacherChoiceBox.setItems(getModel().getTeachers());
 		List<Period> periods = new LinkedList<>();
 		periods.add(null);
@@ -86,7 +164,9 @@ public class EditCoursesSessionController extends Controller {
 						boxed().collect(Collectors.toList())));
 	}
 
-	VBox getEditSessionVBox(Session selected) {
+	VBox getEditSessionVBox(Session selected, boolean isLecture) {
+		this.selected = selected;
+		this.isLecture = isLecture;
 		Platform.runLater(() -> updateSessionEditVBox(selected));
 		return editSessionVBox;
 	}
@@ -100,7 +180,7 @@ public class EditCoursesSessionController extends Controller {
 			internalCheckBox.setSelected(true);
 			roomChoiceBox.setValue(null);
 			studentsTextField.setText("");
-			projectorsChoiceBox.setValue(null);
+			projectorsChoiceBox.setValue(0);
 			pcPoolCheckBox.setSelected(false);
 			teacherPcCheckBox.setSelected(false);
 			docCamCheckBox.setSelected(false);
@@ -128,7 +208,7 @@ public class EditCoursesSessionController extends Controller {
 				internalCheckBox.setSelected(false);
 				roomChoiceBox.setValue(tmp.getRoom());
 				studentsTextField.setText("");
-				projectorsChoiceBox.setValue(null);
+				projectorsChoiceBox.setValue(0);
 				pcPoolCheckBox.setSelected(false);
 				teacherPcCheckBox.setSelected(false);
 				docCamCheckBox.setSelected(false);

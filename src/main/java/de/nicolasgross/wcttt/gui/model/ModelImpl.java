@@ -34,9 +34,9 @@ public class ModelImpl implements Model {
 	private Semester semester;
 	private ObservableList<Teacher> teachers =
 			FXCollections.observableList(new LinkedList<>());
-	private SubmissionPublisher<Semester> semesterChangesNotifier =
+	private SubmissionPublisher<Boolean> semesterChangesNotifier =
 			new SubmissionPublisher<>();
-	private SubmissionPublisher<List<Timetable>> timetablesChangesNotifier =
+	private SubmissionPublisher<Boolean> timetablesChangesNotifier =
 			new SubmissionPublisher<>();
 	private StringProperty title = new SimpleStringProperty();
 
@@ -120,8 +120,8 @@ public class ModelImpl implements Model {
 		teachers.clear();
 		initListenToTeacherChanges();
 		createTeacherList();
-		semesterChangesNotifier.submit(semester);
-		timetablesChangesNotifier.submit(semester.getTimetables());
+		semesterChangesNotifier.submit(true);
+		timetablesChangesNotifier.submit(true);
 		setLastAction(SEMESTER_LOADED);
 	}
 
@@ -141,13 +141,13 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void subscribeSemesterChanges(
-			Flow.Subscriber<? super Semester> subscriber) {
+			Flow.Subscriber<? super Boolean> subscriber) {
 		semesterChangesNotifier.subscribe(subscriber);
 	}
 
 	@Override
 	public void subscribeTimetablesChanges(
-			Flow.Subscriber<? super List<Timetable>> subscriber) {
+			Flow.Subscriber<? super Boolean> subscriber) {
 		timetablesChangesNotifier.subscribe(subscriber);
 	}
 
@@ -189,7 +189,7 @@ public class ModelImpl implements Model {
 		semester.setDaysPerWeek(daysPerWeek);
 		setChanged(true);
 		setLastAction(SEMESTER_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -203,7 +203,7 @@ public class ModelImpl implements Model {
 		semester.setTimeSlotsPerDay(timeSlotsPerDay);
 		setChanged(true);
 		setLastAction(SEMESTER_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -217,7 +217,7 @@ public class ModelImpl implements Model {
 		semester.setMaxDailyLecturesPerCur(maxDailyLecturesPerCur);
 		setChanged(true);
 		setLastAction(SEMESTER_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -230,8 +230,8 @@ public class ModelImpl implements Model {
 		semester.setConstrWeightings(constrWeightings);
 		setChanged(true);
 		setLastAction(SEMESTER_UPDATED);
-		semesterChangesNotifier.submit(semester);
-		timetablesChangesNotifier.submit(semester.getTimetables());
+		semesterChangesNotifier.submit(false);
+		timetablesChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -355,7 +355,7 @@ public class ModelImpl implements Model {
 		}
 		setChanged(true);
 		setLastAction(CHAIRS_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(true);
 	}
 
 	@Override
@@ -364,7 +364,7 @@ public class ModelImpl implements Model {
 		if ((existed = semester.removeChair(chair))) {
 			setChanged(true);
 			setLastAction(CHAIRS_UPDATED);
-			semesterChangesNotifier.submit(semester);
+			semesterChangesNotifier.submit(true);
 		}
 		return existed;
 	}
@@ -382,7 +382,7 @@ public class ModelImpl implements Model {
 		semester.updateChairData(chair, name, abbreviation, teachers);
 		setChanged(true);
 		setLastAction(CHAIRS_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -393,7 +393,7 @@ public class ModelImpl implements Model {
 		setNextTeacherId(teacher, chair);
 		setChanged(true);
 		setLastAction(CHAIRS_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(true);
 	}
 
 	@Override
@@ -403,7 +403,7 @@ public class ModelImpl implements Model {
 		if ((existed = semester.removeTeacherFromChair(teacher, chair))) {
 			setChanged(true);
 			setLastAction(CHAIRS_UPDATED);
-			semesterChangesNotifier.submit(semester);
+			semesterChangesNotifier.submit(true);
 		}
 		return existed;
 	}
@@ -423,7 +423,7 @@ public class ModelImpl implements Model {
 				unavailablePeriods);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -433,7 +433,7 @@ public class ModelImpl implements Model {
 		setNextRoomId(room);
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(true);
 	}
 
 	@Override
@@ -443,7 +443,7 @@ public class ModelImpl implements Model {
 		setNextRoomId(room);
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(true);
 	}
 
 	@Override
@@ -453,7 +453,7 @@ public class ModelImpl implements Model {
 		if ((existed = semester.removeInternalRoom(room))) {
 			setChanged(true);
 			setLastAction(ROOMS_UPDATED);
-			semesterChangesNotifier.submit(semester);
+			semesterChangesNotifier.submit(true);
 		}
 		return existed;
 	}
@@ -465,7 +465,7 @@ public class ModelImpl implements Model {
 		if ((existed = semester.removeExternalRoom(room))) {
 			setChanged(true);
 			setLastAction(ROOMS_UPDATED);
-			semesterChangesNotifier.submit(semester);
+			semesterChangesNotifier.submit(true);
 		}
 		return existed;
 	}
@@ -483,7 +483,7 @@ public class ModelImpl implements Model {
 		semester.updateInternalRoomData(room, name, capacity, holder, features);
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -492,7 +492,7 @@ public class ModelImpl implements Model {
 		semester.updateExternalRoomData(room, name);
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -505,7 +505,7 @@ public class ModelImpl implements Model {
 		setNextCourseId(course);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(true);
 	}
 
 	@Override
@@ -514,7 +514,7 @@ public class ModelImpl implements Model {
 		if ((existed = semester.removeCourse(course))) {
 			setChanged(true);
 			setLastAction(COURSES_UPDATED);
-			semesterChangesNotifier.submit(semester);
+			semesterChangesNotifier.submit(true);
 		}
 		return existed;
 	}
@@ -534,7 +534,7 @@ public class ModelImpl implements Model {
 				minNumberOfDays);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -549,17 +549,17 @@ public class ModelImpl implements Model {
 		setNextSessionId(lecture, course);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(true);
 	}
 
 	@Override
-	public boolean removeCourseLecture(Session lecture, Course course)
+	public boolean removeCourseLecture(Session lecture)
 			throws WctttModelException {
 		boolean existed = false;
-		if ((existed = semester.removeCourseLecture(lecture, course))) {
+		if ((existed = semester.removeCourseLecture(lecture))) {
 			setChanged(true);
 			setLastAction(COURSES_UPDATED);
-			semesterChangesNotifier.submit(semester);
+			semesterChangesNotifier.submit(true);
 		}
 		return existed;
 	}
@@ -576,17 +576,17 @@ public class ModelImpl implements Model {
 		setNextSessionId(practical, course);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(true);
 	}
 
 	@Override
-	public boolean removeCoursePractical(Session practical, Course course)
+	public boolean removeCoursePractical(Session practical)
 			throws WctttModelException {
 		boolean existed = false;
-		if ((existed = semester.removeCoursePractical(practical, course))) {
+		if ((existed = semester.removeCoursePractical(practical))) {
 			setChanged(true);
 			setLastAction(COURSES_UPDATED);
-			semesterChangesNotifier.submit(semester);
+			semesterChangesNotifier.submit(true);
 		}
 		return existed;
 	}
@@ -607,7 +607,7 @@ public class ModelImpl implements Model {
 				preAssignment, students, roomRequirements);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -619,7 +619,7 @@ public class ModelImpl implements Model {
 				preAssignment, room);
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -630,7 +630,7 @@ public class ModelImpl implements Model {
 		setNextCurriculumId(curriculum);
 		setChanged(true);
 		setLastAction(CURRICULA_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(true);
 	}
 
 	@Override
@@ -640,7 +640,7 @@ public class ModelImpl implements Model {
 		if ((existed = semester.removeCurriculum(curriculum))) {
 			setChanged(true);
 			setLastAction(CURRICULA_UPDATED);
-			semesterChangesNotifier.submit(semester);
+			semesterChangesNotifier.submit(true);
 		}
 		return existed;
 	}
@@ -659,7 +659,7 @@ public class ModelImpl implements Model {
 		semester.updateCurriculumData(curriculum, name, courses);
 		setChanged(true);
 		setLastAction(CURRICULA_UPDATED);
-		semesterChangesNotifier.submit(semester);
+		semesterChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -667,7 +667,7 @@ public class ModelImpl implements Model {
 		semester.addTimetable(timetable);
 		setChanged(true);
 		setLastAction(TIMETABLES_UPDATED);
-		timetablesChangesNotifier.submit(semester.getTimetables());
+		timetablesChangesNotifier.submit(true);
 	}
 
 	@Override
@@ -676,7 +676,7 @@ public class ModelImpl implements Model {
 		if (existed) {
 			setChanged(true);
 			setLastAction(TIMETABLES_UPDATED);
-			timetablesChangesNotifier.submit(semester.getTimetables());
+			timetablesChangesNotifier.submit(true);
 		}
 		return existed;
 	}
@@ -687,6 +687,6 @@ public class ModelImpl implements Model {
 		semester.updateTimetableName(timetable, name);
 		setChanged(true);
 		setLastAction(TIMETABLES_UPDATED);
-		timetablesChangesNotifier.submit(semester.getTimetables());
+		timetablesChangesNotifier.submit(false);
 	}
 }

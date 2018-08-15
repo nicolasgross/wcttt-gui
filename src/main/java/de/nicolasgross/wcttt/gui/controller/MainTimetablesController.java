@@ -15,8 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class MainTimetablesController
-		extends SubscriberController<List<Timetable>> {
+public class MainTimetablesController extends SubscriberController<Boolean> {
 
 	@FXML
 	private TableView<Timetable> timetableSelectionTable;
@@ -107,18 +106,22 @@ public class MainTimetablesController
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
 		model.subscribeTimetablesChanges(this);
-		Platform.runLater(this::updateGui);
+		updateGui(true);
 	}
 
 	@Override
-	public void onNext(List<Timetable> item) {
-		Platform.runLater(this::updateGui);
+	public void onNext(Boolean item) {
+		updateGui(item);
 		getSubscription().request(1);
 	}
 
-	private void updateGui() {
-		timetableSelectionTable.setItems(getModel().getTimetables());
-		timetableSelectionTable.refresh();
-		timetableSelectionTable.getSortOrder().add(penaltyColumn);
+	private void updateGui(boolean fullReloadNecessary) {
+		Platform.runLater(() -> {
+			if (fullReloadNecessary) {
+				timetableSelectionTable.setItems(getModel().getTimetables());
+			}
+			timetableSelectionTable.refresh();
+			timetableSelectionTable.getSortOrder().add(penaltyColumn);
+		});
 	}
 }

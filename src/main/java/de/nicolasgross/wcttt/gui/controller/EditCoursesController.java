@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class EditCoursesController extends SubscriberController<Semester> {
+public class EditCoursesController extends SubscriberController<Boolean> {
 
 	@FXML
 	private EditCoursesSessionController editSessionController;
@@ -47,8 +47,6 @@ public class EditCoursesController extends SubscriberController<Semester> {
 	@FXML
 	private Button applyButton;
 
-	private boolean fullReloadNecessary;
-
 	@FXML
 	protected void initialize() {
 		// edit session vbox is stored on the right
@@ -70,8 +68,11 @@ public class EditCoursesController extends SubscriberController<Semester> {
 						rootPane.setCenter(editCourseVBox);
 						rootPane.getCenter().disableProperty().setValue(false);
 					} else {
+						boolean isLecture = newValue.getParent().getValue().
+								getItem().equals("Lectures");
 						rootPane.setCenter(editSessionController.
-								getEditSessionVBox((Session) newValue.getValue().getItem()));
+								getEditSessionVBox((Session) newValue.
+										getValue().getItem(), isLecture));
 						rootPane.getCenter().disableProperty().setValue(false);
 					}
 				});
@@ -101,7 +102,6 @@ public class EditCoursesController extends SubscriberController<Semester> {
 
 		addCourseButton.setOnAction(event -> {
 			try {
-				fullReloadNecessary = true;
 				getModel().addCourse(new Course());
 			} catch (WctttModelException e) {
 				Util.errorAlert("Problem with editing the courses",
@@ -115,7 +115,6 @@ public class EditCoursesController extends SubscriberController<Semester> {
 			assert selected instanceof Course;
 			Course course = (Course) selected;
 			try {
-				fullReloadNecessary = true;
 				getModel().addCourseLecture(new InternalSession(), course);
 			} catch (WctttModelException e) {
 				Util.errorAlert("Problem with editing the course",
@@ -129,7 +128,6 @@ public class EditCoursesController extends SubscriberController<Semester> {
 			assert selected instanceof Course;
 			Course course = (Course) selected;
 			try {
-				fullReloadNecessary = true;
 				getModel().addCoursePractical(new InternalSession(), course);
 			} catch (WctttModelException e) {
 				Util.errorAlert("Problem with editing the course",
@@ -155,16 +153,17 @@ public class EditCoursesController extends SubscriberController<Semester> {
 		}
 		if (confirmed) {
 			try {
-				fullReloadNecessary = true;
 				if (selection.getValue().getItem() instanceof Course) {
-					getModel().removeCourse((Course) selection.getValue().getItem());
+					getModel().removeCourse(
+							(Course) selection.getValue().getItem());
 				} else {
-					if (selection.getParent().getValue().getItem().equals("Lectures")) {
-						getModel().removeCourseLecture((Session) selection.getValue().getItem(),
-								(Course) selection.getParent().getParent().getValue().getItem());
+					if (selection.getParent().getValue().getItem().
+							equals("Lectures")) {
+						getModel().removeCourseLecture(
+								(Session) selection.getValue().getItem());
 					} else {
-						getModel().removeCoursePractical((Session) selection.getValue().getItem(),
-								(Course) selection.getParent().getParent().getValue().getItem());
+						getModel().removeCoursePractical(
+								(Session) selection.getValue().getItem());
 					}
 				}
 			} catch (WctttModelException e) {
@@ -182,7 +181,8 @@ public class EditCoursesController extends SubscriberController<Semester> {
 		try {
 			getModel().updateCourseData(course, nameField.getText(),
 					abbreviationField.getText(), chairChoiceBox.getValue(),
-					courseLevelChoiceBox.getValue(), minNumOfDaysChoiceBox.getValue());
+					courseLevelChoiceBox.getValue(),
+					minNumOfDaysChoiceBox.getValue());
 		} catch (WctttModelException e) {
 			Util.errorAlert("Problem with editing the course",
 					e.getMessage());
@@ -208,22 +208,32 @@ public class EditCoursesController extends SubscriberController<Semester> {
 	private List<TreeItem<TreeViewItemWrapper<?>>> createCourseTree() {
 		List<TreeItem<TreeViewItemWrapper<?>>> courses = new LinkedList<>();
 		for (Course course : getModel().getCourses()) {
-			TreeViewItemWrapper<?> courseWrapper = new TreeViewItemWrapper<>(course);
-			TreeItem<TreeViewItemWrapper<?>> courseItem = new TreeItem<>(courseWrapper);
+			TreeViewItemWrapper<?> courseWrapper =
+					new TreeViewItemWrapper<>(course);
+			TreeItem<TreeViewItemWrapper<?>> courseItem =
+					new TreeItem<>(courseWrapper);
 
-			TreeViewItemWrapper<?> lecturesWrapper = new TreeViewItemWrapper<>("Lectures");
-			TreeItem<TreeViewItemWrapper<?>> lecturesItem = new TreeItem<>(lecturesWrapper);
+			TreeViewItemWrapper<?> lecturesWrapper =
+					new TreeViewItemWrapper<>("Lectures");
+			TreeItem<TreeViewItemWrapper<?>> lecturesItem =
+					new TreeItem<>(lecturesWrapper);
 			for (Session session : course.getLectures()) {
-				TreeViewItemWrapper<?> sessionWrapper = new TreeViewItemWrapper<>(session);
-				TreeItem<TreeViewItemWrapper<?>> sessionItem = new TreeItem<>(sessionWrapper);
+				TreeViewItemWrapper<?> sessionWrapper =
+						new TreeViewItemWrapper<>(session);
+				TreeItem<TreeViewItemWrapper<?>> sessionItem =
+						new TreeItem<>(sessionWrapper);
 				lecturesItem.getChildren().add(sessionItem);
 			}
 
-			TreeViewItemWrapper<?> practicalsWrapper = new TreeViewItemWrapper<>("Practicals");
-			TreeItem<TreeViewItemWrapper<?>> practicalsItem = new TreeItem<>(practicalsWrapper);
+			TreeViewItemWrapper<?> practicalsWrapper =
+					new TreeViewItemWrapper<>("Practicals");
+			TreeItem<TreeViewItemWrapper<?>> practicalsItem =
+					new TreeItem<>(practicalsWrapper);
 			for (Session session : course.getPracticals()) {
-				TreeViewItemWrapper<?> sessionWrapper = new TreeViewItemWrapper<>(session);
-				TreeItem<TreeViewItemWrapper<?>> sessionItem = new TreeItem<>(sessionWrapper);
+				TreeViewItemWrapper<?> sessionWrapper =
+						new TreeViewItemWrapper<>(session);
+				TreeItem<TreeViewItemWrapper<?>> sessionItem =
+						new TreeItem<>(sessionWrapper);
 				practicalsItem.getChildren().add(sessionItem);
 			}
 
@@ -233,14 +243,17 @@ public class EditCoursesController extends SubscriberController<Semester> {
 		}
 
 		// keep expanded state of tree items
-		for (TreeItem<TreeViewItemWrapper<?>> oldItem : coursesTreeView.getRoot().getChildren()) {
+		for (TreeItem<TreeViewItemWrapper<?>> oldItem :
+				coursesTreeView.getRoot().getChildren()) {
 			if (oldItem.isExpanded()) {
 				for (TreeItem<TreeViewItemWrapper<?>> newItem : courses) {
-					if (newItem.getValue().getItem().equals(oldItem.getValue().getItem())) {
+					if (newItem.getValue().getItem().equals(
+							oldItem.getValue().getItem())) {
 						newItem.setExpanded(true);
 						if (oldItem.getChildren().get(0).isExpanded()) {
 							newItem.getChildren().get(0).setExpanded(true);
-						} else if (oldItem.getChildren().get(1).isExpanded()) {
+						}
+						if (oldItem.getChildren().get(1).isExpanded()) {
 							newItem.getChildren().get(1).setExpanded(true);
 						}
 					}
@@ -250,14 +263,13 @@ public class EditCoursesController extends SubscriberController<Semester> {
 		return courses;
 	}
 
-	private void updateCoursesTreeView() {
+	private void updateCoursesTreeView(boolean fullReloadNecessary) {
 		if (fullReloadNecessary) {
 			List<TreeItem<TreeViewItemWrapper<?>>> courses = createCourseTree();
 			Platform.runLater(() -> {
 				coursesTreeView.getRoot().getChildren().clear();
 				coursesTreeView.getRoot().getChildren().addAll(courses);
 			});
-			fullReloadNecessary = false;
 		} else {
 			Platform.runLater(() -> coursesTreeView.refresh());
 		}
@@ -268,21 +280,18 @@ public class EditCoursesController extends SubscriberController<Semester> {
 		super.setup(stage, model, mainController);
 		getModel().subscribeSemesterChanges(this);
 		editSessionController.setup(stage, model, mainController);
-
 		chairChoiceBox.setItems(getModel().getChairs());
 		courseLevelChoiceBox.setItems(FXCollections.observableList(
 				Arrays.asList(CourseLevel.values())));
 		minNumOfDaysChoiceBox.setItems(FXCollections.observableList(
 				IntStream.range(1, getModel().getDaysPerWeek() + 1).boxed().
 						collect(Collectors.toList())));
-
-		fullReloadNecessary = true;
-		updateCoursesTreeView();
+		updateCoursesTreeView(true);
 	}
 
 	@Override
-	public void onNext(Semester item) {
-		updateCoursesTreeView();
+	public void onNext(Boolean item) {
+		updateCoursesTreeView(item);
 		getSubscription().request(1);
 	}
 }

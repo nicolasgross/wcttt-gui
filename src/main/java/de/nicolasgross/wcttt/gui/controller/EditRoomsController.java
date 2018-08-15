@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class EditRoomsController extends SubscriberController<Semester> {
+public class EditRoomsController extends SubscriberController<Boolean> {
 
 	@FXML
 	private ListView<Room> roomListView;
@@ -45,8 +45,6 @@ public class EditRoomsController extends SubscriberController<Semester> {
 	@FXML
 	private Button applyButton;
 
-	private boolean fullReloadNecessary;
-
 	@FXML
 	protected void initialize() {
 		roomListView.getSelectionModel().setSelectionMode(
@@ -64,7 +62,6 @@ public class EditRoomsController extends SubscriberController<Semester> {
 			if (confirmed) {
 				for (Room room : new LinkedList<>(selection)) {
 					try {
-						fullReloadNecessary = true;
 						if (room instanceof InternalRoom) {
 							getModel().removeInternalRoom((InternalRoom) room);
 						} else {
@@ -107,7 +104,6 @@ public class EditRoomsController extends SubscriberController<Semester> {
 
 		addRoomButton.setOnAction(event -> {
 			try {
-				fullReloadNecessary = true;
 				getModel().addInternalRoom(new InternalRoom());
 			} catch (WctttModelException e) {
 				throw new WctttGuiFatalException("Implementation error, " +
@@ -154,6 +150,7 @@ public class EditRoomsController extends SubscriberController<Semester> {
 
 	private void applyButtonAction() {
 		Room selected = roomListView.getSelectionModel().getSelectedItem();
+		assert selected != null;
 		RoomFeatures editedFeatures;
 		try {
 			editedFeatures = new RoomFeatures(
@@ -163,22 +160,22 @@ public class EditRoomsController extends SubscriberController<Semester> {
 			throw new WctttGuiFatalException("Implementation error, input of " +
 					"illegal room feature values was permitted", e);
 		}
-		assert selected != null;
 
 		if (internalCheckBox.selectedProperty().getValue()) {
 			try {
 				if (selected instanceof InternalRoom) {
 					InternalRoom selectedInternal = (InternalRoom) selected;
 					getModel().updateInternalRoomData(selectedInternal,
-							nameField.getText(), Integer.parseInt(capacityField.getText()),
+							nameField.getText(),
+							Integer.parseInt(capacityField.getText()),
 							holderChoiceBox.getValue(), editedFeatures);
 				} else {
 					ExternalRoom selectedExternal = (ExternalRoom) selected;
-					InternalRoom newRoom = new InternalRoom(selectedExternal.getId(),
-							nameField.getText(), Integer.parseInt(capacityField.getText()),
+					InternalRoom newRoom = new InternalRoom(
+							selectedExternal.getId(), nameField.getText(),
+							Integer.parseInt(capacityField.getText()),
 							holderChoiceBox.getValue(), editedFeatures);
 					getModel().removeExternalRoom(selectedExternal);
-					fullReloadNecessary = true;
 					getModel().addInternalRoom(newRoom);
 				}
 			} catch (NumberFormatException e) {
@@ -186,7 +183,8 @@ public class EditRoomsController extends SubscriberController<Semester> {
 						"capacity must be an integer >= " +
 						ValidationHelper.ROOM_CAPACITY_MIN);
 			} catch (WctttModelException e) {
-				Util.errorAlert("Problem with editing the rooms", e.getMessage());
+				Util.errorAlert("Problem with editing the rooms",
+						e.getMessage());
 			}
 		} else {
 			if (selected instanceof InternalRoom) {
@@ -195,7 +193,6 @@ public class EditRoomsController extends SubscriberController<Semester> {
 						selectedInternal.getId(), nameField.getText());
 				try {
 					getModel().removeInternalRoom(selectedInternal);
-					fullReloadNecessary = true;
 					getModel().addExternalRoom(newRoom);
 				} catch (WctttModelException e) {
 					Util.errorAlert("Problem with editing the rooms",
@@ -217,8 +214,7 @@ public class EditRoomsController extends SubscriberController<Semester> {
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
 		getModel().subscribeSemesterChanges(this);
-		fullReloadNecessary = true;
-		updateRoomList();
+		updateRoomList(true);
 
 		holderChoiceBox.getItems().add(null);
 		holderChoiceBox.getItems().addAll(getModel().getChairs());
@@ -227,7 +223,7 @@ public class EditRoomsController extends SubscriberController<Semester> {
 						boxed().collect(Collectors.toList())));
 	}
 
-	private void updateRoomList() {
+	private void updateRoomList(boolean fullReloadNecessary) {
 		if (fullReloadNecessary) {
 			@SuppressWarnings("unchecked")
 			List<Room> internalRooms = (List<Room>) (List<? extends Room>)
@@ -240,15 +236,14 @@ public class EditRoomsController extends SubscriberController<Semester> {
 				roomListView.getItems().addAll(internalRooms);
 				roomListView.getItems().addAll(externalRooms);
 			});
-			fullReloadNecessary = false;
 		} else {
 			Platform.runLater(() -> roomListView.refresh());
 		}
 	}
 
 	@Override
-	public void onNext(Semester item) {
-		updateRoomList();
+	public void onNext(Boolean item) {
+		updateRoomList(item);
 		getSubscription().request(1);
 	}
 }
