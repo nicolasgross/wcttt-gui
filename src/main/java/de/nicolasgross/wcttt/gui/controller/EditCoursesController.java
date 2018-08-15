@@ -63,6 +63,7 @@ public class EditCoursesController extends SubscriberController<Boolean> {
 							!(newValue.getValue().getItem() instanceof Session))) {
 						updateCourseEditVBox(null);
 						rootPane.getCenter().disableProperty().setValue(true);
+						rootPane.setCenter(editCourseVBox);
 					} else if (newValue.getValue().getItem() instanceof Course) {
 						updateCourseEditVBox((Course) newValue.getValue().getItem());
 						rootPane.setCenter(editCourseVBox);

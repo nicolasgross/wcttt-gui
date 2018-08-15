@@ -41,7 +41,7 @@
             <CheckBox fx:id="doubleSessionCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <CheckBox fx:id="internalCheckBox" mnemonicParsing="false" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Number of students" GridPane.rowIndex="6" />
-            <Label text="Room" GridPane.rowIndex="5" />
+            <Label text="External room" GridPane.rowIndex="5" />
             <ChoiceBox fx:id="roomChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="studentsTextField" maxWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
