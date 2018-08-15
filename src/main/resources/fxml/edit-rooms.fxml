@@ -45,7 +45,7 @@
                   </GridPane>
                </children>
             </VBox>
-            <Separator orientation="VERTICAL" prefHeight="200.0" rotate="180.0" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
          </children>
       </HBox>
    </left>
@@ -54,7 +54,7 @@
          <children>
             <GridPane hgap="30.0" vgap="5.0">
               <columnConstraints>
-                <ColumnConstraints fillWidth="false" hgrow="NEVER" />
+                <ColumnConstraints fillWidth="false" hgrow="NEVER" minWidth="60.0" />
                 <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
               </columnConstraints>
               <rowConstraints>
@@ -71,7 +71,7 @@
                   <TextField fx:id="nameField" GridPane.columnIndex="1" />
                   <CheckBox fx:id="internalCheckBox" mnemonicParsing="false" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="capacityField" maxWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <ChoiceBox fx:id="holderChoiceBox" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ChoiceBox fx:id="holderChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
             <Accordion fx:id="featuresAccordion">
@@ -94,7 +94,7 @@
                               <Label text="PC pool" GridPane.rowIndex="1" />
                               <Label text="Teacher PC" GridPane.rowIndex="2" />
                               <Label text="Document camera" GridPane.rowIndex="3" />
-                              <ChoiceBox fx:id="projectorsChoiceBox" prefWidth="60.0" GridPane.columnIndex="1" />
+                              <ChoiceBox fx:id="projectorsChoiceBox" GridPane.columnIndex="1" />
                               <CheckBox fx:id="pcPoolCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <CheckBox fx:id="teacherPcCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <CheckBox fx:id="docCamCheckBox" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />

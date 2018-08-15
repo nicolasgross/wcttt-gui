@@ -32,8 +32,8 @@
             <Label text="Max daily lectures per curriculum" GridPane.rowIndex="3" />
             <TextField fx:id="nameField" GridPane.columnIndex="1" />
             <TextField fx:id="maxLecturesField" maxWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ChoiceBox fx:id="daysPerWeekBox" maxWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ChoiceBox fx:id="timeSlotsBox" maxWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="daysPerWeekBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="timeSlotsBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Accordion>
