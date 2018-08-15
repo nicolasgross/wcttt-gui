@@ -541,6 +541,10 @@ public class ModelImpl implements Model {
 	public void addCourseLecture(Session lecture, Course course)
 			throws WctttModelException {
 		lecture.setId("wcttt-gui-default-id");
+		if (!getTeachers().isEmpty() &&
+				lecture.getTeacher().equals(new Teacher())) {
+			lecture.setTeacher(getTeachers().get(0));
+		}
 		semester.addCourseLecture(lecture, course);
 		setNextSessionId(lecture, course);
 		setChanged(true);
@@ -564,6 +568,10 @@ public class ModelImpl implements Model {
 	public void addCoursePractical(Session practical, Course course)
 			throws WctttModelException {
 		practical.setId("wcttt-gui-default-id");
+		if (!getTeachers().isEmpty() &&
+				practical.getTeacher().equals(new Teacher())) {
+			practical.setTeacher(getTeachers().get(0));
+		}
 		semester.addCoursePractical(practical, course);
 		setNextSessionId(practical, course);
 		setChanged(true);

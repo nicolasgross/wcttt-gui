@@ -11,14 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class EditRoomsController extends SubscriberController<Semester> {
-
-	private static final List<Integer> PROJECTORS_CHOICE =
-			Arrays.asList(0, 1, 2);
 
 	@FXML
 	private ListView<Room> roomListView;
@@ -224,8 +222,9 @@ public class EditRoomsController extends SubscriberController<Semester> {
 
 		holderChoiceBox.getItems().add(null);
 		holderChoiceBox.getItems().addAll(getModel().getChairs());
-		projectorsChoiceBox.setItems(
-				FXCollections.observableList(PROJECTORS_CHOICE));
+		projectorsChoiceBox.setItems(FXCollections.observableList(
+				IntStream.range(ValidationHelper.PROJECTORS_MIN, 3).
+						boxed().collect(Collectors.toList())));
 	}
 
 	private void updateRoomList() {

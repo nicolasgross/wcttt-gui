@@ -15,18 +15,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class MainTableController extends SubscriberController<Semester> {
-
-	private static final List<String> WEEK_DAY_NAMES = Arrays.asList("Monday",
-			"Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
-	private static final List<String> TIME_SLOT_NAMES = Arrays.asList(
-			"  8:15 -   9:45", "10:15 - 11:45", "12:15 - 13:45",
-			"14:15 - 15:45", "16:15 - 17:45", "18:15 - 19:45", "20:15 - 21:45");
 
 	@FXML
 	private VBox timetableDaysVBox;
@@ -88,10 +81,10 @@ public class MainTableController extends SubscriberController<Semester> {
 			TableColumn<TimetablePeriod, String> periodColumn =
 					(TableColumn<TimetablePeriod, String>) tableView.
 							getColumns().get(0);
-			periodColumn.setText(WEEK_DAY_NAMES.get(i));
+			periodColumn.setText(Period.WEEK_DAY_NAMES[i]);
 			periodColumn.setCellValueFactory(param ->
-					new SimpleStringProperty(TIME_SLOT_NAMES.get(
-							param.getValue().getTimeSlot() - 1)));
+					new SimpleStringProperty(Period.TIME_SLOT_NAMES[
+							param.getValue().getTimeSlot() - 1]));
 		}
 	}
 
