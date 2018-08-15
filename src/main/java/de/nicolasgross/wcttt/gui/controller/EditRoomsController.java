@@ -225,13 +225,13 @@ public class EditRoomsController extends SubscriberController<Semester> {
 	}
 
 	private void updateRoomList() {
-		@SuppressWarnings("unchecked")
-		List<Room> internalRooms = (List<Room>) (List<? extends Room>)
-				getModel().getInternalRooms();
-		@SuppressWarnings("unchecked")
-		List<Room> externalRooms = (List<Room>) (List<? extends Room>)
-				getModel().getExternalRooms();
 		if (fullReloadNecessary) {
+			@SuppressWarnings("unchecked")
+			List<Room> internalRooms = (List<Room>) (List<? extends Room>)
+					getModel().getInternalRooms();
+			@SuppressWarnings("unchecked")
+			List<Room> externalRooms = (List<Room>) (List<? extends Room>)
+					getModel().getExternalRooms();
 			Platform.runLater(() -> {
 				roomListView.getItems().clear();
 				roomListView.getItems().addAll(internalRooms);
