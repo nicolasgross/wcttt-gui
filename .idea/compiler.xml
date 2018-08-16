@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="bachelor-thesis-gui" />
         <module name="libwcttt" />
+        <module name="wcttt-core" />
         <module name="wcttt-gui" />
       </profile>
     </annotationProcessing>
