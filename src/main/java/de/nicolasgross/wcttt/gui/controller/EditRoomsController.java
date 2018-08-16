@@ -109,8 +109,8 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 						getModel().removeExternalRoom((ExternalRoom) room);
 					}
 				} catch (WctttModelException e) {
-					throw new WctttGuiFatalException("Implementation " +
-							"error, null was passed as parameter", e); // TODO nope
+					Util.errorAlert("Problem with editing the room",
+							e.getMessage());
 				}
 			}
 		}

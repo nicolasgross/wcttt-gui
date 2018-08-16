@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane fx:id="rootPane" minHeight="100.0" minWidth="400.0" prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditCurriculaController">
+<BorderPane fx:id="rootPane" minHeight="100.0" minWidth="400.0" prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditCurriculaController">
    <left>
       <HBox>
          <children>
@@ -75,7 +74,7 @@
                               <ListView fx:id="addedCoursesListView" HBox.hgrow="ALWAYS" />
                               <GridPane vgap="10.0" HBox.hgrow="NEVER">
                                  <columnConstraints>
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" valignment="BOTTOM" vgrow="SOMETIMES" />

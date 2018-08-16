@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="editTeacherVBox" disable="true" spacing="25.0" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditChairTeachersController">
+<VBox fx:id="editTeacherVBox" disable="true" spacing="25.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditChairTeachersController">
    <children>
       <GridPane hgap="10.0" vgap="5.0">
          <columnConstraints>
@@ -44,7 +44,7 @@
                         <ListView fx:id="unfavorableListView" HBox.hgrow="ALWAYS" />
                         <GridPane vgap="10.0" HBox.hgrow="NEVER">
                            <columnConstraints>
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" valignment="BOTTOM" vgrow="SOMETIMES" />
@@ -66,7 +66,7 @@
                         <ListView fx:id="unavailableListView" HBox.hgrow="ALWAYS" />
                         <GridPane vgap="10.0" HBox.hgrow="NEVER">
                            <columnConstraints>
-                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" valignment="BOTTOM" vgrow="SOMETIMES" />
