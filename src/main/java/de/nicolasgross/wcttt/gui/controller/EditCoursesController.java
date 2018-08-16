@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
 public class EditCoursesController extends SubscriberController<Boolean> {
 
 	@FXML
-	private EditCoursesSessionController editSessionController;
+	private EditCourseSessionsController editSessionsController;
 
 	@FXML
 	private BorderPane rootPane;
@@ -62,8 +62,8 @@ public class EditCoursesController extends SubscriberController<Boolean> {
 							(!(newValue.getValue().getItem() instanceof Course) &&
 							!(newValue.getValue().getItem() instanceof Session))) {
 						updateCourseEditVBox(null);
-						rootPane.getCenter().disableProperty().setValue(true);
 						rootPane.setCenter(editCourseVBox);
+						rootPane.getCenter().disableProperty().setValue(true);
 					} else if (newValue.getValue().getItem() instanceof Course) {
 						updateCourseEditVBox((Course) newValue.getValue().getItem());
 						rootPane.setCenter(editCourseVBox);
@@ -71,7 +71,7 @@ public class EditCoursesController extends SubscriberController<Boolean> {
 					} else {
 						boolean isLecture = newValue.getParent().getValue().
 								getItem().equals("Lectures");
-						rootPane.setCenter(editSessionController.
+						rootPane.setCenter(editSessionsController.
 								getEditSessionVBox((Session) newValue.
 										getValue().getItem(), isLecture));
 						rootPane.getCenter().disableProperty().setValue(false);
@@ -114,9 +114,9 @@ public class EditCoursesController extends SubscriberController<Boolean> {
 			Object selected = coursesTreeView.getSelectionModel().
 					getSelectedItem().getValue().getItem();
 			assert selected instanceof Course;
-			Course course = (Course) selected;
 			try {
-				getModel().addCourseLecture(new InternalSession(), course);
+				getModel().addCourseLecture(new InternalSession(),
+						(Course) selected);
 			} catch (WctttModelException e) {
 				Util.errorAlert("Problem with editing the course",
 						e.getMessage());
@@ -127,9 +127,9 @@ public class EditCoursesController extends SubscriberController<Boolean> {
 			Object selected = coursesTreeView.getSelectionModel().
 					getSelectedItem().getValue().getItem();
 			assert selected instanceof Course;
-			Course course = (Course) selected;
 			try {
-				getModel().addCoursePractical(new InternalSession(), course);
+				getModel().addCoursePractical(new InternalSession(),
+						(Course) selected);
 			} catch (WctttModelException e) {
 				Util.errorAlert("Problem with editing the course",
 						e.getMessage());
@@ -280,7 +280,7 @@ public class EditCoursesController extends SubscriberController<Boolean> {
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
 		getModel().subscribeSemesterChanges(this);
-		editSessionController.setup(stage, model, mainController);
+		editSessionsController.setup(stage, model, mainController);
 		chairChoiceBox.setItems(getModel().getChairs());
 		courseLevelChoiceBox.setItems(FXCollections.observableList(
 				Arrays.asList(CourseLevel.values())));

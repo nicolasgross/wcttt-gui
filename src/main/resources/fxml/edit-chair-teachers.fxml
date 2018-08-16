@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="editTeacherVBox" disable="true" spacing="25.0" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditChairTeachersController">
+   <children>
+      <GridPane hgap="10.0" vgap="5.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label text="Name" />
+            <TextField fx:id="nameField" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <GridPane>
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" />
+          <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+        </rowConstraints>
+         <children>
+            <ListView fx:id="periodsListView" GridPane.columnIndex="1" />
+            <VBox spacing="10.0" GridPane.hgrow="ALWAYS">
+               <children>
+                  <Label text="Unfavorable periods:" />
+                  <HBox>
+                     <children>
+                        <ListView fx:id="unfavorableListView" HBox.hgrow="ALWAYS" />
+                        <GridPane vgap="10.0" HBox.hgrow="NEVER">
+                           <columnConstraints>
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Button fx:id="removeUnfavorableButton" mnemonicParsing="false" text="&gt;" GridPane.rowIndex="1" />
+                              <Button fx:id="addUnfavorableButton" mnemonicParsing="false" text="&lt;" />
+                           </children>
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </GridPane>
+                     </children>
+                  </HBox>
+                  <Label layoutX="10.0" layoutY="10.0" text="Unavailable periods:" />
+                  <HBox layoutX="10.0" layoutY="10.0">
+                     <children>
+                        <ListView fx:id="unavailableListView" HBox.hgrow="ALWAYS" />
+                        <GridPane vgap="10.0" HBox.hgrow="NEVER">
+                           <columnConstraints>
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Button fx:id="removeUnavailableButton" mnemonicParsing="false" text="&gt;" GridPane.rowIndex="1" />
+                              <Button fx:id="addUnavailableButton" mnemonicParsing="false" text="&lt;" />
+                           </children>
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </GridPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button fx:id="applyButton" mnemonicParsing="false" prefWidth="100.0" text="Apply" />
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </GridPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>

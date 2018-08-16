@@ -10,12 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class EditCoursesSessionController extends Controller {
+public class EditCourseSessionsController extends Controller {
 
 	@FXML
 	private VBox editSessionVBox;
@@ -46,7 +44,7 @@ public class EditCoursesSessionController extends Controller {
 	@FXML
 	private Button applyButton;
 
-	private Session selected;
+	private Session selectedSession;
 	private boolean isLecture;
 
 	@FXML
@@ -63,7 +61,7 @@ public class EditCoursesSessionController extends Controller {
 
 	private void applyButtonAction() {
 		RoomFeatures editedRequirements;
-		assert selected != null;
+		assert selectedSession != null;
 		try {
 			editedRequirements = new RoomFeatures(
 					projectorsChoiceBox.getValue(), pcPoolCheckBox.isSelected(),
@@ -75,8 +73,8 @@ public class EditCoursesSessionController extends Controller {
 
 		if (internalCheckBox.selectedProperty().getValue()) {
 			try {
-				if (selected instanceof InternalSession) {
-					InternalSession session = (InternalSession) selected;
+				if (selectedSession instanceof InternalSession) {
+					InternalSession session = (InternalSession) selectedSession;
 					getModel().updateInternalSessionData(session,
 							nameField.getText(), teacherChoiceBox.getValue(),
 							doubleSessionCheckBox.isSelected(),
@@ -84,7 +82,7 @@ public class EditCoursesSessionController extends Controller {
 							Integer.parseInt(studentsTextField.getText()),
 							editedRequirements);
 				} else {
-					ExternalSession session = (ExternalSession) selected;
+					ExternalSession session = (ExternalSession) selectedSession;
 					InternalSession internalVariant = new InternalSession(
 							session.getId(), nameField.getText(),
 							teacherChoiceBox.getValue(), session.getCourse(),
@@ -104,8 +102,8 @@ public class EditCoursesSessionController extends Controller {
 			}
 		} else {
 			try {
-				if (selected instanceof InternalSession) {
-					InternalSession session = (InternalSession) selected;
+				if (selectedSession instanceof InternalSession) {
+					InternalSession session = (InternalSession) selectedSession;
 					ExternalSession externalVariant = new ExternalSession(
 							session.getId(), nameField.getText(),
 							teacherChoiceBox.getValue(), session.getCourse(),
@@ -114,7 +112,7 @@ public class EditCoursesSessionController extends Controller {
 							roomChoiceBox.getValue());
 					handleSessionTypeChange(session, externalVariant);
 				} else {
-					ExternalSession session = (ExternalSession) selected;
+					ExternalSession session = (ExternalSession) selectedSession;
 					getModel().updateExternalSessionData(session,
 							nameField.getText(), teacherChoiceBox.getValue(),
 							doubleSessionCheckBox.isSelected(),
@@ -145,19 +143,8 @@ public class EditCoursesSessionController extends Controller {
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
 		teacherChoiceBox.setItems(getModel().getTeachers());
-		List<Period> periods = new LinkedList<>();
-		periods.add(null);
-		for (int i = 0; i < getModel().getDaysPerWeek(); i++) {
-			for (int j = 0; j < getModel().getTimeSlotsPerDay(); j++) {
-				try {
-					periods.add(new Period(i + 1, j + 1));
-				} catch (WctttModelException e) {
-					throw new WctttGuiFatalException("Implementation error, " +
-							"created a period with invalid parameters", e);
-				}
-			}
-		}
-		preAssignmentChoiceBox.setItems(FXCollections.observableList(periods));
+		preAssignmentChoiceBox.getItems().add(null);
+		preAssignmentChoiceBox.getItems().addAll(getModel().getPeriods());
 		roomChoiceBox.setItems(getModel().getExternalRooms());
 		projectorsChoiceBox.setItems(FXCollections.observableList(
 				IntStream.range(ValidationHelper.PROJECTORS_MIN, 3).
@@ -165,7 +152,7 @@ public class EditCoursesSessionController extends Controller {
 	}
 
 	VBox getEditSessionVBox(Session selected, boolean isLecture) {
-		this.selected = selected;
+		this.selectedSession = selected;
 		this.isLecture = isLecture;
 		Platform.runLater(() -> updateSessionEditVBox(selected));
 		return editSessionVBox;

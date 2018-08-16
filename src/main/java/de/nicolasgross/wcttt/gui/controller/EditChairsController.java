@@ -1,0 +1,225 @@
+package de.nicolasgross.wcttt.gui.controller;
+
+import de.nicolasgross.wcttt.gui.model.Model;
+import de.nicolasgross.wcttt.lib.model.Chair;
+import de.nicolasgross.wcttt.lib.model.Teacher;
+import de.nicolasgross.wcttt.lib.model.WctttModelException;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class EditChairsController extends SubscriberController<Boolean> {
+
+	@FXML
+	private EditChairTeachersController editTeachersController;
+
+	@FXML
+	private BorderPane rootPane;
+	@FXML
+	private VBox editChairVBox;
+	@FXML
+	private TreeView<TreeViewItemWrapper<?>> chairsTreeView;
+	@FXML
+	private Button addChairButton;
+	@FXML
+	private TextField nameField;
+	@FXML
+	private TextField abbreviationField;
+	@FXML
+	private Button addTeacherButton;
+	@FXML
+	private Button applyButton;
+
+	@FXML
+	protected void initialize() {
+		// edit teacher vbox is stored on the right
+		rootPane.setRight(null);
+
+		chairsTreeView.setRoot(new TreeItem<>(
+				new TreeViewItemWrapper<>("root")));
+		chairsTreeView.setShowRoot(false);
+
+		chairsTreeView.getSelectionModel().selectedItemProperty().addListener(
+				(observable, oldValue, newValue) -> {
+					if (newValue == null) {
+						updateChairEditVBox(null);
+						rootPane.setCenter(editChairVBox);
+						rootPane.getCenter().disableProperty().setValue(true);
+					} else if (newValue.getValue().getItem() instanceof Chair) {
+						updateChairEditVBox((Chair) newValue.getValue().getItem());
+						rootPane.setCenter(editChairVBox);
+						rootPane.getCenter().disableProperty().setValue(false);
+					} else {
+						rootPane.setCenter(editTeachersController.
+								getEditTeacherVBox((Teacher) newValue.
+										getValue().getItem()));
+						rootPane.getCenter().disableProperty().setValue(false);
+					}
+				});
+
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem deleteMenuItem = new MenuItem("Delete");
+		deleteMenuItem.setOnAction(event -> contextDeleteAction());
+		contextMenu.getItems().add(deleteMenuItem);
+
+		chairsTreeView.setCellFactory(param -> {
+			TreeCell<TreeViewItemWrapper<?>> cell = new TreeCell<>();
+
+			cell.textProperty().bind(Bindings.when(cell.emptyProperty()).
+					then("").otherwise(cell.itemProperty().asString()));
+
+			cell.itemProperty().addListener((observable, oldValue, newValue) -> {
+				if (newValue == null) {
+					cell.setContextMenu(null);
+				} else {
+					cell.setContextMenu(contextMenu);
+				}
+			});
+
+			return cell;
+		});
+
+		addChairButton.setOnAction(event -> {
+			try {
+				getModel().addChair(new Chair());
+			} catch (WctttModelException e) {
+				Util.errorAlert("Problem with editing the chairs",
+						e.getMessage());
+			}
+		});
+
+		addTeacherButton.setOnAction(event -> {
+			Object selected = chairsTreeView.getSelectionModel().
+					getSelectedItem().getValue().getItem();
+			assert selected instanceof Chair;
+			try {
+				getModel().addTeacherToChair(new Teacher(), (Chair) selected);
+			} catch (WctttModelException e) {
+				Util.errorAlert("Problem with editing the chairs",
+						e.getMessage());
+			}
+		});
+
+		applyButton.setOnAction(event -> applyButtonAction());
+	}
+
+	private void contextDeleteAction() {
+		TreeItem<TreeViewItemWrapper<?>> selection =
+				chairsTreeView.getSelectionModel().getSelectedItem();
+		boolean confirmed;
+		if (selection.getValue().getItem() instanceof Chair) {
+			confirmed = Util.confirmationAlert("Confirm deletion of " +
+					"chair", "Are you sure you want to delete the " +
+					"selected chair?");
+		} else {
+			confirmed = Util.confirmationAlert("Confirm deletion of " +
+					"teacher", "Are you sure you want to delete the " +
+					"selected teacher?");
+		}
+		if (confirmed) {
+			try {
+				if (selection.getValue().getItem() instanceof Chair) {
+					getModel().removeChair(
+							(Chair) selection.getValue().getItem());
+				} else {
+					getModel().removeTeacherFromChair(
+							(Teacher) selection.getValue().getItem(),
+							(Chair) selection.getParent().getValue().getItem());
+				}
+			} catch (WctttModelException e) {
+				Util.errorAlert("Problem with editing the chairs",
+						e.getMessage());
+			}
+		}
+	}
+
+	private void applyButtonAction() {
+		TreeItem<TreeViewItemWrapper<?>> selection =
+				chairsTreeView.getSelectionModel().getSelectedItem();
+		assert selection.getValue().getItem() instanceof Chair;
+		Chair chair = (Chair) selection.getValue().getItem();
+		try {
+			getModel().updateChairData(chair, nameField.getText(),
+					abbreviationField.getText());
+		} catch (WctttModelException e) {
+			Util.errorAlert("Problem with editing the chair",
+					e.getMessage());
+		}
+	}
+
+	private void updateChairEditVBox(Chair chair) {
+		if (chair == null) {
+			nameField.setText("");
+			abbreviationField.setText("");
+		} else {
+			nameField.setText(chair.getName());
+			abbreviationField.setText(chair.getAbbreviation());
+		}
+	}
+
+	private List<TreeItem<TreeViewItemWrapper<?>>> createChairTree() {
+		List<TreeItem<TreeViewItemWrapper<?>>> chairItems = new LinkedList<>();
+		for (Chair chair : getModel().getChairs()) {
+			TreeViewItemWrapper<?> chairWrapper =
+					new TreeViewItemWrapper<>(chair);
+			TreeItem<TreeViewItemWrapper<?>> chairItem =
+					new TreeItem<>(chairWrapper);
+
+			for (Teacher teacher : chair.getTeachers()) {
+				TreeViewItemWrapper<?> teacherWrapper =
+						new TreeViewItemWrapper<>(teacher);
+				TreeItem<TreeViewItemWrapper<?>> teacherItem =
+						new TreeItem<>(teacherWrapper);
+				chairItem.getChildren().add(teacherItem);
+			}
+			chairItems.add(chairItem);
+		}
+
+		// keep expanded state of tree items
+		for (TreeItem<TreeViewItemWrapper<?>> oldItem :
+				chairsTreeView.getRoot().getChildren()) {
+			if (oldItem.isExpanded()) {
+				for (TreeItem<TreeViewItemWrapper<?>> newItem : chairItems) {
+					if (newItem.getValue().getItem().equals(
+							oldItem.getValue().getItem())) {
+						newItem.setExpanded(true);
+					}
+				}
+			}
+		}
+		return chairItems;
+	}
+
+	private void updateCoursesTreeView(boolean fullReloadNecessary) {
+		if (fullReloadNecessary) {
+			List<TreeItem<TreeViewItemWrapper<?>>> chairs = createChairTree();
+			Platform.runLater(() -> {
+				chairsTreeView.getRoot().getChildren().clear();
+				chairsTreeView.getRoot().getChildren().addAll(chairs);
+			});
+		} else {
+			Platform.runLater(() -> chairsTreeView.refresh());
+		}
+	}
+
+	@Override
+	public void setup(Stage stage, Model model, MainController mainController) {
+		super.setup(stage, model, mainController);
+		getModel().subscribeSemesterChanges(this);
+		editTeachersController.setup(stage, model, mainController);
+		updateCoursesTreeView(true);
+	}
+
+	@Override
+	public void onNext(Boolean item) {
+		updateCoursesTreeView(item);
+		getSubscription().request(1);
+	}
+}

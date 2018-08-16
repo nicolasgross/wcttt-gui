@@ -1,5 +1,6 @@
 package de.nicolasgross.wcttt.gui.model;
 
+import de.nicolasgross.wcttt.gui.WctttGuiFatalException;
 import de.nicolasgross.wcttt.lib.model.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -269,6 +270,22 @@ public class ModelImpl implements Model {
 		return teachers;
 	}
 
+	@Override
+	public List<Period> getPeriods() {
+		List<Period> periods = new LinkedList<>();
+		for (int i = 0; i < getDaysPerWeek(); i++) {
+			for (int j = 0; j < getTimeSlotsPerDay(); j++) {
+				try {
+					periods.add(new Period(i + 1, j + 1));
+				} catch (WctttModelException e) {
+					throw new WctttGuiFatalException("Implementation error, " +
+							"created a period with invalid parameters", e);
+				}
+			}
+		}
+		return periods;
+	}
+
 	private void setNextChairId(Chair chair) {
 		while (true) {
 			try {
@@ -376,10 +393,9 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public void updateChairData(Chair chair, String name, String abbreviation,
-	                            List<Teacher> teachers)
+	public void updateChairData(Chair chair, String name, String abbreviation)
 			throws WctttModelException {
-		semester.updateChairData(chair, name, abbreviation, teachers);
+		semester.updateChairData(chair, name, abbreviation);
 		setChanged(true);
 		setLastAction(CHAIRS_UPDATED);
 		semesterChangesNotifier.submit(false);

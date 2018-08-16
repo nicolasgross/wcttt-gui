@@ -1,5 +1,6 @@
 package de.nicolasgross.wcttt.gui.model;
 
+import de.nicolasgross.wcttt.lib.model.Period;
 import de.nicolasgross.wcttt.lib.model.Semester;
 import de.nicolasgross.wcttt.lib.model.Teacher;
 import javafx.beans.property.BooleanProperty;
@@ -7,6 +8,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Flow;
 
@@ -25,6 +27,8 @@ public interface Model extends Semester {
 	void setSemester(Path xmlPath, Semester semester);
 
 	ObservableList<Teacher> getTeachers();
+
+	List<Period> getPeriods();
 
 	StringProperty getTitleProperty();
 
