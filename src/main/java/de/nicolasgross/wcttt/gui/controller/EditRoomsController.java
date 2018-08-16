@@ -52,28 +52,7 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem deleteMenuItem = new MenuItem("Delete");
-		deleteMenuItem.setOnAction(event -> {
-			List<Room> selection =
-					roomListView.getSelectionModel().getSelectedItems();
-			boolean confirmed = Util.confirmationAlert("Confirm deletion of " +
-					"rooms", "Are you sure you want to delete the " +
-					"selected room" + (selection.size() == 1 ? "" : "s")
-					+ "?");
-			if (confirmed) {
-				for (Room room : new LinkedList<>(selection)) {
-					try {
-						if (room instanceof InternalRoom) {
-							getModel().removeInternalRoom((InternalRoom) room);
-						} else {
-							getModel().removeExternalRoom((ExternalRoom) room);
-						}
-					} catch (WctttModelException e) {
-						throw new WctttGuiFatalException("Implementation " +
-								"error, null was passed as parameter", e);
-					}
-				}
-			}
-		});
+		deleteMenuItem.setOnAction(event -> contextDeleteAction());
 		contextMenu.getItems().add(deleteMenuItem);
 
 		roomListView.getSelectionModel().selectedItemProperty().addListener(
@@ -112,6 +91,29 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 		});
 
 		applyButton.setOnAction(event -> applyButtonAction());
+	}
+
+	private void contextDeleteAction() {
+		List<Room> selection =
+				roomListView.getSelectionModel().getSelectedItems();
+		boolean confirmed = Util.confirmationAlert("Confirm deletion of " +
+				"rooms", "Are you sure you want to delete the " +
+				"selected room" + (selection.size() == 1 ? "" : "s")
+				+ "?");
+		if (confirmed) {
+			for (Room room : new LinkedList<>(selection)) {
+				try {
+					if (room instanceof InternalRoom) {
+						getModel().removeInternalRoom((InternalRoom) room);
+					} else {
+						getModel().removeExternalRoom((ExternalRoom) room);
+					}
+				} catch (WctttModelException e) {
+					throw new WctttGuiFatalException("Implementation " +
+							"error, null was passed as parameter", e); // TODO nope
+				}
+			}
+		}
 	}
 
 	private void updateEditVBox(Room newValue) {

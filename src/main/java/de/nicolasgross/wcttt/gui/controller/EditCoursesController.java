@@ -101,42 +101,48 @@ public class EditCoursesController extends SubscriberController<Boolean> {
 			return cell;
 		});
 
-		addCourseButton.setOnAction(event -> {
-			try {
-				getModel().addCourse(new Course());
-			} catch (WctttModelException e) {
-				Util.errorAlert("Problem with editing the courses",
-						e.getMessage());
-			}
-		});
+		addCourseButton.setOnAction(event -> addCourseAction());
 
-		addLectureButton.setOnAction(event -> {
-			Object selected = coursesTreeView.getSelectionModel().
-					getSelectedItem().getValue().getItem();
-			assert selected instanceof Course;
-			try {
-				getModel().addCourseLecture(new InternalSession(),
-						(Course) selected);
-			} catch (WctttModelException e) {
-				Util.errorAlert("Problem with editing the course",
-						e.getMessage());
-			}
-		});
+		addLectureButton.setOnAction(event -> addLectureAction());
 
-		addPracticalButton.setOnAction(event -> {
-			Object selected = coursesTreeView.getSelectionModel().
-					getSelectedItem().getValue().getItem();
-			assert selected instanceof Course;
-			try {
-				getModel().addCoursePractical(new InternalSession(),
-						(Course) selected);
-			} catch (WctttModelException e) {
-				Util.errorAlert("Problem with editing the course",
-						e.getMessage());
-			}
-		});
+		addPracticalButton.setOnAction(event -> addPracticalAction());
 
 		applyButton.setOnAction(event -> applyButtonAction());
+	}
+
+	private void addCourseAction() {
+		try {
+			getModel().addCourse(new Course());
+		} catch (WctttModelException e) {
+			Util.errorAlert("Problem with editing the courses",
+					e.getMessage());
+		}
+	}
+
+	private void addLectureAction() {
+		Object selected = coursesTreeView.getSelectionModel().
+				getSelectedItem().getValue().getItem();
+		assert selected instanceof Course;
+		try {
+			getModel().addCourseLecture(new InternalSession(),
+					(Course) selected);
+		} catch (WctttModelException e) {
+			Util.errorAlert("Problem with editing the course",
+					e.getMessage());
+		}
+	}
+
+	private void addPracticalAction() {
+		Object selected = coursesTreeView.getSelectionModel().
+				getSelectedItem().getValue().getItem();
+		assert selected instanceof Course;
+		try {
+			getModel().addCoursePractical(new InternalSession(),
+					(Course) selected);
+		} catch (WctttModelException e) {
+			Util.errorAlert("Problem with editing the course",
+					e.getMessage());
+		}
 	}
 
 	private void contextDeleteAction() {
