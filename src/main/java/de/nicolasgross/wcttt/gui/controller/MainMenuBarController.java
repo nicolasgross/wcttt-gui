@@ -22,6 +22,7 @@ public class MainMenuBarController extends Controller {
 	private static String EDIT_ROOMS_FXML = "/fxml/edit-rooms.fxml";
 	private static String EDIT_CHAIRS_FXML = "/fxml/edit-chairs.fxml";
 	private static String EDIT_CURRICULA_FXML = "/fxml/edit-curricula.fxml";
+	private static String EDIT_GENERATE = "/fxml/edit-generate-algorithm.fxml";
 
 	@FXML
 	private MenuItem fileNew;
@@ -155,7 +156,8 @@ public class MainMenuBarController extends Controller {
 		editCurricula.setOnAction(event ->
 				showFxmlWindow(EDIT_CURRICULA_FXML, "Edit curricula", 600, 450));
 
-		// TODO
+		editGenerate.setOnAction(event ->
+				showFxmlWindow(EDIT_GENERATE, "Generate timetable", 400, 160));
 	}
 
 	private void initViewMenu() {
@@ -170,6 +172,7 @@ public class MainMenuBarController extends Controller {
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
 		fileSave.disableProperty().bind(getModel().isChanged().not());
+		editGenerate.disableProperty().bind(getModel().isChanged());
 	}
 
 	private boolean lossOfUnsavedConfirmed() {
