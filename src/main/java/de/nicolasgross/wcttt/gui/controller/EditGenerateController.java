@@ -6,7 +6,12 @@ import de.nicolasgross.wcttt.core.algorithms.ParameterDefinition;
 import de.nicolasgross.wcttt.core.algorithms.ParameterType;
 import de.nicolasgross.wcttt.core.algorithms.ParameterValue;
 import de.nicolasgross.wcttt.core.algorithms.tabu_based_memetic_approach.TabuBasedMemeticApproach;
+import de.nicolasgross.wcttt.gui.WctttGuiException;
+import de.nicolasgross.wcttt.gui.WctttGuiFatalException;
 import de.nicolasgross.wcttt.gui.model.Model;
+import de.nicolasgross.wcttt.lib.model.Timetable;
+import de.nicolasgross.wcttt.lib.model.WctttModelException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -71,7 +76,10 @@ public class EditGenerateController extends Controller {
 		progressBar.prefWidthProperty().bind(getStage().widthProperty().
 				subtract(25));
 
-		cancelButton.setOnAction(event -> cancelButtonAction());
+		cancelButton.setOnAction(event -> {
+			cancelButton.disableProperty().setValue(true);
+			selectedAlgorithm.cancelTimetableCreation();
+		});
 	}
 
 	@Override
@@ -87,6 +95,17 @@ public class EditGenerateController extends Controller {
 	}
 
 	private void showParametersWindow() {
+		if (selectedAlgorithm.getParameters().isEmpty()) {
+			try {
+				selectedAlgorithm.setParameterValues(new LinkedList<>());
+				runAlgorithm();
+				return;
+			} catch (WctttCoreException e) {
+				throw new WctttGuiFatalException("Implementation error in " +
+						"algorithm '" + selectedAlgorithm + "', no parameter " +
+						"specified but empty value list was rejected", e);
+			}
+		}
 		Stage stage = Util.loadFxml(EDIT_GENERATE_PARAMETERS, this, getStage(),
 				getModel(), getMainController());
 		initializeParametersWindow();
@@ -148,11 +167,25 @@ public class EditGenerateController extends Controller {
 	}
 
 	private void runAlgorithm() {
-		Runnable runnable = () -> {
-			foundFeasibleSolution.set(selectedAlgorithm.createTimetable());
+		Runnable algorithmRunnable = () -> {
+			Timetable timetable = selectedAlgorithm.createTimetable();
+			if (timetable != null) {
+				try {
+					foundFeasibleSolution.set(true);
+					getModel().addTimetable(timetable);
+				} catch (WctttModelException e) {
+					Platform.runLater(() -> Util.exceptionAlert(
+							new WctttGuiException("Generated timetable was " +
+									"invalid, there is a bug in the algorithm",
+									e)));
+				}
+			}
 		};
-		algorithmThread = new Thread(runnable);
+		algorithmThread = new Thread(algorithmRunnable);
 		algorithmThread.start();
+		Runnable finalizeRunnable = this::finalizeAlgorithmThread;
+		Thread finalizeThread = new Thread(finalizeRunnable);
+		finalizeThread.start();
 		showRunningWindow();
 	}
 
@@ -163,27 +196,23 @@ public class EditGenerateController extends Controller {
 		Util.showStage(stage, "Algorithm running", 420, 160);
 	}
 
-	private void cancelButtonAction() {
-		cancelButton.disableProperty().setValue(true);
-		selectedAlgorithm.cancelTimetableCreation();
-		long start = System.currentTimeMillis();
-		long remainingMillis;
-		while ((remainingMillis = System.currentTimeMillis() - start) < 5000) {
+	private void finalizeAlgorithmThread() {
+		while (true) {
 			try {
-				algorithmThread.join(remainingMillis);
+				algorithmThread.join();
 				break;
 			} catch (InterruptedException e) {
 				// ignore
 			}
 		}
-		getStage().close();
+		Platform.runLater(() -> getStage().close());
 		String message;
 		if (foundFeasibleSolution.get()) {
-			message = "A feasible timetable was found and is added to the " +
-					"semester";
+			message = "A feasible timetable was found";
 		} else {
 			message = "No feasible timetable was found";
 		}
-		Util.informationAlert("Outcome information", message);
+		Platform.runLater(() ->
+				Util.informationAlert("Outcome information", message));
 	}
 }
