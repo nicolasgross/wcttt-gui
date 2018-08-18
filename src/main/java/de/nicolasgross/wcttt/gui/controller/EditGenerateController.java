@@ -60,8 +60,8 @@ public class EditGenerateController extends Controller {
 		okButton.disableProperty().bind(
 				algorithmChoiceBox.valueProperty().isNull());
 		okButton.setOnAction(event -> {
-			selectedAlgorithm = algorithmChoiceBox.getValue();
-			showParametersWindow();
+				selectedAlgorithm = algorithmChoiceBox.getValue();
+				showParametersWindow();
 		});
 	}
 
@@ -90,11 +90,7 @@ public class EditGenerateController extends Controller {
 
 		// ADD NEW ALGORITHMS TO THIS LIST
 		List<Algorithm> algorithms = new LinkedList<>();
-		try {
-			algorithms.add(new TabuBasedMemeticApproach(getModel()));
-		} catch (WctttCoreException e) {
-			Util.errorAlert("Semester data are inconsistent", e.getMessage());
-		}
+		algorithms.add(new TabuBasedMemeticApproach(getModel()));
 
 		algorithmChoiceBox.getItems().setAll(algorithms);
 		algorithmChoiceBox.getSelectionModel().select(0);
