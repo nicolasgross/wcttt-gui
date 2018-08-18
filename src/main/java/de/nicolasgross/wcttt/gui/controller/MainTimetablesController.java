@@ -45,9 +45,8 @@ public class MainTimetablesController extends SubscriberController<Boolean> {
 		renameMenuItem.setOnAction(event -> {
 			Timetable selection = timetableSelectionTable.getSelectionModel().
 					getSelectedItem();
-			Optional<String> name = Util.textInputDialog(getStage().getOwner(),
-					selection.getName(), "Rename timetable",
-					"Enter new timetable name", "Name:");
+			Optional<String> name = Util.textInputDialog(selection.getName(),
+					"Rename timetable", "Enter new timetable name", "Name:");
 			name.ifPresent(s -> {
 				try {
 					getModel().updateTimetableName(selection, s);

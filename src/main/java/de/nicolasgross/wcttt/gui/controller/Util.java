@@ -1,13 +1,22 @@
 package de.nicolasgross.wcttt.gui.controller;
 
+import de.nicolasgross.wcttt.gui.WctttGuiFatalException;
+import de.nicolasgross.wcttt.gui.model.Model;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
@@ -85,6 +94,15 @@ public class Util {
 		alert.showAndWait();
 	}
 
+	static void informationAlert(String header, String message) {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Information");
+		alert.setHeaderText(header);
+		alert.setContentText(message);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.showAndWait();
+	}
+
 	/**
 	 * Opens a FileChooser Dialog
 	 *
@@ -108,13 +126,49 @@ public class Util {
 		return Optional.ofNullable(fileChooser.showSaveDialog(owner));
 	}
 
-	static Optional<String> textInputDialog(Window owner, String initial,
-	                                        String title, String header,
-	                                        String contentText) {
+	static Optional<String> textInputDialog(String initial, String title,
+	                                        String header, String contentText) {
 		TextInputDialog dialog = new TextInputDialog(initial);
 		dialog.setTitle(title);
 		dialog.setHeaderText(header);
 		dialog.setContentText(contentText);
 		return dialog.showAndWait();
+	}
+
+	static Stage loadFxml(String fxmlPath, Controller controller, Stage stage,
+	                      Model model, MainController mainController) {
+		FXMLLoader loader = new FXMLLoader(Util.class.getResource(fxmlPath));
+		if (controller != null) {
+			loader.setController(controller);
+		}
+		try {
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+			Stage actualStage;
+			if (stage == null) {
+				actualStage = new Stage();
+				actualStage.initModality(Modality.APPLICATION_MODAL);
+			} else {
+				actualStage = stage;
+			}
+			actualStage.setScene(scene);
+			Controller assignedController = loader.getController();
+			assignedController.setup(actualStage, model, mainController);
+			return actualStage;
+		} catch (IOException e) {
+			throw new WctttGuiFatalException("Could not load '" + fxmlPath +
+					"'", e);
+		}
+	}
+
+	static void showStage(Stage stage, String title, int minWidth,
+	                      int minHeight) {
+		stage.titleProperty().bind(
+				new SimpleStringProperty(title));
+		stage.setMinWidth(minWidth);
+		stage.setMinHeight(minHeight);
+		stage.show();
+		stage.sizeToScene();
+		stage.requestFocus();
 	}
 }

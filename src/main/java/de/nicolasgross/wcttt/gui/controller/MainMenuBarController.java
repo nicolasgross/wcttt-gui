@@ -168,6 +168,13 @@ public class MainMenuBarController extends Controller {
 		// TODO
 	}
 
+	private void showFxmlWindow(String fxmlPath, String title, int minWidth,
+	                    int minHeight) {
+		Stage stage = Util.loadFxml(fxmlPath, null, null, getModel(),
+				getMainController());
+		Util.showStage(stage, title, minWidth, minHeight);
+	}
+
 	@Override
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
