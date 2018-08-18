@@ -57,6 +57,8 @@ public class EditGenerateController extends Controller {
 
 	@FXML
 	protected void initialize() {
+		okButton.disableProperty().bind(
+				algorithmChoiceBox.valueProperty().isNull());
 		okButton.setOnAction(event -> {
 			selectedAlgorithm = algorithmChoiceBox.getValue();
 			showParametersWindow();
@@ -88,7 +90,11 @@ public class EditGenerateController extends Controller {
 
 		// ADD NEW ALGORITHMS TO THIS LIST
 		List<Algorithm> algorithms = new LinkedList<>();
-		algorithms.add(new TabuBasedMemeticApproach(getModel()));
+		try {
+			algorithms.add(new TabuBasedMemeticApproach(getModel()));
+		} catch (WctttCoreException e) {
+			Util.errorAlert("Semester data are inconsistent", e.getMessage());
+		}
 
 		algorithmChoiceBox.getItems().setAll(algorithms);
 		algorithmChoiceBox.getSelectionModel().select(0);

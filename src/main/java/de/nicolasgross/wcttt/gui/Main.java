@@ -50,7 +50,4 @@ public class Main extends Application {
 		primaryStage.show();
 		root.requestFocus();
 	}
-
-	// TODO check conflicting pre assignments before generating timetable
-
 }
