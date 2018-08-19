@@ -57,10 +57,18 @@ public class MainFiltersController extends SubscriberController<Boolean> {
 
 	private void updateGui() {
 		Platform.runLater(() -> {
-			teacherSelection.setItems(getModel().getTeachers());
-			chairSelection.setItems(getModel().getChairs());
-			courseSelection.setItems(getModel().getCourses());
-			curriculumSelection.setItems(getModel().getCurricula());
+			teacherSelection.getItems().clear();
+			teacherSelection.getItems().add(null);
+			teacherSelection.getItems().addAll(getModel().getTeachers());
+			chairSelection.getItems().clear();
+			chairSelection.getItems().add(null);
+			chairSelection.getItems().addAll(getModel().getChairs());
+			courseSelection.getItems().clear();
+			courseSelection.getItems().add(null);
+			courseSelection.getItems().addAll(getModel().getCourses());
+			curriculumSelection.getItems().clear();
+			curriculumSelection.getItems().add(null);
+			curriculumSelection.getItems().addAll(getModel().getCurricula());
 		});
 	}
 }
