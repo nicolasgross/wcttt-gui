@@ -30,7 +30,7 @@
             <items>
                 <MenuItem fx:id="viewCourseCourse" mnemonicParsing="false" text="Course-course conflicts" />
                 <MenuItem fx:id="vewCourseRoom" mnemonicParsing="false" text="Course-room conflicts" />
-                <MenuItem fx:id="viewTeacherTimeslot" mnemonicParsing="false" text="Teacher-timeslot conflicts" />
+                <MenuItem fx:id="viewTeacherPeriod" mnemonicParsing="false" text="Teacher-period conflicts" />
             </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">

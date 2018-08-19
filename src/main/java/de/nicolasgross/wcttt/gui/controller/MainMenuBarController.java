@@ -53,7 +53,7 @@ public class MainMenuBarController extends Controller {
 	@FXML
 	private MenuItem vewCourseRoom;
 	@FXML
-	private MenuItem viewTeacherTimeslot;
+	private MenuItem viewTeacherPeriod;
 
 	@FXML
 	private MenuItem helpHelp;
