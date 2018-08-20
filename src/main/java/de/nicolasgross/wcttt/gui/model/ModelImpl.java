@@ -51,6 +51,7 @@ public class ModelImpl implements Model {
 	private long nextCourseId = 0;
 	private long nextSessionId = 0;
 	private long nextCurriculumId = 0;
+	private long nextTimetablName = 0;
 
 	public ModelImpl() {
 		Platform.runLater(() -> stateText.bind(
@@ -357,6 +358,19 @@ public class ModelImpl implements Model {
 				return;
 			} catch (WctttModelException e) {
 				nextCurriculumId++;
+			}
+		}
+	}
+
+	private void setNextTimetableName(Timetable timetable) {
+		while (true) {
+			try {
+				semester.updateTimetableName(timetable,
+						"timetable" + nextTimetablName);
+				nextTimetablName++;
+				return;
+			} catch (WctttModelException e) {
+				nextTimetablName++;
 			}
 		}
 	}
@@ -680,7 +694,9 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void addTimetable(Timetable timetable) throws WctttModelException {
+		timetable.setName("wcttt-gui-default-id");
 		semester.addTimetable(timetable);
+		setNextTimetableName(timetable);
 		setChanged(true);
 		setLastAction(TIMETABLES_UPDATED);
 		timetablesChangesNotifier.submit(true);

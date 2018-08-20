@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="525.0" prefWidth="450.0" spacing="5.0" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditSemesterController">
+<VBox prefHeight="500.0" prefWidth="450.0" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditSemesterController">
    <children>
       <GridPane vgap="5.0">
         <columnConstraints>
@@ -53,7 +53,6 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
                      </rowConstraints>
                      <children>
                         <Label text="s1" />
@@ -67,11 +66,9 @@
                         <Label text="s5" GridPane.rowIndex="4" />
                         <Label text="s6" GridPane.rowIndex="5" />
                         <Label text="s7" GridPane.rowIndex="6" />
-                        <Label text="s8" GridPane.rowIndex="7" />
                         <TextField fx:id="s5Field" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextField fx:id="s6Field" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <TextField fx:id="s7Field" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <TextField fx:id="s8Field" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
                </content>

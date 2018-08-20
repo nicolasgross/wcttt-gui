@@ -51,8 +51,6 @@ public class EditSemesterController extends Controller {
 	@FXML
 	private TextField s7Field;
 	@FXML
-	private TextField s8Field;
-	@FXML
 	private Button applyButton;
 
 	@FXML
@@ -128,8 +126,6 @@ public class EditSemesterController extends Controller {
 				getS6()));
 		s7Field.setText(String.valueOf(getModel().getConstrWeightings().
 				getS7()));
-		s8Field.setText(String.valueOf(getModel().getConstrWeightings().
-				getS8()));
 	}
 
 	private void setName() {
@@ -168,9 +164,9 @@ public class EditSemesterController extends Controller {
 	private void setSoftConstraintWeightings() throws WctttGuiException,
 			WctttModelException {
 		TextField weightingFields[] = {s1Field, s2Field, s3Field, s4Field,
-				s5Field, s6Field, s7Field, s8Field};
+				s5Field, s6Field, s7Field};
 		double weightingValues[] = new double[8];
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 7; i++) {
 			try {
 				weightingValues[i] = Double.parseDouble(
 						weightingFields[i].getText());
@@ -183,7 +179,7 @@ public class EditSemesterController extends Controller {
 		ConstraintWeightings weightings = new ConstraintWeightings(
 				weightingValues[0], weightingValues[1], weightingValues[2],
 				weightingValues[3], weightingValues[4], weightingValues[5],
-				weightingValues[6], weightingValues[7]);
+				weightingValues[6]);
 		if (!getModel().getConstrWeightings().equals(weightings)) {
 			getModel().setConstrWeightings(weightings);
 		}

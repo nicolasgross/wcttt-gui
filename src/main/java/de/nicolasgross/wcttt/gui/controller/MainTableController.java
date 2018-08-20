@@ -84,6 +84,7 @@ public class MainTableController extends SubscriberController<Boolean> {
 			periodColumn.setCellValueFactory(param ->
 					new SimpleStringProperty(Period.TIME_SLOT_NAMES[
 							param.getValue().getTimeSlot() - 1]));
+			periodColumn.setReorderable(false);
 		}
 	}
 
@@ -96,7 +97,6 @@ public class MainTableController extends SubscriberController<Boolean> {
 				tableColumn.setId(room.getId());
 				tableColumn.setResizable(false);
 				tableColumn.setSortable(false);
-				tableColumn.setReorderable(false);
 				tableColumn.setPrefWidth(125.0);
 				tableColumn.setCellValueFactory(param -> {
 					for (TimetableAssignment assignment : param.getValue().

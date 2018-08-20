@@ -170,17 +170,20 @@ public class EditGenerateController extends Controller {
 
 	private void runAlgorithm() {
 		Runnable algorithmRunnable = () -> {
-			Timetable timetable = selectedAlgorithm.createTimetable();
-			if (timetable != null) {
-				try {
+			try {
+				Timetable timetable = selectedAlgorithm.createTimetable();
+				if (timetable != null) {
 					foundFeasibleSolution.set(true);
 					getModel().addTimetable(timetable);
-				} catch (WctttModelException e) {
-					Platform.runLater(() -> Util.exceptionAlert(
-							new WctttGuiException("Generated timetable was " +
-									"invalid, there is a bug in the algorithm",
-									e)));
 				}
+			} catch (WctttModelException e) {
+				Platform.runLater(() -> Util.exceptionAlert(
+						new WctttGuiException("Generated timetable was " +
+								"invalid, there is a bug in the algorithm", e)));
+			} catch (WctttCoreException e) {
+				Platform.runLater(() -> Util.exceptionAlert(
+						new WctttGuiException("A problem occurred while " +
+								"running the algorithm", e)));
 			}
 		};
 		algorithmThread = new Thread(algorithmRunnable);
