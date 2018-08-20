@@ -67,7 +67,6 @@ public class MainTableController extends SubscriberController<Boolean> {
 					new TableColumn<>();
 			tableColumn.setResizable(false);
 			tableColumn.setSortable(false);
-			tableColumn.setReorderable(false);
 			tableColumn.setPrefWidth(125.0);
 			tableView.getColumns().add(tableColumn);
 			timetableDays.add(tableView);
