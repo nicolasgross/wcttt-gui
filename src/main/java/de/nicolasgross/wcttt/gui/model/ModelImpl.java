@@ -122,9 +122,20 @@ public class ModelImpl implements Model {
 		teachers.clear();
 		initListenToTeacherChanges();
 		createTeacherList();
+		resetIds();
 		semesterChangesNotifier.submit(true);
 		timetablesChangesNotifier.submit(true);
 		setLastAction(SEMESTER_LOADED);
+	}
+
+	private void resetIds() {
+		nextChairId = 0;
+		nextTeacherId = 0;
+		nextRoomId = 0;
+		nextCourseId = 0;
+		nextSessionId = 0;
+		nextCurriculumId = 0;
+		nextTimetablName = 0;
 	}
 
 	@Override
