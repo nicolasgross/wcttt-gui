@@ -51,6 +51,9 @@ public class MainTableController extends SubscriberController<Boolean> {
 		createPeriodColumns();
 		createRoomColumns(getModel().getInternalRooms());
 		createRoomColumns(getModel().getExternalRooms());
+		if (selectedTimetable != null) {
+			setTimetable(selectedTimetable);
+		}
 	}
 
 	private void createTableViews() {
