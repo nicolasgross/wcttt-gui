@@ -31,8 +31,6 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 	@FXML
 	private TextField capacityField;
 	@FXML
-	private ChoiceBox<Chair> holderChoiceBox;
-	@FXML
 	private Accordion featuresAccordion;
 	@FXML
 	private ChoiceBox<Integer> projectorsChoiceBox;
@@ -75,8 +73,6 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 		});
 
 		capacityField.disableProperty().bind(
-				internalCheckBox.selectedProperty().not());
-		holderChoiceBox.disableProperty().bind(
 				internalCheckBox.selectedProperty().not());
 		featuresAccordion.disableProperty().bind(
 				internalCheckBox.selectedProperty().not());
@@ -129,8 +125,6 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 			internalCheckBox.selectedProperty().setValue(true);
 			capacityField.setText(String.valueOf(
 					selected.getCapacity()));
-			holderChoiceBox.setValue(
-					selected.getHolder().orElse(null));
 			projectorsChoiceBox.setValue(
 					selected.getFeatures().getProjectors());
 			pcPoolCheckBox.selectedProperty().setValue(
@@ -142,7 +136,6 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 		} else {
 			internalCheckBox.selectedProperty().setValue(false);
 			capacityField.setText("");
-			holderChoiceBox.setValue(null);
 			projectorsChoiceBox.setValue(0);
 			pcPoolCheckBox.selectedProperty().setValue(false);
 			teacherPcCheckBox.selectedProperty().setValue(false);
@@ -170,13 +163,13 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 					getModel().updateInternalRoomData(selectedInternal,
 							nameField.getText(),
 							Integer.parseInt(capacityField.getText()),
-							holderChoiceBox.getValue(), editedFeatures);
+							editedFeatures);
 				} else {
 					ExternalRoom selectedExternal = (ExternalRoom) selected;
 					InternalRoom newRoom = new InternalRoom(
 							selectedExternal.getId(), nameField.getText(),
 							Integer.parseInt(capacityField.getText()),
-							holderChoiceBox.getValue(), editedFeatures);
+							editedFeatures);
 					getModel().removeExternalRoom(selectedExternal);
 					getModel().addInternalRoom(newRoom);
 				}
@@ -218,8 +211,6 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 		getModel().subscribeSemesterChanges(this);
 		updateRoomList(true);
 
-		holderChoiceBox.getItems().add(null);
-		holderChoiceBox.getItems().addAll(getModel().getChairs());
 		projectorsChoiceBox.setItems(FXCollections.observableList(
 				IntStream.range(ValidationHelper.PROJECTORS_MIN, 3).
 						boxed().collect(Collectors.toList())));

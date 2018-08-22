@@ -118,8 +118,9 @@ public class MainTimetablesController extends SubscriberController<Boolean> {
 		Platform.runLater(() -> {
 			if (fullReloadNecessary) {
 				timetableSelectionTable.setItems(getModel().getTimetables());
+			} else {
+				timetableSelectionTable.refresh();
 			}
-			timetableSelectionTable.refresh();
 			timetableSelectionTable.getSortOrder().add(penaltyColumn);
 		});
 	}

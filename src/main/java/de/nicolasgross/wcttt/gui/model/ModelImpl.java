@@ -518,10 +518,9 @@ public class ModelImpl implements Model {
 
 	@Override
 	public void updateInternalRoomData(InternalRoom room, String name,
-	                                   int capacity, Chair holder,
-	                                   RoomFeatures features)
+	                                   int capacity, RoomFeatures features)
 			throws WctttModelException {
-		semester.updateInternalRoomData(room, name, capacity, holder, features);
+		semester.updateInternalRoomData(room, name, capacity, features);
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
 		semesterChangesNotifier.submit(false);
