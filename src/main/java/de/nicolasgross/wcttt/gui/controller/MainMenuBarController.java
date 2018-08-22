@@ -179,7 +179,6 @@ public class MainMenuBarController extends Controller {
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
 		fileSave.disableProperty().bind(getModel().isChanged().not());
-		editGenerate.disableProperty().bind(getModel().isChanged());
 	}
 
 	private boolean lossOfUnsavedConfirmed() {
