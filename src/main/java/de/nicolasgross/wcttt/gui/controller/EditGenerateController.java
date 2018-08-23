@@ -80,7 +80,7 @@ public class EditGenerateController extends Controller {
 
 		cancelButton.setOnAction(event -> {
 			cancelButton.disableProperty().setValue(true);
-			selectedAlgorithm.cancelTimetableCreation();
+			selectedAlgorithm.cancel();
 		});
 	}
 
@@ -171,7 +171,7 @@ public class EditGenerateController extends Controller {
 	private void runAlgorithm() {
 		Runnable algorithmRunnable = () -> {
 			try {
-				Timetable timetable = selectedAlgorithm.createTimetable();
+				Timetable timetable = selectedAlgorithm.generate();
 				if (timetable != null) {
 					foundFeasibleSolution.set(true);
 					getModel().addTimetable(timetable);
