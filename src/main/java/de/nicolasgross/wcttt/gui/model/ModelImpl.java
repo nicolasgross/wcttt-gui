@@ -709,7 +709,7 @@ public class ModelImpl implements Model {
 		setNextTimetableName(timetable);
 		setChanged(true);
 		setLastAction(TIMETABLES_UPDATED);
-		timetablesChangesNotifier.submit(true);
+		timetablesChangesNotifier.submit(false);
 	}
 
 	@Override
@@ -718,7 +718,7 @@ public class ModelImpl implements Model {
 		if (existed) {
 			setChanged(true);
 			setLastAction(TIMETABLES_UPDATED);
-			timetablesChangesNotifier.submit(true);
+			timetablesChangesNotifier.submit(false);
 		}
 		return existed;
 	}

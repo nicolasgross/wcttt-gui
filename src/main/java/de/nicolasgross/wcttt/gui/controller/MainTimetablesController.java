@@ -76,7 +76,7 @@ public class MainTimetablesController extends SubscriberController<Boolean> {
 
 		timetableSelectionTable.getSelectionModel().getSelectedIndices().
 				addListener((ListChangeListener<Integer>) c -> {
-					if (c.getList().size() > 1) {
+					if (c.getList().size() != 1) {
 						renameMenuItem.setDisable(true);
 					} else {
 						renameMenuItem.setDisable(false);
