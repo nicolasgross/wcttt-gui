@@ -61,9 +61,6 @@ public class MainTimetablesController extends SubscriberController<Boolean> {
 					setTimetable(newValue);
 		});
 
-		timetableSelectionTable.getSelectionModel().setSelectionMode(
-				SelectionMode.MULTIPLE);
-
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem renameMenuItem = new MenuItem("Rename");
 		renameMenuItem.setOnAction(event -> {
@@ -98,11 +95,16 @@ public class MainTimetablesController extends SubscriberController<Boolean> {
 		});
 		contextMenu.getItems().add(deleteMenuItem);
 
-		timetableSelectionTable.getSelectionModel().getSelectedIndices().
-				addListener((ListChangeListener<Integer>) c -> {
+		timetableSelectionTable.getSelectionModel().getSelectedCells().
+				addListener((ListChangeListener<TablePosition>) c -> {
 					if (c.getList().size() != 1) {
 						renameMenuItem.setDisable(true);
 					} else {
+						if (!timetableSelectionTable.getSelectionModel().
+								getSelectionMode().equals(SelectionMode.MULTIPLE)) {
+							timetableSelectionTable.getSelectionModel().setSelectionMode(
+									SelectionMode.MULTIPLE);
+						}
 						renameMenuItem.setDisable(false);
 					}
 				});
