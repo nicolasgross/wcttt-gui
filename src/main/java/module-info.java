@@ -1,4 +1,4 @@
-module wcttt.gui {
+module de.nicolasgross.wcttt.gui {
 	requires javafx.fxml;
 	requires javafx.controls;
 	requires de.nicolasgross.wcttt.lib;

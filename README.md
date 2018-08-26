@@ -22,8 +22,7 @@ generated timetables, edit semester data and to generate new timetables.
 1. Install libwcttt in the local maven repository
 2. Install WCT³ Core in the local maven repository
 3. `cd <path-to-project-root>`
-4. `mvn clean`
-5. `mvn package` 
+4. `mvn package` 
 
 
 ## Run
