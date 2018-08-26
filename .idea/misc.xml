@@ -10,6 +10,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../bachelor-thesis-lib/pom.xml" />
         <option value="$PROJECT_DIR$/../bachelor-thesis-core/pom.xml" />
+        <option value="$PROJECT_DIR$/../wcttt-core/pom.xml" />
+        <option value="$PROJECT_DIR$/../libwcttt/pom.xml" />
       </list>
     </option>
   </component>
