@@ -88,7 +88,9 @@ public class EditGenerateController extends Controller {
 	public void setup(Stage stage, Model model, MainController mainController) {
 		super.setup(stage, model, mainController);
 
-		// ADD NEW ALGORITHMS TO THIS LIST
+		// |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|
+		// |  ADD NEW ALGORITHMS TO THIS LIST  |
+		// |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|
 		List<Algorithm> algorithms = new LinkedList<>();
 		algorithms.add(new TabuBasedMemeticApproach(getModel()));
 
