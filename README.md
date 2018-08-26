@@ -32,4 +32,4 @@ generated timetables, edit semester data and to generate new timetables.
 
 ## License
 
-This software is released under the terms of GPL3.0.
+This software is released under the terms of the GPLv3.
