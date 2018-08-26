@@ -36,32 +36,107 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Flow;
 
+/**
+ * The model in the MVC architecture used.
+ *
+ * Instead of using the CRUD methods on the semester returned by getSemester(),
+ * please use the CRUD methods provided by this model/semester. These methods
+ * ensure the consistency of the model.
+ */
 public interface Model extends Semester {
 
+	/**
+	 * Getter for the path of the currently loaded semester.
+	 *
+	 * @return an Optional containing the path if the current semester is loaded
+	 * from a file, otherwise an empty {@code Optional}.
+	 */
 	Optional<Path> getXmlPath();
 
+	/**
+	 * Setter for the path to the XML file of the currently loaded semester.
+	 *
+	 * @param xmlPath the new path, can be {@code null}.
+	 */
 	void setXmlPath(Path xmlPath);
 
+	/**
+	 * Indicates whether the currently loaded semester has changes that are not
+	 * already saved to the respective XML file.
+	 *
+	 * @return whether there are unsaved changes.
+	 */
 	BooleanProperty isChanged();
 
+	/**
+	 * Setter for the indicator of unsaved changes.
+	 *
+	 * @param changed the new status of unsaved changes.
+	 */
 	void setChanged(boolean changed);
 
+	/**
+	 * Getter for the currently loaded semester.
+	 *
+	 * @return the currently loaded semester.
+	 */
 	Semester getSemester();
 
+	/**
+	 * Setter for the loaded semester.
+	 *
+	 * @param xmlPath the path to the XML file of the new semester.
+	 * @param semester the new semester.
+	 */
 	void setSemester(Path xmlPath, Semester semester);
 
+	/**
+	 * Getter for the list of teachers of the semester.
+	 *
+	 * @return the list of teachers of the semester.
+	 */
 	ObservableList<Teacher> getTeachers();
 
+	/**
+	 * Getter for the list of periods of the semester.
+	 *
+	 * @return the list of periods of the semester.
+	 */
 	List<Period> getPeriods();
 
+	/**
+	 * Getter for the window title text property.
+	 *
+	 * @return the window title text property.
+	 */
 	StringProperty getTitleProperty();
 
+	/**
+	 * Getter for the program state text property.
+	 *
+	 * @return the program state text property.
+	 */
 	StringProperty getStateTextProperty();
 
+	/**
+	 * Registers a subscriber to changes on the semester data. The boolean
+	 * indicates whether a full reload is necessary or not.
+	 *
+	 * @param subscriber the subscriber that should be registered.
+	 */
 	void subscribeSemesterChanges(Flow.Subscriber<? super Boolean> subscriber);
 
+	/**
+	 * Registers a subscriber to changes on the timetable data. The boolean
+	 * indicates whether a full reload is necessary or not.
+	 *
+	 * @param subscriber the subscriber that should be registered.
+	 */
 	void subscribeTimetablesChanges(
 				Flow.Subscriber<? super Boolean> subscriber);
 
+	/**
+	 * Gracefully closes the model, should be called if the program is exited.
+	 */
 	void close();
 }

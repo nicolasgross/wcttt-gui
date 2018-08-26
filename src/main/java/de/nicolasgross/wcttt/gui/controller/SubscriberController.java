@@ -26,11 +26,15 @@ package de.nicolasgross.wcttt.gui.controller;
 
 import java.util.concurrent.Flow;
 
+/**
+ * An abstract controller class for controllers that register on a subscription.
+ *
+ * @param <T> the type of objects received through the subscription.
+ */
 public abstract class SubscriberController<T> extends Controller
 		implements Flow.Subscriber<T> {
 
 	private Flow.Subscription subscription;
-
 
 	Flow.Subscription getSubscription() {
 		return subscription;

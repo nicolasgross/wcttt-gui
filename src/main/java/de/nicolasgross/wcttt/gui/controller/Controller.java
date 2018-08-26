@@ -27,6 +27,10 @@ package de.nicolasgross.wcttt.gui.controller;
 import de.nicolasgross.wcttt.gui.model.Model;
 import javafx.stage.Stage;
 
+/**
+ * An abstract controller class that bundles functionality that is commonly used
+ * in a controller.
+ */
 public abstract class Controller {
 
 	private Stage stage;
