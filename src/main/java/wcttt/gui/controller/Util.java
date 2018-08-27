@@ -22,10 +22,10 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui.controller;
 
-import de.nicolasgross.wcttt.gui.WctttGuiFatalException;
-import de.nicolasgross.wcttt.gui.model.Model;
+import wcttt.gui.WctttGuiFatalException;
+import wcttt.gui.model.Model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

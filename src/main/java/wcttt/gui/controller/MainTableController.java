@@ -22,11 +22,10 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui.controller;
 
-import de.nicolasgross.wcttt.gui.WctttGuiFatalException;
-import de.nicolasgross.wcttt.gui.model.Model;
-import de.nicolasgross.wcttt.lib.model.*;
+import wcttt.gui.WctttGuiFatalException;
+import wcttt.gui.model.Model;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -37,6 +36,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import wcttt.lib.model.*;
 
 import java.util.ArrayList;
 import java.util.List;

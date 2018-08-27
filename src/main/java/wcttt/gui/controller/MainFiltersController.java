@@ -22,15 +22,18 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui.controller;
 
-import de.nicolasgross.wcttt.gui.model.Model;
-import de.nicolasgross.wcttt.lib.model.*;
+import wcttt.gui.model.Model;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import wcttt.lib.model.Chair;
+import wcttt.lib.model.Course;
+import wcttt.lib.model.Curriculum;
+import wcttt.lib.model.Teacher;
 
 public class MainFiltersController extends SubscriberController<Boolean> {
 

@@ -22,27 +22,36 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui;
+package wcttt.gui.controller;
 
-public class WctttGuiException extends Exception {
+import wcttt.gui.model.Model;
+import javafx.stage.Stage;
 
-	public WctttGuiException() {
-		super();
+/**
+ * An abstract controller class that bundles functionality that is commonly used
+ * in a controller.
+ */
+public abstract class Controller {
+
+	private Stage stage;
+	private Model model;
+	private MainController mainController;
+
+	Stage getStage() {
+		return stage;
 	}
 
-	public WctttGuiException(String message) {
-		super(message);
+	Model getModel() {
+		return model;
 	}
 
-	public WctttGuiException(String message, Throwable cause) {
-		super(message, cause);
+	MainController getMainController() {
+		return mainController;
 	}
 
-	public WctttGuiException(Throwable cause) {
-		super(cause);
-	}
-
-	protected WctttGuiException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
+	public void setup(Stage stage, Model model, MainController mainController) {
+		this.stage = stage;
+		this.model = model;
+		this.mainController = mainController;
 	}
 }

@@ -22,13 +22,13 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui.controller;
 
-import de.nicolasgross.wcttt.gui.WctttGuiException;
-import de.nicolasgross.wcttt.gui.model.Model;
-import de.nicolasgross.wcttt.lib.model.ConstraintWeightings;
-import de.nicolasgross.wcttt.lib.model.ValidationHelper;
-import de.nicolasgross.wcttt.lib.model.WctttModelException;
+import wcttt.gui.WctttGuiException;
+import wcttt.gui.model.Model;
+import wcttt.lib.model.ConstraintWeightings;
+import wcttt.lib.model.ValidationHelper;
+import wcttt.lib.model.WctttModelException;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -1,10 +1,9 @@
-module de.nicolasgross.wcttt.gui {
+module wcttt.gui {
 	requires javafx.fxml;
 	requires javafx.controls;
-	requires de.nicolasgross.wcttt.lib;
-	requires de.nicolasgross.wcttt.core;
+	requires wcttt.lib;
 
-	exports de.nicolasgross.wcttt.gui;
+	exports wcttt.gui;
 
-	opens de.nicolasgross.wcttt.gui.controller to javafx.fxml;
+	opens wcttt.gui.controller to javafx.fxml;
 }

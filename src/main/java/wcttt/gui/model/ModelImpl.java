@@ -22,10 +22,9 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.model;
+package wcttt.gui.model;
 
-import de.nicolasgross.wcttt.gui.WctttGuiFatalException;
-import de.nicolasgross.wcttt.lib.model.*;
+import wcttt.gui.WctttGuiFatalException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -35,6 +34,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import wcttt.lib.model.*;
 
 import java.nio.file.Path;
 import java.util.LinkedList;

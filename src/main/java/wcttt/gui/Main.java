@@ -22,11 +22,11 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui;
+package wcttt.gui;
 
-import de.nicolasgross.wcttt.gui.controller.MainController;
-import de.nicolasgross.wcttt.gui.model.Model;
-import de.nicolasgross.wcttt.gui.model.ModelImpl;
+import wcttt.gui.controller.MainController;
+import wcttt.gui.model.Model;
+import wcttt.gui.model.ModelImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

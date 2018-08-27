@@ -22,7 +22,7 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui;
+package wcttt.gui;
 
 public class WctttGuiFatalException extends RuntimeException {
 

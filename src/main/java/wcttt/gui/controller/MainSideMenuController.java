@@ -22,9 +22,9 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui.controller;
 
-import de.nicolasgross.wcttt.gui.model.Model;
+import wcttt.gui.model.Model;
 import javafx.fxml.FXML;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleButton;

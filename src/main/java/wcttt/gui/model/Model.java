@@ -22,11 +22,11 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.model;
+package wcttt.gui.model;
 
-import de.nicolasgross.wcttt.lib.model.Period;
-import de.nicolasgross.wcttt.lib.model.Semester;
-import de.nicolasgross.wcttt.lib.model.Teacher;
+import wcttt.lib.model.Period;
+import wcttt.lib.model.Semester;
+import wcttt.lib.model.Teacher;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;

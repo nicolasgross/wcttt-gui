@@ -22,36 +22,26 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui.controller;
 
-import de.nicolasgross.wcttt.gui.model.Model;
-import javafx.stage.Stage;
+public class TreeViewItemWrapper<T> {
 
-/**
- * An abstract controller class that bundles functionality that is commonly used
- * in a controller.
- */
-public abstract class Controller {
+	private T item;
 
-	private Stage stage;
-	private Model model;
-	private MainController mainController;
-
-	Stage getStage() {
-		return stage;
+	public TreeViewItemWrapper(T item) {
+		this.item = item;
 	}
 
-	Model getModel() {
-		return model;
+	public T getItem() {
+		return item;
 	}
 
-	MainController getMainController() {
-		return mainController;
+	public void setItem(T item) {
+		this.item = item;
 	}
 
-	public void setup(Stage stage, Model model, MainController mainController) {
-		this.stage = stage;
-		this.model = model;
-		this.mainController = mainController;
+	@Override
+	public String toString() {
+		return item.toString();
 	}
 }

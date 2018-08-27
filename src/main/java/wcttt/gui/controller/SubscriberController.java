@@ -22,26 +22,38 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui.controller;
 
-public class TreeViewItemWrapper<T> {
+import java.util.concurrent.Flow;
 
-	private T item;
+/**
+ * An abstract controller class for controllers that register on a subscription.
+ *
+ * @param <T> the type of objects received through the subscription.
+ */
+public abstract class SubscriberController<T> extends Controller
+		implements Flow.Subscriber<T> {
 
-	public TreeViewItemWrapper(T item) {
-		this.item = item;
-	}
+	private Flow.Subscription subscription;
 
-	public T getItem() {
-		return item;
-	}
-
-	public void setItem(T item) {
-		this.item = item;
+	Flow.Subscription getSubscription() {
+		return subscription;
 	}
 
 	@Override
-	public String toString() {
-		return item.toString();
+	public void onSubscribe(Flow.Subscription subscription) {
+		this.subscription = subscription;
+		this.subscription.request(1);
 	}
+
+	@Override
+	public void onError(Throwable throwable) {
+		Util.exceptionAlert(throwable);
+	}
+
+	@Override
+	public void onComplete() {
+		// won't happen
+	}
+
 }

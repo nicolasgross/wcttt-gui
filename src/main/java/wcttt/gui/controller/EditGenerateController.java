@@ -22,24 +22,20 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui.controller;
 
-import de.nicolasgross.wcttt.core.WctttCoreException;
-import de.nicolasgross.wcttt.core.algorithms.Algorithm;
-import de.nicolasgross.wcttt.core.algorithms.ParameterDefinition;
-import de.nicolasgross.wcttt.core.algorithms.ParameterType;
-import de.nicolasgross.wcttt.core.algorithms.ParameterValue;
-import de.nicolasgross.wcttt.core.algorithms.tabu_based_memetic_approach.TabuBasedMemeticApproach;
-import de.nicolasgross.wcttt.gui.WctttGuiException;
-import de.nicolasgross.wcttt.gui.WctttGuiFatalException;
-import de.nicolasgross.wcttt.gui.model.Model;
-import de.nicolasgross.wcttt.lib.model.Timetable;
-import de.nicolasgross.wcttt.lib.model.WctttModelException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import wcttt.gui.WctttGuiException;
+import wcttt.gui.WctttGuiFatalException;
+import wcttt.gui.model.Model;
+import wcttt.lib.algorithms.*;
+import wcttt.lib.algorithms.tabu_based_memetic_approach.TabuBasedMemeticApproach;
+import wcttt.lib.model.Timetable;
+import wcttt.lib.model.WctttModelException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -128,7 +124,7 @@ public class EditGenerateController extends Controller {
 				selectedAlgorithm.setParameterValues(new LinkedList<>());
 				runAlgorithm();
 				return;
-			} catch (WctttCoreException e) {
+			} catch (WctttAlgorithmException e) {
 				throw new WctttGuiFatalException("Implementation error in " +
 						"algorithm '" + selectedAlgorithm + "', no parameter " +
 						"specified but empty value list was rejected", e);
@@ -186,7 +182,7 @@ public class EditGenerateController extends Controller {
 		if (!errorOccured) {
 			try {
 				selectedAlgorithm.setParameterValues(values);
-			} catch (WctttCoreException e) {
+			} catch (WctttAlgorithmException e) {
 				Util.errorAlert("Problem with parameter values", e.getMessage());
 				errorOccured = true;
 			}
@@ -206,7 +202,7 @@ public class EditGenerateController extends Controller {
 				Platform.runLater(() -> Util.exceptionAlert(
 						new WctttGuiException("Generated timetable was " +
 								"invalid, there is a bug in the algorithm", e)));
-			} catch (WctttCoreException e) {
+			} catch (WctttAlgorithmException e) {
 				Platform.runLater(() -> Util.exceptionAlert(
 						new WctttGuiException("A problem occurred while " +
 								"running the algorithm", e)));

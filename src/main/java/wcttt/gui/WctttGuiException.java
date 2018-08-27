@@ -22,38 +22,27 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui;
 
-import java.util.concurrent.Flow;
+public class WctttGuiException extends Exception {
 
-/**
- * An abstract controller class for controllers that register on a subscription.
- *
- * @param <T> the type of objects received through the subscription.
- */
-public abstract class SubscriberController<T> extends Controller
-		implements Flow.Subscriber<T> {
-
-	private Flow.Subscription subscription;
-
-	Flow.Subscription getSubscription() {
-		return subscription;
+	public WctttGuiException() {
+		super();
 	}
 
-	@Override
-	public void onSubscribe(Flow.Subscription subscription) {
-		this.subscription = subscription;
-		this.subscription.request(1);
+	public WctttGuiException(String message) {
+		super(message);
 	}
 
-	@Override
-	public void onError(Throwable throwable) {
-		Util.exceptionAlert(throwable);
+	public WctttGuiException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
-	@Override
-	public void onComplete() {
-		// won't happen
+	public WctttGuiException(Throwable cause) {
+		super(cause);
 	}
 
+	protected WctttGuiException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+	}
 }

@@ -14,13 +14,11 @@ generated timetables, edit semester data and to generate new timetables.
 - Oracle JDK 10
 - maven
 - libwcttt
-- WCT³ Core
 
 
 ## Build
 
 1. Install libwcttt in the local maven repository
-2. Install WCT³ Core in the local maven repository
 3. `cd <path-to-project-root>`
 4. `mvn package` 
 

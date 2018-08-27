@@ -34,7 +34,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="editTeacherVBox" disable="true" spacing="25.0" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditChairTeachersController">
+<VBox fx:id="editTeacherVBox" disable="true" spacing="25.0" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wcttt.gui.controller.EditChairTeachersController">
    <children>
       <GridPane hgap="10.0">
          <columnConstraints>

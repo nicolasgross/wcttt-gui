@@ -22,13 +22,13 @@
  *
  */
 
-package de.nicolasgross.wcttt.gui.controller;
+package wcttt.gui.controller;
 
-import de.nicolasgross.wcttt.gui.model.Model;
-import de.nicolasgross.wcttt.lib.model.Course;
-import de.nicolasgross.wcttt.lib.model.Curriculum;
-import de.nicolasgross.wcttt.lib.model.Teacher;
-import de.nicolasgross.wcttt.lib.model.WctttModelException;
+import wcttt.gui.model.Model;
+import wcttt.lib.model.Course;
+import wcttt.lib.model.Curriculum;
+import wcttt.lib.model.Teacher;
+import wcttt.lib.model.WctttModelException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
