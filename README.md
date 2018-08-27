@@ -19,13 +19,13 @@ generated timetables, edit semester data and to generate new timetables.
 ## Build
 
 1. Install libwcttt in the local maven repository
-3. `cd <path-to-project-root>`
-4. `mvn package` 
+2. `cd [PATH_TO_PROJECT_ROOT]`
+3. `mvn clean package` 
 
 
 ## Run
 
-`java -jar <path-to-project-root>/target/wcttt-gui.jar`
+`java -jar [PATH_TO_PROJECT_ROOT]/target/wcttt-gui-[VERSION].jar`
 
 
 ## License
