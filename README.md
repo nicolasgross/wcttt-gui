@@ -9,6 +9,15 @@ This is the GUI module of WCT³. Its interface comprises functionality to view
 generated timetables, edit semester data and to generate new timetables.
 
 
+## Notice
+
+Sometimes the 'Rename' menu item in the context menu of the timetable list stays 
+visually disabled despite only one timetable is selected. However, the menu item
+still works as expected, it just looks like it is disabled all the time. This 
+behaviour is not a bug in WCT³ GUI but in the JDK, the bug report can be found 
+[here](https://bugs.openjdk.java.net/browse/JDK-8201310).
+
+
 ## Dependencies
 
 - Oracle JDK 10

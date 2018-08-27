@@ -53,6 +53,9 @@ public class MainTimetablesController extends SubscriberController<Boolean> {
 		timetableSelectionTable.setPlaceholder(new Label("No timetables " +
 				"generated for this semester"));
 
+		timetableSelectionTable.getSelectionModel().setSelectionMode(
+				SelectionMode.MULTIPLE);
+
 		timetableSelectionTable.getSortOrder().add(penaltyColumn);
 
 		timetableSelectionTable.getSelectionModel().selectedItemProperty().
@@ -100,11 +103,6 @@ public class MainTimetablesController extends SubscriberController<Boolean> {
 					if (c.getList().size() != 1) {
 						renameMenuItem.setDisable(true);
 					} else {
-						if (!timetableSelectionTable.getSelectionModel().
-								getSelectionMode().equals(SelectionMode.MULTIPLE)) {
-							timetableSelectionTable.getSelectionModel().setSelectionMode(
-									SelectionMode.MULTIPLE);
-						}
 						renameMenuItem.setDisable(false);
 					}
 				});
