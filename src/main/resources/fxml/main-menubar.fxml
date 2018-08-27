@@ -51,8 +51,8 @@
         </Menu>
         <Menu mnemonicParsing="false" text="View">
             <items>
-                <MenuItem fx:id="viewCourseCourse" mnemonicParsing="false" text="Course-course conflicts" />
-                <MenuItem fx:id="vewCourseRoom" mnemonicParsing="false" text="Course-room conflicts" />
+                <MenuItem fx:id="viewSessionSession" mnemonicParsing="false" text="Session-session conflicts" />
+                <MenuItem fx:id="vewSessionRoom" mnemonicParsing="false" text="Session-room conflicts" />
                 <MenuItem fx:id="viewTeacherPeriod" mnemonicParsing="false" text="Teacher-period conflicts" />
             </items>
         </Menu>

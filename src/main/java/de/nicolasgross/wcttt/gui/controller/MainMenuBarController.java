@@ -73,9 +73,9 @@ public class MainMenuBarController extends Controller {
 	private MenuItem editGenerate;
 
 	@FXML
-	private MenuItem viewCourseCourse;
+	private MenuItem viewSessionSession;
 	@FXML
-	private MenuItem vewCourseRoom;
+	private MenuItem vewSessionRoom;
 	@FXML
 	private MenuItem viewTeacherPeriod;
 
