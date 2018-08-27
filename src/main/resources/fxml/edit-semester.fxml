@@ -35,7 +35,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="500.0" prefWidth="450.0" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditSemesterController">
+<VBox prefHeight="500.0" prefWidth="550.0" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.nicolasgross.wcttt.gui.controller.EditSemesterController">
    <children>
       <GridPane vgap="5.0">
         <columnConstraints>
@@ -78,13 +78,13 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
                      </rowConstraints>
                      <children>
-                        <Label text="s1" />
-                        <Label text="s2" GridPane.rowIndex="1" />
-                        <Label text="s3" GridPane.rowIndex="2" />
-                        <Label text="s4" GridPane.rowIndex="3" />
-                        <Label text="s5" GridPane.rowIndex="4" />
-                        <Label text="s6" GridPane.rowIndex="5" />
-                        <Label text="s7" GridPane.rowIndex="6" />
+                        <Label text="s1 - Rooms have an appropriate number of seats" />
+                        <Label text="s2 - Lectures are spread over min days of course" GridPane.rowIndex="1" />
+                        <Label text="s3 - Curriculum lectures are adjacent" GridPane.rowIndex="2" />
+                        <Label text="s4 - Lectures of a course take place in the same room" GridPane.rowIndex="3" />
+                        <Label text="s5 - No session takes place in an unfavorable period" GridPane.rowIndex="4" />
+                        <Label text="s6 - Max two adjacent lectures for a teacher" GridPane.rowIndex="5" />
+                        <Label text="s7 - Curriculum does not exceed max daily lectures" GridPane.rowIndex="6" />
                         <TextField fx:id="s1Field" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" GridPane.columnIndex="1" />
                         <TextField fx:id="s2Field" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="s3Field" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />

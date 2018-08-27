@@ -166,7 +166,7 @@ public class MainMenuBarController extends Controller {
 
 	private void initEditMenu() {
 		editSemester.setOnAction(event ->
-				showFxmlWindow(EDIT_SEMESTER_FXML, "Edit semester data", 450, 510));
+				showFxmlWindow(EDIT_SEMESTER_FXML, "Edit semester data", 550, 510));
 
 		editCourses.setOnAction(event ->
 				showFxmlWindow(EDIT_COURSES_FXML, "Edit course data", 600, 550));
