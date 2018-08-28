@@ -59,7 +59,7 @@ public class EditCoursesController extends SubscriberController<Boolean> {
 	@FXML
 	private TextField abbreviationField;
 	@FXML
-	private ChoiceBox<Chair> chairChoiceBox;
+	private ComboBox<Chair> chairChoiceBox;
 	@FXML
 	private ChoiceBox<CourseLevel> courseLevelChoiceBox;
 	@FXML

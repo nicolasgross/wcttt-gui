@@ -44,11 +44,11 @@ public class EditCourseSessionsController extends Controller {
 	@FXML
 	private TextField nameField;
 	@FXML
-	private ChoiceBox<Teacher> teacherChoiceBox;
+	private ComboBox<Teacher> teacherChoiceBox;
 	@FXML
 	private CheckBox doubleSessionCheckBox;
 	@FXML
-	private ChoiceBox<Period> preAssignmentChoiceBox;
+	private ComboBox<Period> preAssignmentChoiceBox;
 	@FXML
 	private CheckBox internalCheckBox;
 	@FXML
