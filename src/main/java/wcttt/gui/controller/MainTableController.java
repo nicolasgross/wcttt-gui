@@ -94,7 +94,7 @@ public class MainTableController extends SubscriberController<Boolean> {
 					new TableColumn<>();
 			tableColumn.setResizable(false);
 			tableColumn.setSortable(false);
-			tableColumn.setPrefWidth(125.0);
+			tableColumn.setPrefWidth(100.0);
 			tableView.getColumns().add(tableColumn);
 			timetableDays.add(tableView);
 		}
@@ -124,7 +124,7 @@ public class MainTableController extends SubscriberController<Boolean> {
 				tableColumn.setId(room.getId());
 				tableColumn.setResizable(false);
 				tableColumn.setSortable(false);
-				tableColumn.setPrefWidth(125.0);
+				tableColumn.setPrefWidth(150.0);
 				tableColumn.setCellValueFactory(param -> {
 					for (TimetableAssignment assignment : param.getValue().
 							getAssignments()) {

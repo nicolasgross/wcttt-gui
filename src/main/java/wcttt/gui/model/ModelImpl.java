@@ -37,6 +37,7 @@ import javafx.collections.ObservableList;
 import wcttt.lib.model.*;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -123,6 +124,7 @@ public class ModelImpl implements Model {
 				for (Chair chair : semester.getChairs()) {
 					teachers.addAll(chair.getTeachers());
 				}
+				teachers.sort(Comparator.comparing(Teacher::getName));
 			};
 
 	private void initListenToTeacherChanges() {
@@ -135,6 +137,7 @@ public class ModelImpl implements Model {
 		teachers.clear();
 		for (Chair chair : semester.getChairs()) {
 			teachers.addAll(chair.getTeachers());
+			teachers.sort(Comparator.comparing(Teacher::getName));
 		}
 	}
 
@@ -147,6 +150,11 @@ public class ModelImpl implements Model {
 		initListenToTeacherChanges();
 		createTeacherList();
 		resetIds();
+		getChairs().sort(Comparator.comparing(Chair::getAbbreviation));
+		getInternalRooms().sort(Comparator.comparing(InternalRoom::getName));
+		getExternalRooms().sort(Comparator.comparing(ExternalRoom::getName));
+		getCourses().sort(Comparator.comparing(Course::getAbbreviation));
+		getCurricula().sort(Comparator.comparing(Curriculum::getName));
 		semesterChangesNotifier.submit(true);
 		timetablesChangesNotifier.submit(true);
 		setLastAction(SEMESTER_LOADED);
@@ -415,6 +423,7 @@ public class ModelImpl implements Model {
 		chair.setId("wcttt-gui-default-id");
 		semester.addChair(chair);
 		setNextChairId(chair);
+		getChairs().sort(Comparator.comparing(Chair::getAbbreviation));
 		chair.getTeachers().addListener(teacherChangeListener);
 		if (!chair.getTeachers().isEmpty()) {
 			createTeacherList();
@@ -445,6 +454,7 @@ public class ModelImpl implements Model {
 	public void updateChairData(Chair chair, String name, String abbreviation)
 			throws WctttModelException {
 		semester.updateChairData(chair, name, abbreviation);
+		getChairs().sort(Comparator.comparing(Chair::getAbbreviation));
 		setChanged(true);
 		setLastAction(CHAIRS_UPDATED);
 		semesterChangesNotifier.submit(false);
@@ -486,6 +496,7 @@ public class ModelImpl implements Model {
 			throws WctttModelException {
 		semester.updateTeacherData(teacher, name, unfavorablePeriods,
 				unavailablePeriods);
+		teachers.sort(Comparator.comparing(Teacher::getName));
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
 		semesterChangesNotifier.submit(false);
@@ -496,6 +507,7 @@ public class ModelImpl implements Model {
 		room.setId("wcttt-gui-default-id");
 		semester.addInternalRoom(room);
 		setNextRoomId(room);
+		getInternalRooms().sort(Comparator.comparing(InternalRoom::getName));
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
 		semesterChangesNotifier.submit(true);
@@ -506,6 +518,7 @@ public class ModelImpl implements Model {
 		room.setId("wcttt-gui-default-id");
 		semester.addExternalRoom(room);
 		setNextRoomId(room);
+		getExternalRooms().sort(Comparator.comparing(ExternalRoom::getName));
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
 		semesterChangesNotifier.submit(true);
@@ -545,6 +558,7 @@ public class ModelImpl implements Model {
 	                                   int capacity, RoomFeatures features)
 			throws WctttModelException {
 		semester.updateInternalRoomData(room, name, capacity, features);
+		getInternalRooms().sort(Comparator.comparing(InternalRoom::getName));
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
 		semesterChangesNotifier.submit(false);
@@ -554,6 +568,7 @@ public class ModelImpl implements Model {
 	public void updateExternalRoomData(ExternalRoom room, String name)
 			throws WctttModelException {
 		semester.updateExternalRoomData(room, name);
+		getExternalRooms().sort(Comparator.comparing(ExternalRoom::getName));
 		setChanged(true);
 		setLastAction(ROOMS_UPDATED);
 		semesterChangesNotifier.submit(false);
@@ -567,6 +582,7 @@ public class ModelImpl implements Model {
 		}
 		semester.addCourse(course);
 		setNextCourseId(course);
+		getCourses().sort(Comparator.comparing(Course::getAbbreviation));
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
 		semesterChangesNotifier.submit(true);
@@ -596,6 +612,7 @@ public class ModelImpl implements Model {
 			throws WctttModelException {
 		semester.updateCourseData(course, name, abbreviation, chair, courseLevel,
 				minNumberOfDays);
+		getCourses().sort(Comparator.comparing(Course::getAbbreviation));
 		setChanged(true);
 		setLastAction(COURSES_UPDATED);
 		semesterChangesNotifier.submit(false);
@@ -692,6 +709,7 @@ public class ModelImpl implements Model {
 		curriculum.setId("wcttt-gui-default-id");
 		semester.addCurriculum(curriculum);
 		setNextCurriculumId(curriculum);
+		getCurricula().sort(Comparator.comparing(Curriculum::getName));
 		setChanged(true);
 		setLastAction(CURRICULA_UPDATED);
 		semesterChangesNotifier.submit(true);
@@ -721,6 +739,7 @@ public class ModelImpl implements Model {
 	                                 List<Course> courses)
 			throws WctttModelException {
 		semester.updateCurriculumData(curriculum, name, courses);
+		getCurricula().sort(Comparator.comparing(Curriculum::getName));
 		setChanged(true);
 		setLastAction(CURRICULA_UPDATED);
 		semesterChangesNotifier.submit(false);
