@@ -24,10 +24,6 @@
 
 package wcttt.gui.controller;
 
-import wcttt.gui.model.Model;
-import wcttt.lib.model.Chair;
-import wcttt.lib.model.Teacher;
-import wcttt.lib.model.WctttModelException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -35,7 +31,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import wcttt.gui.model.Model;
+import wcttt.lib.model.Chair;
+import wcttt.lib.model.Teacher;
+import wcttt.lib.model.WctttModelException;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -227,9 +228,15 @@ public class EditChairsController extends SubscriberController<Boolean> {
 			Platform.runLater(() -> {
 				chairsTreeView.getRoot().getChildren().clear();
 				chairsTreeView.getRoot().getChildren().addAll(chairs);
+				chairsTreeView.getRoot().getChildren().sort(
+						Comparator.comparing(t -> t.getValue().toString()));
 			});
 		} else {
-			Platform.runLater(() -> chairsTreeView.refresh());
+			Platform.runLater(() -> {
+				chairsTreeView.refresh();
+				chairsTreeView.getRoot().getChildren().sort(
+						Comparator.comparing(t -> t.getValue().toString()));
+			});
 		}
 	}
 

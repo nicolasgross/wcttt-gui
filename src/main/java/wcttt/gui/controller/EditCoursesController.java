@@ -24,7 +24,6 @@
 
 package wcttt.gui.controller;
 
-import wcttt.gui.model.Model;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -33,9 +32,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import wcttt.gui.model.Model;
 import wcttt.lib.model.*;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -300,9 +301,15 @@ public class EditCoursesController extends SubscriberController<Boolean> {
 			Platform.runLater(() -> {
 				coursesTreeView.getRoot().getChildren().clear();
 				coursesTreeView.getRoot().getChildren().addAll(courses);
+				coursesTreeView.getRoot().getChildren().sort(
+						Comparator.comparing(t -> t.getValue().toString()));
 			});
 		} else {
-			Platform.runLater(() -> coursesTreeView.refresh());
+			Platform.runLater(() -> {
+				coursesTreeView.refresh();
+				coursesTreeView.getRoot().getChildren().sort(
+						Comparator.comparing(t -> t.getValue().toString()));
+			});
 		}
 	}
 
