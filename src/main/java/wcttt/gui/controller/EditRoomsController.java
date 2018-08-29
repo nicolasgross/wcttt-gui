@@ -105,8 +105,8 @@ public class EditRoomsController extends SubscriberController<Boolean> {
 			try {
 				getModel().addInternalRoom(new InternalRoom());
 			} catch (WctttModelException e) {
-				throw new WctttGuiFatalException("Implementation error, " +
-						"adding default room throws exception", e);
+				Util.errorAlert("Problem with editing the rooms",
+						e.getMessage());
 			}
 		});
 
