@@ -2,7 +2,7 @@
  * WCT³ (WIAI Course Timetabling Tool) is a software that strives to automate
  * the timetabling process at the WIAI faculty of the University of Bamberg.
  *
- * WCT³ GUI comprises functionality to view generated timetables, edit semester
+ * WCT³-GUI comprises functionality to view generated timetables, edit semester
  * data and to generate new timetables.
  *
  * Copyright (C) 2018 Nicolas Gross
