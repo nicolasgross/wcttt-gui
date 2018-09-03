@@ -34,7 +34,7 @@
                     <release>10</release>
                 </configuration>
             </plugin>
-             <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.0</version>
@@ -58,6 +58,10 @@
                         <manifest>
                             <mainClass>wcttt.gui.Main
                             </mainClass>
+                            <addDefaultImplementationEntries>true
+                            </addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true
+                            </addDefaultSpecificationEntries>
                         </manifest>
                     </archive>
                 </configuration>

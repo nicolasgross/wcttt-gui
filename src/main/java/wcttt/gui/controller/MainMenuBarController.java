@@ -24,17 +24,19 @@
 
 package wcttt.gui.controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.Region;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import wcttt.gui.model.Model;
 import wcttt.lib.binder.WctttBinder;
 import wcttt.lib.binder.WctttBinderException;
 import wcttt.lib.model.Semester;
 import wcttt.lib.model.SemesterImpl;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.util.Optional;
@@ -75,7 +77,7 @@ public class MainMenuBarController extends Controller {
 	@FXML
 	private MenuItem viewSessionSession;
 	@FXML
-	private MenuItem vewSessionRoom;
+	private MenuItem viewSessionRoom;
 	@FXML
 	private MenuItem viewTeacherPeriod;
 
@@ -185,11 +187,48 @@ public class MainMenuBarController extends Controller {
 	}
 
 	private void initViewMenu() {
-		// TODO
+		// TODO implement
+		viewSessionSession.setOnAction(event ->
+				Util.informationAlert("Unimplemented feature",
+						"This feature is not yet implemented."));
+
+		// TODO implement
+		viewSessionRoom.setOnAction(event ->
+				Util.informationAlert("Unimplemented feature",
+						"This feature is not yet implemented."));
+
+		// TODO implement
+		viewTeacherPeriod.setOnAction(event ->
+				Util.informationAlert("Unimplemented feature",
+						"This feature is not yet implemented."));
 	}
 
 	private void initHelpMenu() {
-		// TODO
+		// TODO implement
+		helpHelp.setOnAction(event ->
+				Util.informationAlert("Unimplemented feature",
+						"This feature is not yet implemented."));
+
+		helpAbout.setOnAction(event -> showAboutDialog());
+	}
+
+	private void showAboutDialog() {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("About WCT³");
+		alert.setHeaderText("WIAI Course Timetabling Tool");
+		alert.setContentText("WCT³ (WIAI Course Timetabling Tool) is a " +
+				"software that strives to automate the timetabling process at" +
+				" the WIAI faculty of the University of Bamberg." +
+				System.lineSeparator() + System.lineSeparator() +
+				"Version: " + getClass().getPackage().getImplementationVersion() +
+				System.lineSeparator() + System.lineSeparator() +
+				"Copyright © 2018 Nicolas Gross" + System.lineSeparator() +
+				"This program comes with absolutely no warranty." +
+				System.lineSeparator() +
+				"See the GNU General Public License version 3 for details.");
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.getDialogPane().setPrefWidth(400);
+		alert.showAndWait();
 	}
 
 	private void showFxmlWindow(String fxmlPath, String title, int minWidth,
