@@ -18,14 +18,15 @@ behaviour is not a bug in WCT³-GUI but in the JDK, the bug report can be found
 [here](https://bugs.openjdk.java.net/browse/JDK-8201310).
 
 
-## Dependencies
+## Build
+
+### Requirements
 
 - Oracle JDK 10
 - maven
 - libwcttt
 
-
-## Build
+### Steps
 
 1. Install libwcttt in the local maven repository
 2. `cd [PATH_TO_PROJECT_ROOT]`
@@ -33,6 +34,12 @@ behaviour is not a bug in WCT³-GUI but in the JDK, the bug report can be found
 
 
 ## Run
+
+### Requirements
+
+- Oracle JDK/JRE 10
+
+### Command
 
 `java -jar [PATH_TO_PROJECT_ROOT]/target/wcttt-gui-[VERSION].jar`
 
