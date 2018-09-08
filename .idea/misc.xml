@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/../bachelor-thesis-core/pom.xml" />
         <option value="$PROJECT_DIR$/../wcttt-core/pom.xml" />
         <option value="$PROJECT_DIR$/../libwcttt/pom.xml" />
+        <option value="$PROJECT_DIR$/../wcttt-cli/pom.xml" />
       </list>
     </option>
   </component>
