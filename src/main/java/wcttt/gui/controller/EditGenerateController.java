@@ -141,6 +141,7 @@ public class EditGenerateController extends Controller {
 		List<ParameterDefinition> parameters = selectedAlgorithm.getParameters();
 		for (ParameterDefinition parameter : parameters) {
 			TextField parameterField = new TextField();
+			parameterField.setText(parameter.getDefaultValue());
 			parameterField.setMaxWidth(100);
 			parameterInputs.add(parameterField);
 			parameterGridPane.addRow(parameterGridPane.getRowCount(),
