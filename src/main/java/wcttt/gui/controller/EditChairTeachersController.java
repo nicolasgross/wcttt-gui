@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import wcttt.gui.model.Model;
 import wcttt.lib.model.Period;
 import wcttt.lib.model.Teacher;
@@ -123,8 +124,8 @@ public class EditChairTeachersController extends Controller {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices, MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
 	}
 
 	VBox getEditTeacherVBox(Teacher selected) {

@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import wcttt.gui.model.Model;
 import javafx.fxml.FXML;
 import javafx.scene.control.Separator;
@@ -75,10 +76,11 @@ public class MainSideMenuController extends Controller {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
-		timetablesController.setup(stage, model, mainController);
-		filtersController.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices,
+	                  MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
+		timetablesController.setup(stage, hostServices, mainController, model);
+		filtersController.setup(stage, hostServices, mainController, model);
 	}
 
 	MainTimetablesController getTimetablesController() {

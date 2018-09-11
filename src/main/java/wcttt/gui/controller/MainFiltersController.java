@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import wcttt.gui.model.Model;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -70,8 +71,9 @@ public class MainFiltersController extends SubscriberController<Boolean> {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices,
+	                  MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
 		model.subscribeSemesterChanges(this);
 		updateGui();
 	}

@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import wcttt.gui.model.Model;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -43,12 +44,13 @@ public class MainController extends Controller {
 
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices,
+	                  MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
 		setCloseConfirmation();
-		menuBarController.setup(stage, model, this);
-		sideMenuController.setup(stage, model, this);
-		timetableTableController.setup(stage, model, this);
+		menuBarController.setup(stage, hostServices, this, model);
+		sideMenuController.setup(stage, hostServices, this, model);
+		timetableTableController.setup(stage, hostServices, this, model);
 		getModel().getStateTextProperty().addListener(
 				(observable, oldValue, newValue) -> updateStateInfo(newValue));
 	}

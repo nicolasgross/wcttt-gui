@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import wcttt.gui.model.Model;
 import wcttt.lib.model.Timetable;
 import wcttt.lib.model.WctttModelException;
@@ -126,8 +127,9 @@ public class MainTimetablesController extends SubscriberController<Boolean> {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices,
+	                  MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
 		model.subscribeTimetablesChanges(this);
 		updateGui(true);
 	}

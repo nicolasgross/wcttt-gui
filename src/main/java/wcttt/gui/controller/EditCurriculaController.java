@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import wcttt.gui.model.Model;
 import wcttt.lib.model.Course;
 import wcttt.lib.model.Curriculum;
@@ -166,8 +167,9 @@ public class EditCurriculaController extends SubscriberController<Boolean> {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices,
+	                  MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
 		getModel().subscribeSemesterChanges(this);
 		updateEditVBox(null);
 		curriculaListView.setItems(getModel().getCurricula());

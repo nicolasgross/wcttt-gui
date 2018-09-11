@@ -177,7 +177,8 @@ public class Util {
 			}
 			actualStage.setScene(scene);
 			Controller assignedController = loader.getController();
-			assignedController.setup(actualStage, model, mainController);
+			assignedController.setup(actualStage,
+				mainController.getHostServices(), mainController, model);
 			return actualStage;
 		} catch (IOException e) {
 			throw new WctttGuiFatalException("Could not load '" + fxmlPath +

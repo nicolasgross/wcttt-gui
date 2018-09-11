@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -105,8 +106,9 @@ public class EditGenerateController extends Controller {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices,
+	                  MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
 
 		// |-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-|
 		// |  ADD NEW ALGORITHMS TO THIS LIST  |

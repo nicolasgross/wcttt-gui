@@ -66,7 +66,7 @@ public class Main extends Application {
 
 		MainController controller = loader.getController();
 		Model model = new ModelImpl();
-		controller.setup(primaryStage, model, controller);
+		controller.setup(primaryStage, getHostServices(), controller, model);
 
 		primaryStage.titleProperty().bind(model.getTitleProperty());
 		primaryStage.setMinWidth(800);

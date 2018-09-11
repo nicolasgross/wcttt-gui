@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import wcttt.gui.model.Model;
 import javafx.stage.Stage;
 
@@ -36,22 +37,29 @@ public abstract class Controller {
 	private Stage stage;
 	private Model model;
 	private MainController mainController;
+	private HostServices hostServices;
 
 	Stage getStage() {
 		return stage;
 	}
 
-	Model getModel() {
-		return model;
+	HostServices getHostServices() {
+		return hostServices;
 	}
 
 	MainController getMainController() {
 		return mainController;
 	}
 
-	public void setup(Stage stage, Model model, MainController mainController) {
+	Model getModel() {
+		return model;
+	}
+
+	public void setup(Stage stage, HostServices hostServices,
+	                  MainController mainController, Model model) {
 		this.stage = stage;
-		this.model = model;
+		this.hostServices = hostServices;
 		this.mainController = mainController;
+		this.model = model;
 	}
 }

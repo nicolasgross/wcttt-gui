@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -241,10 +242,12 @@ public class EditChairsController extends SubscriberController<Boolean> {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices,
+	                  MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
 		getModel().subscribeSemesterChanges(this);
-		editTeachersController.setup(stage, model, mainController);
+		editTeachersController.setup(stage, hostServices,
+			mainController, model);
 		updateCoursesTreeView(true);
 	}
 

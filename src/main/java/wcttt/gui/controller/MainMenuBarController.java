@@ -24,12 +24,16 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import wcttt.gui.model.Model;
@@ -204,14 +208,45 @@ public class MainMenuBarController extends Controller {
 	}
 
 	private void initHelpMenu() {
-		// TODO implement
-		helpHelp.setOnAction(event ->
-				Util.informationAlert("Unimplemented feature",
-						"This feature is not yet implemented."));
+		helpHelp.setOnAction(event -> showHelpDialog());
 
 		helpAbout.setOnAction(event -> showAboutDialog());
 	}
 
+	private void showHelpDialog() {
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Help");
+		alert.setHeaderText("Help");
+		VBox mainVBox = new VBox();
+		mainVBox.setSpacing(15);
+
+		VBox thesisVBox = new VBox();
+		Text text = new Text("Detailed information about the " +
+			"usage, architecture and implementation of WCT³ can be found in " +
+			"Nicolas Gross' bachelor thesis.");
+		text.setWrappingWidth(400);
+		thesisVBox.getChildren().add(text);
+		Hyperlink thesisLink = new Hyperlink("Download thesis");
+		thesisLink.setOnAction(event -> getHostServices().showDocument(
+			"https://nicolasgross.de/files/bachelor-thesis.pdf"));
+		thesisVBox.getChildren().add(thesisLink);
+		mainVBox.getChildren().add(thesisVBox);
+
+		text = new Text("Working features:" +
+			System.lineSeparator() + "  - test");
+		text.setWrappingWidth(400);
+		mainVBox.getChildren().add(text);
+
+		text = new Text("Unimplemented features:" +
+			System.lineSeparator() + "  - test");
+		text.setWrappingWidth(400);
+		mainVBox.getChildren().add(text);
+
+		alert.getDialogPane().setContent(mainVBox);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.getDialogPane().setPrefWidth(400);
+		alert.showAndWait();
+	}
 	private void showAboutDialog() {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("About WCT³");
@@ -241,8 +276,8 @@ public class MainMenuBarController extends Controller {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices, MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
 		fileSave.disableProperty().bind(getModel().isChanged().not());
 	}
 

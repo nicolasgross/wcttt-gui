@@ -24,6 +24,7 @@
 
 package wcttt.gui.controller;
 
+import javafx.application.HostServices;
 import wcttt.gui.WctttGuiFatalException;
 import wcttt.gui.model.Model;
 import javafx.application.Platform;
@@ -164,8 +165,8 @@ public class EditCourseSessionsController extends Controller {
 	}
 
 	@Override
-	public void setup(Stage stage, Model model, MainController mainController) {
-		super.setup(stage, model, mainController);
+	public void setup(Stage stage, HostServices hostServices, MainController mainController, Model model) {
+		super.setup(stage, hostServices, mainController, model);
 		teacherChoiceBox.setItems(getModel().getTeachers());
 		preAssignmentChoiceBox.getItems().add(null);
 		preAssignmentChoiceBox.getItems().addAll(getModel().getPeriods());
