@@ -276,7 +276,8 @@ public class MainMenuBarController extends Controller {
 	}
 
 	@Override
-	public void setup(Stage stage, HostServices hostServices, MainController mainController, Model model) {
+	public void setup(Stage stage, HostServices hostServices,
+	                  MainController mainController, Model model) {
 		super.setup(stage, hostServices, mainController, model);
 		fileSave.disableProperty().bind(getModel().isChanged().not());
 	}
