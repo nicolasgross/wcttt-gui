@@ -217,15 +217,17 @@ public class MainMenuBarController extends Controller {
 		alert.setTitle("About WCT³");
 		alert.setHeaderText("WIAI Course Timetabling Tool");
 		alert.setContentText("WCT³ (WIAI Course Timetabling Tool) is a " +
-				"software that strives to automate the timetabling process at" +
-				" the WIAI faculty of the University of Bamberg." +
-				System.lineSeparator() + System.lineSeparator() +
-				"Version: " + getClass().getPackage().getImplementationVersion() +
-				System.lineSeparator() + System.lineSeparator() +
-				"Copyright © 2018 Nicolas Gross" + System.lineSeparator() +
-				"This program comes with absolutely no warranty." +
-				System.lineSeparator() +
-				"See the GNU General Public License version 3 for details.");
+			"software that strives to automate the timetabling process at the" +
+			" WIAI faculty of the University of Bamberg. It was developed by " +
+			"Nicolas Gross as part of his bachelor thesis at the Software " +
+			"Technologies Research Group (SWT)." +
+			System.lineSeparator() + System.lineSeparator() +
+			"Version: " + getClass().getPackage().getImplementationVersion() +
+			System.lineSeparator() + System.lineSeparator() +
+			"Copyright © 2018 Nicolas Gross" + System.lineSeparator() +
+			"This program comes with absolutely no warranty." +
+			System.lineSeparator() +
+			"See the GNU General Public License version 3 for details.");
 		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		alert.getDialogPane().setPrefWidth(400);
 		alert.showAndWait();
