@@ -40,6 +40,10 @@ import javafx.stage.Stage;
 import java.util.Collections;
 import java.util.LinkedList;
 
+/**
+ * Controller for the view that is concerned with editing the teachers of a
+ * chair.
+ */
 public class EditChairTeachersController extends Controller {
 
 	@FXML

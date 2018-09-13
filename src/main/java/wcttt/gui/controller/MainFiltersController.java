@@ -36,6 +36,9 @@ import wcttt.lib.model.Course;
 import wcttt.lib.model.Curriculum;
 import wcttt.lib.model.Teacher;
 
+/**
+ * Controller for the filter functionality in the side menu.
+ */
 public class MainFiltersController extends SubscriberController<Boolean> {
 
 	@FXML

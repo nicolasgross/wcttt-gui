@@ -41,6 +41,9 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Controller for the view that is concerned with editing the chairs.
+ */
 public class EditChairsController extends SubscriberController<Boolean> {
 
 	@FXML

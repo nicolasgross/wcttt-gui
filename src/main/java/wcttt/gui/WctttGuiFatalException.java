@@ -24,6 +24,10 @@
 
 package wcttt.gui;
 
+/**
+ * Thrown if an error occurs in the GUI that is caused by a faulty
+ * implementation.
+ */
 public class WctttGuiFatalException extends RuntimeException {
 
 	public WctttGuiFatalException() {

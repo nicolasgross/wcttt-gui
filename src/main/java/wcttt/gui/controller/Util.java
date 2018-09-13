@@ -45,15 +45,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
 
+/**
+ * Bundles functionality that is used in many GUI classes, e.g., information
+ * alerts and error alerts.
+ */
 public class Util {
 
-	/**
-	 * Fancy Alert for exceptions.
-	 *
-	 * @implNote taken from the internet
-	 * @param ex
-	 *            the exception, which information is shown in the alert.
-	 */
 	static void exceptionAlert(Throwable ex) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle("Error");
@@ -79,17 +76,6 @@ public class Util {
 		alert.showAndWait();
 	}
 
-	/**
-	 * Opens a dialog for confirmation.
-	 *
-	 * @param header
-	 *            for the confirmation dialog box.
-	 * @param question
-	 *            for the confirmation dialog box.
-	 * @return boolean {@code true} if confirmed or {@code false} if it is
-	 *         canceled.
-	 *
-	 */
 	static boolean confirmationAlert(String header, String question) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
 		alert.setTitle("Warning");
@@ -103,12 +89,6 @@ public class Util {
 		return result.map(button -> button == ButtonType.YES).orElse(false);
 	}
 
-	/**
-	 * Returns an error alert.
-	 * @param header header of the alert.
-	 * @param message message of the alert.
-	 * @return the alert.
-	 */
 	static void errorAlert(String header, String message) {
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setTitle("Error");
@@ -127,13 +107,6 @@ public class Util {
 		alert.showAndWait();
 	}
 
-	/**
-	 * Opens a FileChooser Dialog
-	 *
-	 * @param owner the parent window.
-	 *
-	 * @return Optional of a nullable.
-	 */
 	static Optional<File> chooseFileToOpenDialog(Window owner) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().addAll(

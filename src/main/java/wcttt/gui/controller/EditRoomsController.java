@@ -41,6 +41,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Controller for the view that is concerned with editing the rooms.
+ */
 public class EditRoomsController extends SubscriberController<Boolean> {
 
 	@FXML

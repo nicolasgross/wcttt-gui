@@ -45,6 +45,9 @@ import wcttt.lib.model.SemesterImpl;
 import java.io.File;
 import java.util.Optional;
 
+/**
+ * Controller for the menu bar.
+ */
 public class MainMenuBarController extends Controller {
 
 	private static String EDIT_SEMESTER_FXML = "/fxml/edit-semester.fxml";

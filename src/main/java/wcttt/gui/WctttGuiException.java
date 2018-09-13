@@ -24,6 +24,9 @@
 
 package wcttt.gui;
 
+/**
+ * Thrown if a error occurs in the GUI that is relevant for the user.
+ */
 public class WctttGuiException extends Exception {
 
 	public WctttGuiException() {

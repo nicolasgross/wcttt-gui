@@ -33,6 +33,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Controller for the side menu, initializes the controllers for the timetable
+ * selection and the filter functionality.
+ */
 public class MainSideMenuController extends Controller {
 
 	@FXML

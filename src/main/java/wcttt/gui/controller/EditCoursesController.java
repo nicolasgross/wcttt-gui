@@ -43,6 +43,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Controller for the view that is concerned with editing the courses.
+ */
 public class EditCoursesController extends SubscriberController<Boolean> {
 
 	@FXML

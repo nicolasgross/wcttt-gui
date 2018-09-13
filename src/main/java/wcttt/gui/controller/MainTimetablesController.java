@@ -40,6 +40,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller for the timetable selection in the side menu.
+ */
 public class MainTimetablesController extends SubscriberController<Boolean> {
 
 	@FXML

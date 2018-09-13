@@ -42,6 +42,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Controller for the view that is concerned with editing the properties of a
+ * semester.
+ */
 public class EditSemesterController extends Controller {
 
 	private static final List<Integer> DAYS_PER_WEEK_ITEMS = IntStream.range(

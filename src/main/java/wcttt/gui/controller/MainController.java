@@ -31,6 +31,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+/**
+ * First controller that is created and responsible for the state info and
+ * closing the window. Initializes the controllers for the menu bar, the side
+ * menu and the timetable view.
+ */
 public class MainController extends Controller {
 
 	@FXML

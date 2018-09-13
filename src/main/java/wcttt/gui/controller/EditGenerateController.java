@@ -43,6 +43,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Controller for the views and alerts that are concerned with generating new
+ * timetables.
+ */
 public class EditGenerateController extends Controller {
 
 	private static String EDIT_GENERATE_PARAMETERS =

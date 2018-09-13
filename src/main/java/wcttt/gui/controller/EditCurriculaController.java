@@ -40,6 +40,9 @@ import javafx.stage.Stage;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Controller for the view that is concerned with editing the curricula.
+ */
 public class EditCurriculaController extends SubscriberController<Boolean> {
 
 	@FXML

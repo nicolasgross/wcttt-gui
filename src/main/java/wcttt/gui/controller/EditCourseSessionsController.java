@@ -38,6 +38,10 @@ import wcttt.lib.model.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Controller for the view that is concerned with editing the sessions of a
+ * course.
+ */
 public class EditCourseSessionsController extends Controller {
 
 	@FXML

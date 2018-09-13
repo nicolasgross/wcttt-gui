@@ -44,6 +44,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for the tables that contain the selected timetable.
+ */
 public class MainTableController extends SubscriberController<Boolean> {
 
 	@FXML
