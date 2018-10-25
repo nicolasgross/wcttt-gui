@@ -236,12 +236,19 @@ public class MainMenuBarController extends Controller {
 		mainVBox.getChildren().add(thesisVBox);
 
 		text = new Text("Working features:" +
-			System.lineSeparator() + "  - test");
+			System.lineSeparator() + "  - Semester data editing" +
+			System.lineSeparator() + "  - Saving/loading semester data " +
+			"to/from XML files" +
+			System.lineSeparator() + "  - Generating new timetables" +
+			System.lineSeparator() + "  - Timetable view including the " +
+			"respective filters");
 		text.setWrappingWidth(400);
 		mainVBox.getChildren().add(text);
 
 		text = new Text("Unimplemented features:" +
-			System.lineSeparator() + "  - test");
+			System.lineSeparator() + "  - Session-session conflicts view" +
+			System.lineSeparator() + "  - Session-room conflicts view" +
+			System.lineSeparator() + "  - Teacher-period conflicts view");
 		text.setWrappingWidth(400);
 		mainVBox.getChildren().add(text);
 
